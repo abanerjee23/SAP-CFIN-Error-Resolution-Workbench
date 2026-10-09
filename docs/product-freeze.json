@@ -119,6 +119,7 @@
     "fixtures/latency-regression/manifest.json": "3f0901d394d4423ce0a26b80f7c4cc305079a93dc6e9654278ee7a6326e8709f",
     "fixtures/latency-regression/multiple-attempts.txt": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f",
     "fixtures/latency-regression/unknown.txt": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+    "fixtures/workbench-demo/e2e-master-data-20261009.log": "274e23ba3a6c4f1ed52a469aca67f0addca708b7110dcd4986993585b6f94ec5",
     "fixtures/workbench-demo/unclassified.log": "66df6915fbe68abf2cef922edbce34ab0f1616977df40f6db95f3deedf59ee6c",
     "frontend/package-lock.json": "b05048e0e7e23448761e619d8a921c1db9fc2533a31d922f43e606b760ab7b64",
     "frontend/package.json": "13b44e479935bad62b16f0155e11f1923393911dfc42702d9af12c9a89abcaa9",
@@ -281,6 +282,12 @@
         "supabase/migrations/202610090007_latency_profiles.sql"
       ],
       "evidence": "docs/latency-optimization-results.md"
+    },
+    "live_demo_upload": {
+      "date": "2026-10-09",
+      "request": "I want you to create an error log first. then on screen, show me the upload to result process.",
+      "scope": "Create a fictional two-error log for a real-model UI walkthrough using the selected profile. No application, prompt or route changes.",
+      "files": ["fixtures/workbench-demo/e2e-master-data-20261009.log"]
     },
     "model_comparison": {
       "date": "2026-10-09",

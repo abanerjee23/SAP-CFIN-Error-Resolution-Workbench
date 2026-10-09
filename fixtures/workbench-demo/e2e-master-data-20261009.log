@@ -1,0 +1,14 @@
+SYNTHETIC END-TO-END DEMO. Fictional application log, not an SAP export.
+No real customer data or SAP-specific message catalogue is asserted.
+2026-10-09T17:20:00Z | attempt_id=DEMO-20261009-A1 | processing_order=1 | event=replication_started
+source_system=ERP-DEMO | source_client=010 | source_company_code=0010
+document_number=0000123901 | fiscal_year=2026 | source_status=posted
+source_posting_date=2026-10-09 | source_posted_at=2026-10-09T17:15:00Z
+target_system=CFIN-DEMO | target_client=100 | target_company_code=0077
+interface=DEMO_CFIN_GL | target_chart_of_accounts=SYN1
+2026-10-09T17:20:01Z | severity=error | synthetic_message_id=DEMO-01 | target_gl_account=0041000100 | target_line=0001 | message=Target G/L account could not be located in the stated target chart and company-code context.
+2026-10-09T17:20:02Z | severity=error | synthetic_message_id=DEMO-02 | target_gl_account=0041000200 | target_line=0002 | message=Target G/L account could not be located in the stated target chart and company-code context.
+Target posting stopped for this attempt; no target document reference was returned.
+2026-10-09T17:20:04Z | event=replication_finished | result=failed
+No mapping validation, master-data correction, approval or successful reprocessing is recorded.
+This log does not independently establish current SAP configuration or the underlying root cause. Human validation is required.
