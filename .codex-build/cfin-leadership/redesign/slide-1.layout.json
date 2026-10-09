@@ -1,0 +1,1036 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/y90nupkv",
+    "id": "y90nupkv",
+    "slide": 1,
+    "layoutId": "/ppt/slideLayouts/slideLayout1.xml",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#F3F5FA",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1600,
+      "height": 900
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Calibri Light",
+        "eastAsianTypeface": "Calibri Light",
+        "complexScriptTypeface": "Calibri Light"
+      },
+      "minorFont": {
+        "latinTypeface": "Calibri",
+        "eastAsianTypeface": "Calibri",
+        "complexScriptTypeface": "Calibri"
+      }
+    },
+    "typefaces": [
+      "Calibri",
+      "Calibri Light",
+      "Helvetica Neue"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout1.xml",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ul4vaxgb",
+      "id": "12",
+      "name": "slide-title",
+      "bbox": [
+        56,
+        40,
+        1488,
+        74
+      ],
+      "geometry": "rect",
+      "text": "CFIN exception management",
+      "textPreview": "CFIN exception management",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "CFIN exception management"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "CFIN exception management",
+          "resolvedTextStyle": {
+            "fontSize": 54,
+            "typeface": "Helvetica Neue",
+            "color": "#152E49",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "CFIN exception management",
+              "fontSize": 54,
+              "typeface": "Helvetica Neue",
+              "color": "#152E49",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/547294r6",
+      "id": "2",
+      "name": "subtitle",
+      "bbox": [
+        56,
+        121,
+        1488,
+        56
+      ],
+      "geometry": "rect",
+      "text": "Factual case briefs that help support teams understand the reported exception",
+      "textPreview": "Factual case briefs that help support teams understand the reported exception",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Factual case briefs that help support teams understand the reported exception"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Factual case briefs that help support teams understand the reported exception",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "Helvetica Neue",
+            "color": "#53657C",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Factual case briefs that help support teams understand the reported exception",
+              "fontSize": 28,
+              "typeface": "Helvetica Neue",
+              "color": "#53657C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/ovuhgb21",
+      "id": "13",
+      "bbox": [
+        56,
+        203,
+        1488,
+        420
+      ],
+      "text": "Purpose and users | Help CFIN support analysts and process owners understand supplied logs before investigation.\nWhat the app does | Extracts facts, selects key evidence and summarises reported errors, outcomes and uncertainty. Keeps originals and cites reviewed related cases separately.\nWhat it does not do | Does not diagnose root causes, recommend fixes, read live SAP data, change records or reprocess documents.\nHuman controls | People review the brief, record investigation findings and outcomes, and approve what becomes reusable case history.",
+      "textPreview": "Purpose and users | Help CFIN support analysts and process owners understand supplied logs before investigation. | What the app does | Ex...",
+      "rows": 4,
+      "cols": 2,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            56,
+            203,
+            294,
+            98
+          ],
+          "text": "Purpose and users",
+          "textPreview": "Purpose and users",
+          "fillColor": "#152E49",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Purpose and users",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Purpose and users",
+                  "fontSize": 29,
+                  "typeface": "Helvetica Neue",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            350,
+            203,
+            1194,
+            98
+          ],
+          "text": "Help CFIN support analysts and process owners understand supplied logs before investigation.",
+          "textPreview": "Help CFIN support analysts and process owners understand supplied logs before investigation.",
+          "fillColor": "#EAF0F8",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Help CFIN support analysts and process owners understand supplied logs before investigation.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Help CFIN support analysts and process owners understand supplied logs before investigation.",
+                  "fontSize": 28,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            56,
+            301,
+            294,
+            118
+          ],
+          "text": "What the app does",
+          "textPreview": "What the app does",
+          "fillColor": "#152E49",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "What the app does",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "What the app does",
+                  "fontSize": 29,
+                  "typeface": "Helvetica Neue",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            350,
+            301,
+            1194,
+            118
+          ],
+          "text": "Extracts facts, selects key evidence and summarises reported errors, outcomes and uncertainty. Keeps originals and cites reviewed related cases separately.",
+          "textPreview": "Extracts facts, selects key evidence and summarises reported errors, outcomes and uncertainty. Keeps originals and cites reviewed related...",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Extracts facts, selects key evidence and summarises reported errors, outcomes and uncertainty. Keeps originals and cites reviewed related cases separately.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Extracts facts, selects key evidence and summarises reported errors, outcomes and uncertainty. Keeps originals and cites reviewed related cases separately.",
+                  "fontSize": 28,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            56,
+            419,
+            294,
+            100
+          ],
+          "text": "What it does not do",
+          "textPreview": "What it does not do",
+          "fillColor": "#152E49",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "What it does not do",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "What it does not do",
+                  "fontSize": 29,
+                  "typeface": "Helvetica Neue",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            350,
+            419,
+            1194,
+            100
+          ],
+          "text": "Does not diagnose root causes, recommend fixes, read live SAP data, change records or reprocess documents.",
+          "textPreview": "Does not diagnose root causes, recommend fixes, read live SAP data, change records or reprocess documents.",
+          "fillColor": "#EAF0F8",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Does not diagnose root causes, recommend fixes, read live SAP data, change records or reprocess documents.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Does not diagnose root causes, recommend fixes, read live SAP data, change records or reprocess documents.",
+                  "fontSize": 28,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 4,
+          "column": 1,
+          "bbox": [
+            56,
+            519,
+            294,
+            104
+          ],
+          "text": "Human controls",
+          "textPreview": "Human controls",
+          "fillColor": "#152E49",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Human controls",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Human controls",
+                  "fontSize": 29,
+                  "typeface": "Helvetica Neue",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 4,
+          "column": 2,
+          "bbox": [
+            350,
+            519,
+            1194,
+            104
+          ],
+          "text": "People review the brief, record investigation findings and outcomes, and approve what becomes reusable case history.",
+          "textPreview": "People review the brief, record investigation findings and outcomes, and approve what becomes reusable case history.",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "People review the brief, record investigation findings and outcomes, and approve what becomes reusable case history.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "People review the brief, record investigation findings and outcomes, and approve what becomes reusable case history.",
+                  "fontSize": 28,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/7qp4be9c",
+      "id": "4",
+      "name": "assumptions-block",
+      "bbox": [
+        56,
+        658,
+        1488,
+        194
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#E0F0EF",
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/65g3298r",
+      "id": "5",
+      "name": "assumptions-heading",
+      "bbox": [
+        82,
+        677,
+        1436,
+        38
+      ],
+      "geometry": "rect",
+      "text": "Assumptions and validation",
+      "textPreview": "Assumptions and validation",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Assumptions and validation"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Assumptions and validation",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "Helvetica Neue",
+            "color": "#087A79",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Assumptions and validation",
+              "fontSize": 28,
+              "typeface": "Helvetica Neue",
+              "color": "#087A79",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ts7md4r2",
+      "id": "6",
+      "name": "assumption-82-title",
+      "bbox": [
+        82,
+        731,
+        450,
+        34
+      ],
+      "geometry": "rect",
+      "text": "Built on synthetic AIF data",
+      "textPreview": "Built on synthetic AIF data",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Built on synthetic AIF data"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Built on synthetic AIF data",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Helvetica Neue",
+            "color": "#152E49",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Built on synthetic AIF data",
+              "fontSize": 25,
+              "typeface": "Helvetica Neue",
+              "color": "#152E49",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/sryl4zqx",
+      "id": "7",
+      "name": "assumption-82-detail",
+      "bbox": [
+        82,
+        772,
+        450,
+        66
+      ],
+      "geometry": "rect",
+      "text": "Representative client logs and analyst\nreview must validate fidelity and value.",
+      "textPreview": "Representative client logs and analyst | review must validate fidelity and value.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Representative client logs and analyst"
+          },
+          {
+            "index": 2,
+            "text": "review must validate fidelity and value."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Representative client logs and analyst",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Helvetica Neue",
+            "color": "#53657C",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Representative client logs and analyst",
+              "fontSize": 24,
+              "typeface": "Helvetica Neue",
+              "color": "#53657C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "review must validate fidelity and value.",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Helvetica Neue",
+            "color": "#53657C",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "review must validate fidelity and value.",
+              "fontSize": 24,
+              "typeface": "Helvetica Neue",
+              "color": "#53657C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/fu94fe98",
+      "id": "8",
+      "name": "assumption-565-title",
+      "bbox": [
+        565,
+        731,
+        450,
+        34
+      ],
+      "geometry": "rect",
+      "text": "Supplied evidence sets the scope",
+      "textPreview": "Supplied evidence sets the scope",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Supplied evidence sets the scope"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Supplied evidence sets the scope",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Helvetica Neue",
+            "color": "#152E49",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Supplied evidence sets the scope",
+              "fontSize": 25,
+              "typeface": "Helvetica Neue",
+              "color": "#152E49",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/utg3698n",
+      "id": "9",
+      "name": "assumption-565-detail",
+      "bbox": [
+        565,
+        772,
+        450,
+        66
+      ],
+      "geometry": "rect",
+      "text": "Missing views and later processing\nattempts remain unknown.",
+      "textPreview": "Missing views and later processing | attempts remain unknown.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Missing views and later processing"
+          },
+          {
+            "index": 2,
+            "text": "attempts remain unknown."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Missing views and later processing",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Helvetica Neue",
+            "color": "#53657C",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Missing views and later processing",
+              "fontSize": 24,
+              "typeface": "Helvetica Neue",
+              "color": "#53657C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "attempts remain unknown.",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Helvetica Neue",
+            "color": "#53657C",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "attempts remain unknown.",
+              "fontSize": 24,
+              "typeface": "Helvetica Neue",
+              "color": "#53657C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wn6dc7eh",
+      "id": "10",
+      "name": "assumption-1048-title",
+      "bbox": [
+        1048,
+        731,
+        450,
+        34
+      ],
+      "geometry": "rect",
+      "text": "Client formats can vary",
+      "textPreview": "Client formats can vary",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Client formats can vary"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Client formats can vary",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Helvetica Neue",
+            "color": "#152E49",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Client formats can vary",
+              "fontSize": 25,
+              "typeface": "Helvetica Neue",
+              "color": "#152E49",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hofulsf2",
+      "id": "11",
+      "name": "assumption-1048-detail",
+      "bbox": [
+        1048,
+        772,
+        450,
+        66
+      ],
+      "geometry": "rect",
+      "text": "Customer wording, layouts and fields\nwill shape input support and evaluations.",
+      "textPreview": "Customer wording, layouts and fields | will shape input support and evaluations.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Customer wording, layouts and fields"
+          },
+          {
+            "index": 2,
+            "text": "will shape input support and evaluations."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Customer wording, layouts and fields",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Helvetica Neue",
+            "color": "#53657C",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Customer wording, layouts and fields",
+              "fontSize": 24,
+              "typeface": "Helvetica Neue",
+              "color": "#53657C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "will shape input support and evaluations.",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Helvetica Neue",
+            "color": "#53657C",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "will shape input support and evaluations.",
+              "fontSize": 24,
+              "typeface": "Helvetica Neue",
+              "color": "#53657C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

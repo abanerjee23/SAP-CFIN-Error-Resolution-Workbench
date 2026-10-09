@@ -1,0 +1,32 @@
+{
+  "synthetic": true,
+  "source_id": "MD01-owner-directory",
+  "source_version": "1",
+  "provenance": "Fictional role labels for future POC configuration, not actual assigned people or independent reviewers.",
+  "review": {
+    "reuse_status": "pending_review",
+    "approved_version": null,
+    "reviewer": null,
+    "reviewed_at": null,
+    "review_rationale": null,
+    "effective_from": "2026-09-01",
+    "review_due": "2026-12-30",
+    "expires_on": "2027-03-31",
+    "withdrawn_at": null,
+    "approval_required": true,
+    "approval_note": "Generated synthetic draft. An actual authenticated reviewer must approve this exact version and scope; no human approval has been recorded."
+  },
+  "roles": [
+    "Demo Process Owner",
+    "Demo Master Data Owner",
+    "Demo Mapping Owner",
+    "Demo Finance Owner",
+    "Demo Validator"
+  ],
+  "authenticated_account_bindings": [],
+  "limitations": [
+    "No owner/validator has been assigned by this file.",
+    "Any future audit must record the actual authenticated account and acting role; one person using several roles is not independent signoff."
+  ],
+  "record_id": "owner-directory-v1"
+}

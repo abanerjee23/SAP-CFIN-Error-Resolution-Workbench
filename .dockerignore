@@ -1,0 +1,14 @@
+.git
+**/.env
+**/.env.*
+**/.venv
+**/node_modules
+**/.next
+**/.next-*
+.local-runtime
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+evals/results
+.arize
+.galileo

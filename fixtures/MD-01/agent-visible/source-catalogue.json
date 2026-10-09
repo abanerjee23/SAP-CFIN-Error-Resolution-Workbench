@@ -1,0 +1,90 @@
+[
+  {
+    "source_id": "MD01-log",
+    "source_version": "1",
+    "kind": "text",
+    "observed_at": "2026-09-30T09:00:00Z",
+    "attempt_id": "MD01-0001",
+    "synthetic": true,
+    "line_count": 17
+  },
+  {
+    "source_id": "MD01-source-posting",
+    "source_version": "1",
+    "kind": "records",
+    "observed_at": "2026-09-30T08:45:01Z",
+    "attempt_id": "MD01-0001",
+    "synthetic": true,
+    "record_ids": [
+      "source-header",
+      "source-line-0001",
+      "source-line-0002"
+    ]
+  },
+  {
+    "source_id": "MD01-mapping",
+    "source_version": "1",
+    "kind": "records",
+    "observed_at": "2026-09-30T09:00:00Z",
+    "attempt_id": null,
+    "synthetic": true,
+    "record_ids": [
+      "mapping-0001",
+      "mapping-0002"
+    ],
+    "governance": {
+      "reuse_status": "pending_review",
+      "approved_version": null,
+      "reviewer": null,
+      "reviewed_at": null
+    }
+  },
+  {
+    "source_id": "MD01-target-master-snapshot",
+    "source_version": "1",
+    "kind": "records",
+    "observed_at": "2026-09-30T09:00:00Z",
+    "attempt_id": "MD01-0001",
+    "synthetic": true,
+    "record_ids": [
+      "lookup-required-chart-complete",
+      "lookup-required-extension-complete",
+      "counterpart-chart-account",
+      "counterpart-company-extension"
+    ]
+  },
+  {
+    "source_id": "MD01-playbook",
+    "source_version": "1",
+    "kind": "records",
+    "observed_at": "2026-09-30T09:00:00Z",
+    "attempt_id": null,
+    "synthetic": true,
+    "record_ids": [
+      "playbook-v1"
+    ],
+    "governance": {
+      "reuse_status": "pending_review",
+      "approved_version": null,
+      "reviewer": null,
+      "reviewed_at": null
+    }
+  },
+  {
+    "source_id": "MD01-owner-directory",
+    "source_version": "1",
+    "kind": "records",
+    "observed_at": "2026-09-30T09:00:00Z",
+    "attempt_id": null,
+    "synthetic": true,
+    "record_ids": [
+      "owner-directory-v1"
+    ],
+    "governance": {
+      "reuse_status": "pending_review",
+      "approved_version": null,
+      "reviewer": null,
+      "reviewed_at": null
+    }
+  }
+]

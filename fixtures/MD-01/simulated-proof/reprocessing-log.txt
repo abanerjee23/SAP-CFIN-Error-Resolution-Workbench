@@ -1,0 +1,8 @@
+SYNTHETIC SIMULATION ASSET — NOT AN EXECUTED HUMAN ACTION.
+2026-09-30T09:45:00Z | attempt_id=MD01-0002 | processing_order=2 | event=replication_started
+source_system=ERP-DEMO | source_client=010 | source_company_code=0010
+fiscal_year=2026 | document_number=0000123456 | target_system=CFIN-DEMO | target_client=100
+interface=DEMO_CFIN_GL | target_company_code=0010
+2026-09-30T09:45:00Z | event=replication_finished | result=success | target_document_number=0000900123
+Target fiscal year=2026 | currency=GBP | debit_total=1250.00 | credit_total=1250.00
+Actual reprocessing performer/time and human result confirmation remain unrecorded.

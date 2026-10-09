@@ -1,0 +1,94 @@
+{"kind":"deck","id":"pr/vfoc4u","name":"Deck"}
+{"kind":"layout","layoutId":"9839b610-30ab-41e1-ace8-fec585efcfca","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"94558841-41a1-4174-8109-54bff0e00aa5","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/9f88t1","slide":1,"title":"Technical architecture","textShapes":57}
+{"kind":"textbox","id":"sh/ql87u9gj","slide":1,"text":"Technical architecture","textPreview":"Technical architecture","textChars":22,"textLines":1,"bbox":[58,35,930,43]}
+{"kind":"textbox","id":"sh/d8jq5ozu","slide":1,"text":"The system preserves source evidence, constrains each agent and keeps approvals with people","textPreview":"The system preserves source evidence, constrains each agent and keeps approvals with people","textChars":91,"textLines":1,"bbox":[60,84,1100,27]}
+{"kind":"shape","id":"sh/c7apwjy9","slide":1,"bbox":[58,124,1164,0]}
+{"kind":"shape","id":"sh/za187eh0","slide":1,"bbox":[42,152,235,122]}
+{"kind":"textbox","id":"sh/e9s7y9gf","slide":1,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[55,164,28,28]}
+{"kind":"textbox","id":"sh/1cjq9oz6","slide":1,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[55,168,28,16]}
+{"kind":"textbox","id":"sh/0bap0jyl","slide":1,"text":"Ingestion","textPreview":"Ingestion","textChars":9,"textLines":1,"bbox":[92,161,173,24]}
+{"kind":"textbox","id":"sh/fexovuhw","slide":1,"text":"CODE","textPreview":"CODE","textChars":4,"textLines":1,"bbox":[92,183,173,18]}
+{"kind":"textbox","id":"sh/udo7mp0b","slide":1,"text":"Preserves the supplied log, records its version and queues analysis.","textPreview":"Preserves the supplied log, records its version and queues analysis.","textChars":68,"textLines":1,"bbox":[57,206,205,58]}
+{"kind":"shape","id":"sh/gfqhc3mh","slide":1,"bbox":[337,152,235,122]}
+{"kind":"textbox","id":"sh/hgzi58n2","slide":1,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[350,164,28,28]}
+{"kind":"textbox","id":"sh/ud8zad4r","slide":1,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[350,168,28,16]}
+{"kind":"textbox","id":"sh/feh03y5c","slide":1,"text":"Extraction","textPreview":"Extraction","textChars":10,"textLines":1,"bbox":[387,161,173,24]}
+{"kind":"textbox","id":"sh/4jahgnmt","slide":1,"text":"AGENT 1 · GPT-6 LUNA","textPreview":"AGENT 1 · GPT-6 LUNA","textChars":20,"textLines":1,"bbox":[387,183,173,18]}
+{"kind":"textbox","id":"sh/pkji9sne","slide":1,"text":"Captures every supplied entry, field and source reference.","textPreview":"Captures every supplied entry, field and source reference.","textChars":58,"textLines":1,"bbox":[352,206,205,58]}
+{"kind":"shape","id":"sh/2h8zed4n","slide":1,"bbox":[632,152,235,122]}
+{"kind":"textbox","id":"sh/3ih07i58","slide":1,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[645,164,28,28]}
+{"kind":"textbox","id":"sh/kn6h4jmp","slide":1,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[645,168,28,16]}
+{"kind":"textbox","id":"sh/lofyxonu","slide":1,"text":"Error Analysis","textPreview":"Error Analysis","textChars":14,"textLines":1,"bbox":[682,161,173,24]}
+{"kind":"textbox","id":"sh/l47y1kfy","slide":1,"text":"AGENT 2 · GPT-6.1 SOL","textPreview":"AGENT 2 · GPT-6.1 SOL","textChars":21,"textLines":1,"bbox":[682,183,173,18]}
+{"kind":"textbox","id":"sh/03yxsfyd","slide":1,"text":"Classifies the extracted error and forms a supported cause hypothesis.","textPreview":"Classifies the extracted error and forms a supported cause hypothesis.","textChars":70,"textLines":1,"bbox":[647,206,205,58]}
+{"kind":"shape","id":"sh/zipgzaxs","slide":1,"bbox":[927,152,235,122]}
+{"kind":"textbox","id":"sh/yhgfq5g7","slide":1,"text":"R","textPreview":"R","textChars":1,"textLines":1,"bbox":[940,164,28,28]}
+{"kind":"textbox","id":"sh/98ry5kfu","slide":1,"text":"R","textPreview":"R","textChars":1,"textLines":1,"bbox":[940,168,28,16]}
+{"kind":"textbox","id":"sh/87ixwzy9","slide":1,"text":"Controlled route lookup","textPreview":"Controlled route lookup","textChars":23,"textLines":1,"bbox":[977,161,173,24]}
+{"kind":"textbox","id":"sh/n6pg3ux4","slide":1,"text":"CODE TOOL","textPreview":"CODE TOOL","textChars":9,"textLines":1,"bbox":[977,183,173,18]}
+{"kind":"textbox","id":"sh/m5gfupgj","slide":1,"text":"Returns the maintained owner, approval steps, remediation route and escalation.","textPreview":"Returns the maintained owner, approval steps, remediation route and escalation.","textChars":79,"textLines":1,"bbox":[942,206,205,58]}
+{"kind":"shape","id":"sh/xcry94f6","slide":1,"bbox":[42,358,235,122]}
+{"kind":"textbox","id":"sh/wbix0zyl","slide":1,"text":"7","textPreview":"7","textChars":1,"textLines":1,"bbox":[55,370,28,28]}
+{"kind":"textbox","id":"sh/ehcvu1w3","slide":1,"text":"7","textPreview":"7","textChars":1,"textLines":1,"bbox":[55,374,28,16]}
+{"kind":"textbox","id":"sh/filc36do","slide":1,"text":"Reviewed case history","textPreview":"Reviewed case history","textChars":21,"textLines":1,"bbox":[92,367,173,24]}
+{"kind":"textbox","id":"sh/gjudwbet","slide":1,"text":"CONTROLLED KNOWLEDGE","textPreview":"CONTROLLED KNOWLEDGE","textChars":20,"textLines":1,"bbox":[92,389,173,18]}
+{"kind":"textbox","id":"sh/1k3u5wve","slide":1,"text":"Retains approved findings and supplies eligible prior-case evidence.","textPreview":"Retains approved findings and supplies eligible prior-case evidence.","textChars":68,"textLines":1,"bbox":[57,412,205,58]}
+{"kind":"shape","id":"sh/2lcvy1wz","slide":1,"bbox":[337,358,235,122]}
+{"kind":"textbox","id":"sh/3mlc76dk","slide":1,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[350,370,28,28]}
+{"kind":"textbox","id":"sh/onud0be5","slide":1,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[350,374,28,16]}
+{"kind":"textbox","id":"sh/ponu9gvq","slide":1,"text":"Summary","textPreview":"Summary","textChars":7,"textLines":1,"bbox":[387,367,173,24]}
+{"kind":"textbox","id":"sh/q9wv2lwb","slide":1,"text":"AGENT 3 · GPT-6.1 SOL","textPreview":"AGENT 3 · GPT-6.1 SOL","textChars":21,"textLines":1,"bbox":[387,389,173,18]}
+{"kind":"textbox","id":"sh/ba5cbqdw","slide":1,"text":"Writes the cited case brief, uncertainty and relevant historical comparison.","textPreview":"Writes the cited case brief, uncertainty and relevant historical comparison.","textChars":76,"textLines":1,"bbox":[352,412,205,58]}
+{"kind":"shape","id":"sh/zuh4zm1o","slide":1,"bbox":[632,358,235,122]}
+{"kind":"textbox","id":"sh/yt836h03","slide":1,"text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[645,370,28,28]}
+{"kind":"textbox","id":"sh/lwzm1wju","slide":1,"text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[645,374,28,16]}
+{"kind":"textbox","id":"sh/0vql8ri9","slide":1,"text":"Case creation and routing","textPreview":"Case creation and routing","textChars":25,"textLines":1,"bbox":[682,367,173,24]}
+{"kind":"textbox","id":"sh/ny14361k","slide":1,"text":"CODE","textPreview":"CODE","textChars":4,"textLines":1,"bbox":[682,389,173,18]}
+{"kind":"textbox","id":"sh/mxs3a10z","slide":1,"text":"Compiles the case, embeds the original and assigns the configured owner.","textPreview":"Compiles the case, embeds the original and assigns the configured owner.","textChars":72,"textLines":1,"bbox":[647,412,205,58]}
+{"kind":"shape","id":"sh/9kjm5wjq","slide":1,"bbox":[927,358,235,122]}
+{"kind":"textbox","id":"sh/8jalcri5","slide":1,"text":"6","textPreview":"6","textChars":1,"textLines":1,"bbox":[940,370,28,28]}
+{"kind":"textbox","id":"sh/32xkr21g","slide":1,"text":"6","textPreview":"6","textChars":1,"textLines":1,"bbox":[940,374,28,16]}
+{"kind":"textbox","id":"sh/21o3yxkv","slide":1,"text":"Human review","textPreview":"Human review","textChars":12,"textLines":1,"bbox":[977,367,173,24]}
+{"kind":"textbox","id":"sh/s7m183it","slide":1,"text":"PEOPLE","textPreview":"PEOPLE","textChars":6,"textLines":1,"bbox":[977,389,173,18]}
+{"kind":"textbox","id":"sh/t8vi18ze","slide":1,"text":"Reviews the case and records approvals, evidence, findings and outcomes.","textPreview":"Reviews the case and records approvals, evidence, findings and outcomes.","textChars":72,"textLines":1,"bbox":[942,412,205,58]}
+{"kind":"shape","id":"sh/65kz6t0n","slide":1,"bbox":[632,558,235,105]}
+{"kind":"textbox","id":"sh/76t0zyh8","slide":1,"text":"8","textPreview":"8","textChars":1,"textLines":1,"bbox":[645,570,28,28]}
+{"kind":"textbox","id":"sh/k32h4jih","slide":1,"text":"8","textPreview":"8","textChars":1,"textLines":1,"bbox":[645,574,28,16]}
+{"kind":"textbox","id":"sh/54bixoz2","slide":1,"text":"Case JSON API","textPreview":"Case JSON API","textChars":13,"textLines":1,"bbox":[682,567,173,24]}
+{"kind":"textbox","id":"sh/i1kz2t0r","slide":1,"text":"CODE · READ ONLY","textPreview":"CODE · READ ONLY","textChars":16,"textLines":1,"bbox":[682,589,173,18]}
+{"kind":"textbox","id":"sh/j2t0vyhc","slide":1,"text":"Serves authorised saved case facts, state and original logs.","textPreview":"Serves authorised saved case facts, state and original logs.","textChars":60,"textLines":1,"bbox":[647,612,205,41]}
+{"kind":"shape","id":"sh/oz61gny1","slide":1,"bbox":[927,558,235,105]}
+{"kind":"textbox","id":"sh/p0fi9szm","slide":1,"text":"9","textPreview":"9","textChars":1,"textLines":1,"bbox":[940,570,28,28]}
+{"kind":"textbox","id":"sh/xgbitsrq","slide":1,"text":"9","textPreview":"9","textChars":1,"textLines":1,"bbox":[940,574,28,16]}
+{"kind":"textbox","id":"sh/cf21knq5","slide":1,"text":"SAP Joule","textPreview":"SAP Joule","textChars":9,"textLines":1,"bbox":[977,567,173,24]}
+{"kind":"textbox","id":"sh/bet0ri9k","slide":1,"text":"FUTURE CONNECTION","textPreview":"FUTURE CONNECTION","textChars":17,"textLines":1,"bbox":[977,589,173,18]}
+{"kind":"textbox","id":"sh/adkzid8z","slide":1,"text":"Reads the case through a configured tool under customer access controls.","textPreview":"Reads the case through a configured tool under customer access controls.","textChars":72,"textLines":1,"bbox":[942,612,205,41]}
+{"kind":"shape","id":"sh/psrip8re","slide":1,"bbox":[277,213,60,0]}
+{"kind":"shape","id":"sh/orihg3qt","slide":1,"bbox":[572,213,60,0]}
+{"kind":"shape","id":"sh/nq90ny9o","slide":1,"bbox":[867,213,60,0]}
+{"kind":"shape","id":"sh/2p0zet83","slide":1,"bbox":[454.5,274,590,84]}
+{"kind":"shape","id":"sh/1oril8ri","slide":1,"bbox":[277,419,60,0]}
+{"kind":"shape","id":"sh/0nihc3qx","slide":1,"bbox":[572,419,60,0]}
+{"kind":"shape","id":"sh/6twfm9ov","slide":1,"bbox":[867,419,60,0]}
+{"kind":"shape","id":"sh/rupgvupg","slide":1,"bbox":[159.5,480,885,24]}
+{"kind":"shape","id":"sh/svyxoz6l","slide":1,"bbox":[749.5,480,0,78]}
+{"kind":"shape","id":"sh/tw7yx476","slide":1,"bbox":[867,610.5,60,0]}
+{"kind":"textbox","id":"sh/ipwfipoj","slide":1,"text":"structured extraction","textPreview":"structured extraction","textChars":21,"textLines":1,"bbox":[502,284,160,18]}
+{"kind":"textbox","id":"sh/jq5wrup4","slide":1,"text":"governed route","textPreview":"governed route","textChars":14,"textLines":1,"bbox":[746,320,145,18]}
+{"kind":"textbox","id":"sh/4rexkz6p","slide":1,"text":"eligible history","textPreview":"eligible history","textChars":16,"textLines":1,"bbox":[216,393,116,18]}
+{"kind":"textbox","id":"sh/5snyt47a","slide":1,"text":"approved learning","textPreview":"approved learning","textChars":17,"textLines":1,"bbox":[380,517,140,18]}
+{"kind":"textbox","id":"sh/u1cfep8n","slide":1,"text":"authorised JSON","textPreview":"authorised JSON","textChars":15,"textLines":1,"bbox":[828,595,100,18]}
+{"kind":"notes","id":"nt/9f88t1","slide":1,"text":"Source: README revised architecture and docs/technical-architecture.md, 2 October 2026. Target Error Analysis architecture. Current runtime remains factual-only until implemented and enabled."}
+{"kind":"slide","id":"sl/ukitpn","slide":2,"title":"What each block receives and produces","textShapes":6}
+{"kind":"textbox","id":"sh/jedc7yto","slide":2,"text":"What each block receives and produces","textPreview":"What each block receives and produces","textChars":37,"textLines":1,"bbox":[58,35,930,43]}
+{"kind":"textbox","id":"sh/4fmt03u9","slide":2,"text":"Inputs stay bounded. Outputs remain versioned and traceable to the preserved original log.","textPreview":"Inputs stay bounded. Outputs remain versioned and traceable to the preserved original log.","textChars":90,"textLines":1,"bbox":[60,84,1100,27]}
+{"kind":"shape","id":"sh/5gvu9obu","slide":2,"bbox":[58,124,1164,0]}
+{"kind":"textbox","id":"sh/6h4b2tcf","slide":2,"text":"Analysis path","textPreview":"Analysis path","textChars":13,"textLines":1,"bbox":[58,143,540,28]}
+{"kind":"textbox","id":"sh/ridcbytk","slide":2,"text":"Case lifecycle and access","textPreview":"Case lifecycle and access","textChars":25,"textLines":1,"bbox":[658,143,560,28]}
+{"kind":"textbox","id":"sh/el4v6dcb","slide":2,"text":"Key boundary","textPreview":"Key boundary","textChars":12,"textLines":1,"bbox":[58,662,95,19]}
+{"kind":"textbox","id":"sh/fmxcfitw","slide":2,"text":"Error Analysis sees structured extraction only. Summary receives the original for citations and only authorised related cases.","textPreview":"Error Analysis sees structured extraction only. Summary receives the original for citations and only authorised related cases.","textChars":126,"textLines":1,"bbox":[156,660,1045,23]}
+{"kind":"table","id":"tb/5szu1gvy","slide":2,"name":"","rows":6,"cols":2,"preview":"Block and owner | Data flow and result","bbox":[58,180,555,458]}
+{"kind":"table","id":"tb/4rqdsbud","slide":2,"name":"","rows":6,"cols":2,"preview":"Block and owner | Data flow and result","bbox":[658,180,564,458]}
+{"kind":"notes","id":"nt/ukitpn","slide":2,"text":"Source: README revised architecture and docs/technical-architecture.md, 2 October 2026. The route registry, human approval and saved-case API are code-controlled boundaries."}

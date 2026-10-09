@@ -1,0 +1,8 @@
+SYNTHETIC SIMULATION ASSET — NOT AN EXECUTED VALIDATION.
+Scenario MD-01; modelled successful attempt MD01-0002; target document 0000900123 / company 0010 / year 2026.
+Fictional source and target observations both show GBP, debit 1250.00, credit 1250.00, company 0010.
+Line 0001: source account 0000400000 -> target account 0041001000, debit 1250.00.
+Line 0002: source account 0000200000 -> target account 0021000000, credit 1250.00.
+Source relationship: ERP-DEMO / 010 / 0010 / 2026 / 0000123456 -> CFIN-DEMO / 100 / DEMO_CFIN_GL.
+An actual designated validator must inspect the stored sources and confirm each comparison for the current attempt.
+Validator identity, actual validation time and Passed/Failed decision are unrecorded; no milestone is satisfied by this text.

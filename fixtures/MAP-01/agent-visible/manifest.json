@@ -1,0 +1,31 @@
+{
+  "scenario_id": "MAP-01",
+  "synthetic": true,
+  "delivery_key": "map01-original-delivery-v1",
+  "content_sha256": "49436112fd8f71af65c0dfb36f3ba417a4e138307ba4353d62dc2f555400e29b",
+  "source_id": "MAP01-log",
+  "source_version": "1",
+  "identity": {
+    "workspace_id": "synthetic-cfin-demo",
+    "source_system": "ERP-DEMO",
+    "source_client": "010",
+    "source_company_code": "0010",
+    "fiscal_year": "2026",
+    "document_number": "0000123457",
+    "target_system": "CFIN-DEMO",
+    "target_client": "100",
+    "interface": "DEMO_CFIN_GL"
+  },
+  "attempt_id": "MAP01-0001",
+  "processing_at": "2026-09-30T09:00:00Z",
+  "processing_order": 1,
+  "business_context": {
+    "source_account": "0000400000",
+    "target_account": "0041001000",
+    "company_code": "0010",
+    "chart_of_accounts": "SYN1",
+    "controlling_area": null,
+    "posting_date": "2026-09-30",
+    "currency": "GBP"
+  }
+}

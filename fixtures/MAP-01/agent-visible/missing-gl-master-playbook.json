@@ -1,0 +1,157 @@
+{
+  "synthetic": true,
+  "guidance_id": "SYN-MAP-GL-001",
+  "source_id": "MAP01-playbook",
+  "source_version": "1",
+  "cause": "missing_gl_mapping",
+  "scope": {
+    "target_system": "CFIN-DEMO",
+    "target_client": "100",
+    "company_code": "0010",
+    "chart_of_accounts": "SYN1"
+  },
+  "reuse_status": "pending_review",
+  "approved_version": null,
+  "reviewer": null,
+  "reviewed_at": null,
+  "effective_from": "2026-09-01",
+  "review_due": "2026-12-30",
+  "expires_on": "2027-03-31",
+  "withdrawn_at": null,
+  "shared_policies": [],
+  "title": "Fictional source-to-target G/L mapping restoration playbook",
+  "owner_role": "Demo Mapping Owner",
+  "provenance": "Generated draft for a synthetic demonstration. These are candidate human procedures pending approval of this exact version; they are not real SAP instructions or an enacted correction.",
+  "applicability": [
+    "Source document is already posted.",
+    "Exactly one supported missing applicable G/L mapping cause.",
+    "A completed exact-scope failure-time mapping query returned no row.",
+    "A separately identified and authenticated approved target-design reference establishes the intended target.",
+    "Both target chart account and company extension already exist and are unblocked."
+  ],
+  "evidence_checks": [
+    {
+      "check_id": "document_and_attempt_known",
+      "requirement": "Match source document/target context and preserved failure-time attempt."
+    },
+    {
+      "check_id": "mapping_absence_confirmed",
+      "requirement": "Cite a completed exact-scope mapping query with zero returned rows."
+    },
+    {
+      "check_id": "independent_approved_target_reference",
+      "requirement": "Cite the distinct approved independent target-design record, matching source/account/company/interface/date."
+    },
+    {
+      "check_id": "target_master_exists",
+      "requirement": "Both required chart account and company extension exist and are unblocked at failure time."
+    },
+    {
+      "check_id": "contradictions_and_blockers_checked",
+      "requirement": "Retain contradictions and additional blockers rather than guessing a single cause."
+    }
+  ],
+  "prerequisites_and_approvals": [
+    {
+      "prerequisite_id": "playbook_and_mapping_approval",
+      "requirement": "Actual authorised humans approve the exact independent target-reference and mapping playbook versions; approval is not inferred from the absence query.",
+      "currently_satisfied": false
+    },
+    {
+      "prerequisite_id": "human_diagnosis_review",
+      "requirement": "Assigned owner or process owner explicitly reviews cause and evidence. Recording readable wording alone does not confirm the cause.",
+      "currently_satisfied": false
+    },
+    {
+      "prerequisite_id": "target_change_authority",
+      "requirement": "The acting human supplies target-change authority and the approved account attributes/company settings. Approval is not inferred from this playbook.",
+      "currently_satisfied": false
+    },
+    {
+      "prerequisite_id": "configured_owner_and_validator",
+      "requirement": "An actual authenticated actor is associated with the demo owner role and a designated validator role; audit actual actor and acting role.",
+      "currently_satisfied": false
+    }
+  ],
+  "candidate_human_actions": [
+    {
+      "action_id": "inspect_and_confirm",
+      "description": "Review the preserved failure, complete mapping absence audit, distinct independent target-design record and existing target-master components; record actual human findings or missing checks."
+    },
+    {
+      "action_id": "create_applicable_mapping",
+      "description": "After explicit approval and change authority, simulate creating the approved applicable source-to-target mapping. Preserve the existing target master account and company extension. Record exact scope, performer/time and stored correction proof."
+    },
+    {
+      "action_id": "reprocess",
+      "description": "After correction confirmation, the human simulates a new ordered reprocessing attempt for the same document/target context and stores the result proof and target reference. A failed result does not qualify."
+    },
+    {
+      "action_id": "validate_target_posting",
+      "description": "The designated validator compares expected and observed currency, amounts, company, mapped line accounts and source-to-target reference for the latest successful attempt; record discrepancies or Passed with stored proof."
+    },
+    {
+      "action_id": "record_resolution",
+      "description": "Capture confirmed cause or honest unresolved gaps, correction, scope/limitations, outcome/proof, resolver/time. Reuse starts Pending review independently of operational resolution."
+    }
+  ],
+  "verification_checks": [
+    {
+      "check_id": "currency",
+      "description": "Source and target document currency match."
+    },
+    {
+      "check_id": "amounts",
+      "description": "Each debit/credit and totals match the source and applicable approved mapping; do not infer success from balanced totals alone."
+    },
+    {
+      "check_id": "company",
+      "description": "Target company matches the replication context."
+    },
+    {
+      "check_id": "accounts",
+      "description": "Each target account matches the approved source-to-target mapping and required extension exists."
+    },
+    {
+      "check_id": "document_reference",
+      "description": "Target posting contains the correct source system/client/company/year/document and interface relationship."
+    },
+    {
+      "check_id": "current_attempt",
+      "description": "Validation/proof links refer to the latest applicable successful attempt with known processing order, not the earlier failed attempt."
+    }
+  ],
+  "escalation": [
+    {
+      "condition": "Mapping unavailable, pending, conflicting, expired or withdrawn",
+      "to_role": "Demo Mapping Owner",
+      "action": "Keep cause Needs review until the intended target is established; do not create a guessed account."
+    },
+    {
+      "condition": "Guidance unavailable, pending, conflicting, expired or withdrawn",
+      "to_role": "Demo Process Owner",
+      "action": "Withhold actionable Agent 3 brief and record the guidance gap."
+    },
+    {
+      "condition": "Target attributes/change authority absent",
+      "to_role": "Demo Master Data Owner",
+      "action": "Block correction with the unmet prerequisites visible."
+    },
+    {
+      "condition": "Several blockers, ambiguous attempt order or no configured owner",
+      "to_role": "Demo Process Owner",
+      "action": "Coordinate human investigation or assignment. Missing ownership alone does not suppress otherwise eligible guidance."
+    },
+    {
+      "condition": "Reprocessing fails or validation disagrees",
+      "to_role": "Demo Finance Owner",
+      "action": "Retain proof and return to active investigation through an audited human action; do not mark Resolved."
+    }
+  ],
+  "limitations": [
+    "Fictional POC scope only; no customer approval, SAP transaction code, release-specific configuration, or write tool is supplied.",
+    "AI may read evidence and draft eligible guidance; only humans simulate correction, reprocessing, validation and approval.",
+    "No history seed is approved for retrieval by this generated pack."
+  ],
+  "record_id": "playbook-v1"
+}

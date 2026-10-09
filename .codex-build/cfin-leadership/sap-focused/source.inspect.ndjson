@@ -1,0 +1,34 @@
+{"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"CFIN exception management","textShapes":9}
+{"kind":"shape","id":"sh/7qp4be9c","slide":1,"name":"assumptions-block","bbox":[56,658,1488,194]}
+{"kind":"table","id":"tb/ovuhgb21","slide":1,"name":"","rows":4,"cols":2,"preview":"Purpose and users | Help CFIN support analysts and process owners understand supplied logs before investigation.","bbox":[56,203,1488,420]}
+{"kind":"slide","id":"sl/hwbqtkby","slide":2,"title":"Architecture: supplied evidence to a reusable case","textShapes":36}
+{"kind":"shape","id":"sh/ozy1ofad","slide":2,"name":"architecture-input","bbox":[56,187,1488,100]}
+{"kind":"shape","id":"sh/x4r21kru","slide":2,"name":"architecture-stage-1","bbox":[56,316,280,322]}
+{"kind":"shape","id":"sh/mtwrmxg7","slide":2,"name":"architecture-stage-2","bbox":[358,316,280,322]}
+{"kind":"shape","id":"sh/cnupgny5","slide":2,"name":"architecture-stage-3","bbox":[660,316,280,322]}
+{"kind":"shape","id":"sh/hcvy14ne","slide":2,"name":"architecture-stage-4","bbox":[962,316,280,322]}
+{"kind":"shape","id":"sh/mlgvq147","slide":2,"name":"architecture-stage-5","bbox":[1264,316,280,322]}
+{"kind":"shape","id":"sh/4r2pwnut","slide":2,"bbox":[336,477,22,0]}
+{"kind":"shape","id":"sh/3md8zmtc","slide":2,"bbox":[638,477,22,0]}
+{"kind":"shape","id":"sh/2l4r6hc7","slide":2,"bbox":[940,477,22,0]}
+{"kind":"shape","id":"sh/kry50jap","slide":2,"bbox":[1242,477,22,0]}
+{"kind":"shape","id":"sh/69wbilcj","slide":2,"name":"human-review","bbox":[660,670,280,76]}
+{"kind":"shape","id":"sh/svedkvup","slide":2,"name":"reviewed-history","bbox":[962,670,280,76]}
+{"kind":"shape","id":"sh/7up4vet0","slide":2,"bbox":[940,708,22,0]}
+{"kind":"shape","id":"sh/wzi583ah","slide":2,"bbox":[1102,638,0,32]}
+{"kind":"shape","id":"sh/a1cba1wb","slide":2,"name":"architecture-output","bbox":[56,777,1488,90]}
+{"kind":"slide","id":"sl/ofy9wn61","slide":3,"title":"Future direction: reusable core, client-specific Joule","textShapes":24}
+{"kind":"shape","id":"sh/d0jax03i","slide":3,"name":"reusable-core","bbox":[56,214,440,414]}
+{"kind":"shape","id":"sh/m1c3mlsn","slide":3,"name":"client-joule","bbox":[562,214,458,414]}
+{"kind":"shape","id":"sh/a10b6p03","slide":3,"bbox":[496,421,66,0]}
+{"kind":"shape","id":"sh/e10f2twf","slide":3,"name":"sap-outcome","bbox":[1086,214,458,190]}
+{"kind":"shape","id":"sh/14ryd8fq","slide":3,"name":"human-outcome","bbox":[1086,438,458,190]}
+{"kind":"shape","id":"sh/7utcne1g","slide":3,"bbox":[1020,309,66,112]}
+{"kind":"shape","id":"sh/6tkve90v","slide":3,"bbox":[1020,421,66,112]}
+{"kind":"shape","id":"sh/a9kfadwn","slide":3,"name":"reuse-configuration-band","bbox":[56,665,1488,163]}
+{"kind":"slide","id":"sl/jyx0ra1s","slide":4,"title":"Appendix: reading an AIF log across its views","textShapes":5}
+{"kind":"shape","id":"sh/1cj2d8b6","slide":4,"name":"synthetic-example-disclosure","bbox":[56,127,1488,55]}
+{"kind":"shape","id":"sh/ql8jytsj","slide":4,"name":"aif-factual-brief","bbox":[56,791,1488,67]}
+{"kind":"table","id":"tb/fe1wvuh4","slide":4,"name":"","rows":6,"cols":3,"preview":"AIF part | What it gives us | Evidence in the same fictional case","bbox":[56,206,1488,540]}

@@ -1,0 +1,168 @@
+[
+  {
+    "lookup_id": "map01-required-chart-account",
+    "state": "found",
+    "query_scope": {
+      "target_system": "CFIN-DEMO",
+      "target_client": "100",
+      "company_code": "0010",
+      "target_account": "0041001000",
+      "missing_component": "chart_account",
+      "chart_of_accounts": "SYN1"
+    },
+    "scope_complete": true,
+    "records": [
+      {
+        "record_id": "required-chart-account",
+        "chart_of_accounts": "SYN1",
+        "target_account": "0041001000",
+        "posting_blocked": false
+      }
+    ],
+    "source": {
+      "source_id": "MAP01-target-master-snapshot",
+      "source_version": "1",
+      "kind": "records",
+      "observed_at": "2026-09-30T09:00:00Z",
+      "attempt_id": "MAP01-0001",
+      "synthetic": true,
+      "record_ids": [
+        "required-chart-account"
+      ]
+    },
+    "citations": [
+      {
+        "source_id": "MAP01-target-master-snapshot",
+        "source_version": "1",
+        "attempt_id": "MAP01-0001",
+        "record_id": "required-chart-account"
+      }
+    ],
+    "detail": "Synthetic complete failure-time lookup returned the required target component; no live SAP query."
+  },
+  {
+    "lookup_id": "map01-required-company-extension",
+    "state": "found",
+    "query_scope": {
+      "target_system": "CFIN-DEMO",
+      "target_client": "100",
+      "company_code": "0010",
+      "target_account": "0041001000",
+      "missing_component": "company_code_extension",
+      "chart_of_accounts": "SYN1"
+    },
+    "scope_complete": true,
+    "records": [
+      {
+        "record_id": "required-company-extension",
+        "chart_of_accounts": "SYN1",
+        "target_account": "0041001000",
+        "posting_blocked": false,
+        "company_code": "0010"
+      }
+    ],
+    "source": {
+      "source_id": "MAP01-target-master-snapshot",
+      "source_version": "1",
+      "kind": "records",
+      "observed_at": "2026-09-30T09:00:00Z",
+      "attempt_id": "MAP01-0001",
+      "synthetic": true,
+      "record_ids": [
+        "required-company-extension"
+      ]
+    },
+    "citations": [
+      {
+        "source_id": "MAP01-target-master-snapshot",
+        "source_version": "1",
+        "attempt_id": "MAP01-0001",
+        "record_id": "required-company-extension"
+      }
+    ],
+    "detail": "Synthetic complete failure-time lookup returned the required target component; no live SAP query."
+  },
+  {
+    "lookup_id": "map01-counterpart-chart-account",
+    "state": "found",
+    "query_scope": {
+      "target_system": "CFIN-DEMO",
+      "target_client": "100",
+      "company_code": "0010",
+      "target_account": "0021000000",
+      "missing_component": "chart_account",
+      "chart_of_accounts": "SYN1"
+    },
+    "scope_complete": true,
+    "records": [
+      {
+        "record_id": "counterpart-chart-account",
+        "chart_of_accounts": "SYN1",
+        "target_account": "0021000000",
+        "posting_blocked": false
+      }
+    ],
+    "source": {
+      "source_id": "MAP01-target-master-snapshot",
+      "source_version": "1",
+      "kind": "records",
+      "observed_at": "2026-09-30T09:00:00Z",
+      "attempt_id": "MAP01-0001",
+      "synthetic": true,
+      "record_ids": [
+        "counterpart-chart-account"
+      ]
+    },
+    "citations": [
+      {
+        "source_id": "MAP01-target-master-snapshot",
+        "source_version": "1",
+        "attempt_id": "MAP01-0001",
+        "record_id": "counterpart-chart-account"
+      }
+    ],
+    "detail": "Completed exact-key query over the full fictional snapshot for this scope. One matching record returned."
+  },
+  {
+    "lookup_id": "map01-counterpart-company-extension",
+    "state": "found",
+    "query_scope": {
+      "target_system": "CFIN-DEMO",
+      "target_client": "100",
+      "company_code": "0010",
+      "target_account": "0021000000",
+      "missing_component": "company_code_extension",
+      "chart_of_accounts": "SYN1"
+    },
+    "scope_complete": true,
+    "records": [
+      {
+        "record_id": "counterpart-company-extension",
+        "chart_of_accounts": "SYN1",
+        "company_code": "0010",
+        "target_account": "0021000000",
+        "posting_blocked": false
+      }
+    ],
+    "source": {
+      "source_id": "MAP01-target-master-snapshot",
+      "source_version": "1",
+      "kind": "records",
+      "observed_at": "2026-09-30T09:00:00Z",
+      "attempt_id": "MAP01-0001",
+      "synthetic": true,
+      "record_ids": [
+        "counterpart-company-extension"
+      ]
+    },
+    "citations": [
+      {
+        "source_id": "MAP01-target-master-snapshot",
+        "source_version": "1",
+        "attempt_id": "MAP01-0001",
+        "record_id": "counterpart-company-extension"
+      }
+    ],
+    "detail": "Completed exact-key query over the full fictional snapshot for this scope. One matching record returned."
+  }
+]

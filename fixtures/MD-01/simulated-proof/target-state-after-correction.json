@@ -1,0 +1,32 @@
+{
+  "synthetic": true,
+  "simulation_only": true,
+  "source_id": "MD01-simulated-correction",
+  "source_version": "1",
+  "modeled_at": "2026-09-30T09:30:00Z",
+  "work_cycle_id": "MD01-cycle-1",
+  "actual_performer": null,
+  "actual_action_at": null,
+  "human_confirmation": null,
+  "change_approval": null,
+  "records": [
+    {
+      "record_id": "simulated-required-chart-account",
+      "target_system": "CFIN-DEMO",
+      "target_client": "100",
+      "chart_of_accounts": "SYN1",
+      "target_account": "0041001000",
+      "posting_blocked": false
+    },
+    {
+      "record_id": "simulated-required-company-extension",
+      "target_system": "CFIN-DEMO",
+      "target_client": "100",
+      "chart_of_accounts": "SYN1",
+      "target_account": "0041001000",
+      "company_code": "0010",
+      "posting_blocked": false
+    }
+  ],
+  "provenance": "Authored fictional state after a modelled correction, not an original-failure snapshot or evidence that a human acted."
+}

@@ -1,0 +1,78 @@
+{
+  "synthetic": true,
+  "simulation_only": true,
+  "scenario_id": "MD-01",
+  "work_cycle_id": "MD01-cycle-1",
+  "execution_state": "not_executed",
+  "actual_actor": null,
+  "actual_validator": null,
+  "provenance": "A future manual POC walkthrough plan. Synthetic observation assets are prepared, but no human actions, approval, review, proof storage or validation are asserted.",
+  "steps": [
+    {
+      "step": 1,
+      "action": "Approve exact mapping/playbook versions and scope through authorised reviewer actions",
+      "required_actor_role": "Demo Mapping Owner / Demo Master Data Owner",
+      "actual_actor": null,
+      "actual_at": null,
+      "state": "not_executed"
+    },
+    {
+      "step": 2,
+      "action": "Configure authenticated owner and validator bindings; record actual actor and acting role",
+      "required_actor_role": "Demo Process Owner",
+      "actual_actor": null,
+      "actual_at": null,
+      "state": "not_executed"
+    },
+    {
+      "step": 3,
+      "action": "Review the diagnosis and evidence, assign/start work, obtain target-change authority",
+      "required_actor_role": "Demo Master Data Owner",
+      "actual_actor": null,
+      "actual_at": null,
+      "state": "not_executed"
+    },
+    {
+      "step": 4,
+      "action": "Simulate approved correction, upload correction-proof.txt and explicitly confirm proof; record correction scope and performer/time",
+      "required_actor_role": "Demo Master Data Owner",
+      "actual_actor": null,
+      "actual_at": null,
+      "state": "not_executed",
+      "asset": "correction-proof.txt"
+    },
+    {
+      "step": 5,
+      "action": "Mark Complete only after stored proof and required fields; simulate new ordered successful attempt MD01-0002, upload its result proof and confirm target reference",
+      "required_actor_role": "Demo Master Data Owner",
+      "actual_actor": null,
+      "actual_at": null,
+      "state": "not_executed",
+      "asset": "reprocessing-log.txt"
+    },
+    {
+      "step": 6,
+      "action": "Record Document Reprocessed for MD01-0002; compare expected/observed posting fields, store target-validation-proof.txt and explicitly record validator decision",
+      "required_actor_role": "Demo Validator",
+      "actual_actor": null,
+      "actual_at": null,
+      "state": "not_executed",
+      "asset": "target-validation-proof.txt"
+    },
+    {
+      "step": 7,
+      "action": "Complete the resolution record with cause/evidence or honest gaps, correction, scope/limitations, outcome/proof and resolver/time; keep reuse Pending review",
+      "required_actor_role": "Demo Master Data Owner",
+      "actual_actor": null,
+      "actual_at": null,
+      "state": "not_executed"
+    }
+  ],
+  "guardrails": [
+    "Prepared assets are not stored cloud proof or human attestation.",
+    "Never populate actual actors/times from modelled snapshot times.",
+    "Reusing one signed-in actor for several roles must not be presented as independent signoff.",
+    "Target validation remains Pending until a human records the decision for MD01-0002.",
+    "Do not load these files into the initial agent snapshot or reviewed history."
+  ]
+}

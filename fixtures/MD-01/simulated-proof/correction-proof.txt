@@ -1,0 +1,8 @@
+SYNTHETIC SIMULATION ASSET — NOT AN EXECUTED HUMAN ACTION.
+Scenario: MD-01; work cycle MD01-cycle-1; earlier failed attempt MD01-0001.
+Modelled correction snapshot time: 2026-09-30T09:30:00Z.
+Target: CFIN-DEMO / client 100 / chart SYN1 / company 0010.
+Modelled change: create G/L chart account 0041001000 and company-code extension 0010.
+This text illustrates proof content only. Target-change approval, actual performer, actual action time,
+and an authenticated human's relevance/accuracy confirmation remain unrecorded.
+It cannot satisfy Complete or demonstrate that a human reviewed or approved a change.

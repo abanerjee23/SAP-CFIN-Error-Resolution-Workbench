@@ -1,0 +1,59 @@
+{
+  "synthetic": true,
+  "simulation_only": true,
+  "source_id": "MD01-simulated-target-posting",
+  "source_version": "1",
+  "observed_at": "2026-09-30T09:46:00Z",
+  "attempt_id": "MD01-0002",
+  "actual_reprocessing_performer": null,
+  "actual_reprocessed_at": null,
+  "human_confirmation": null,
+  "provenance": "Authored fictional successful target posting for the later modelled attempt, never visible to initial diagnosis.",
+  "records": [
+    {
+      "record_id": "target-header",
+      "target_system": "CFIN-DEMO",
+      "target_client": "100",
+      "company_code": "0010",
+      "fiscal_year": "2026",
+      "target_document_number": "0000900123",
+      "posting_date": "2026-09-30",
+      "posting_status": "posted",
+      "currency": "GBP",
+      "debit_total": "1250.00",
+      "credit_total": "1250.00",
+      "source_identity": {
+        "workspace_id": "synthetic-cfin-demo",
+        "source_system": "ERP-DEMO",
+        "source_client": "010",
+        "source_company_code": "0010",
+        "fiscal_year": "2026",
+        "document_number": "0000123456",
+        "target_system": "CFIN-DEMO",
+        "target_client": "100",
+        "interface": "DEMO_CFIN_GL"
+      },
+      "source_attempt_id": "MD01-0002"
+    },
+    {
+      "record_id": "target-line-0001",
+      "line_number": "0001",
+      "target_account": "0041001000",
+      "debit": "1250.00",
+      "credit": "0.00",
+      "currency": "GBP",
+      "company_code": "0010",
+      "source_line_number": "0001"
+    },
+    {
+      "record_id": "target-line-0002",
+      "line_number": "0002",
+      "target_account": "0021000000",
+      "debit": "0.00",
+      "credit": "1250.00",
+      "currency": "GBP",
+      "company_code": "0010",
+      "source_line_number": "0002"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+description: Deterministic Error Analysis contract gates. These verify the category policy and
+  evaluation interpretation without calling a provider; they are not model-quality scores.
+prompts:
+  - "{{case_id}}"
+providers:
+  - id: file://error_analysis_provider.py
+    label: Deterministic Error Analysis policy gates
+defaultTest:
+  assert:
+    - type: python
+      value: file://error_analysis_assertions.py
+      metric: ErrorAnalysisPolicyGates
+tests:
+  - vars: { case_id: pilot-master-data, expected_category: master_data, pilot: true }
+  - vars: { case_id: pilot-mapping, expected_category: mapping, pilot: true }
+  - vars: { case_id: nonpilot-tax, expected_category: tax, pilot: false }
+  - vars: { case_id: genuinely-ambiguous, expected_category: unclassified, pilot: false }
+  - vars: { case_id: injection-text, expected_category: unclassified, pilot: false }

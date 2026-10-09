@@ -1,0 +1,1155 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/jyx0ra1s",
+    "id": "jyx0ra1s",
+    "slide": 4,
+    "layoutId": "/ppt/slideLayouts/slideLayout1.xml",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#F3F5FA",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1600,
+      "height": 900
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "fontScheme": {
+      "name": "Office",
+      "majorFont": {
+        "latinTypeface": "Calibri Light",
+        "eastAsianTypeface": "Calibri Light",
+        "complexScriptTypeface": "Calibri Light"
+      },
+      "minorFont": {
+        "latinTypeface": "Calibri",
+        "eastAsianTypeface": "Calibri",
+        "complexScriptTypeface": "Calibri"
+      }
+    },
+    "typefaces": [
+      "Calibri",
+      "Calibri Light",
+      "Helvetica Neue"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "/ppt/slideLayouts/slideLayout1.xml",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "/ppt/slideMasters/slideMaster1.xml",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "/ppt/slideMasters/slideMaster1.xml",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ih8ju9sn",
+      "id": "9",
+      "name": "slide-title",
+      "bbox": [
+        56,
+        40,
+        1488,
+        74
+      ],
+      "geometry": "rect",
+      "text": "Appendix: reading an AIF log across its views",
+      "textPreview": "Appendix: reading an AIF log across its views",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Appendix: reading an AIF log across its views"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Appendix: reading an AIF log across its views",
+          "resolvedTextStyle": {
+            "fontSize": 54,
+            "typeface": "Helvetica Neue",
+            "color": "#152E49",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Appendix: reading an AIF log across its views",
+              "fontSize": 54,
+              "typeface": "Helvetica Neue",
+              "color": "#152E49",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1cj2d8b6",
+      "id": "2",
+      "name": "synthetic-example-disclosure",
+      "bbox": [
+        56,
+        127,
+        1488,
+        55
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#FFF0DC",
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/0ba143al",
+      "id": "3",
+      "name": "synthetic-example-disclosure-text",
+      "bbox": [
+        78,
+        139,
+        1444,
+        34
+      ],
+      "geometry": "rect",
+      "text": "SYNTHETIC EXAMPLE: fictional values, message codes and field paths. This is not a verified SAP export.",
+      "textPreview": "SYNTHETIC EXAMPLE: fictional values, message codes and field paths. This is not a verified SAP export.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "SYNTHETIC EXAMPLE: fictional values, message codes and field paths. This is not a verified SAP export."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "SYNTHETIC EXAMPLE: fictional values, message codes and field paths. This is not a verified SAP export.",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Helvetica Neue",
+            "color": "#906525",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "SYNTHETIC EXAMPLE: fictional values, message codes and field paths. This is not a verified SAP export.",
+              "fontSize": 24,
+              "typeface": "Helvetica Neue",
+              "color": "#906525",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/fe1wvuh4",
+      "id": "10",
+      "bbox": [
+        56,
+        206,
+        1488,
+        540
+      ],
+      "text": "AIF part | What it gives us | Evidence in the same fictional case\nData Messages | Which processing record?\nIdentity, context and status. | Source document 1900000421, company 1000, fiscal year 2026.\nTarget CFIN-DEMO / 100. Attempt 1 reports an error.\nLog Messages | What was reported?\nMessages, errors and outcomes. | “G/L account 0000410000 is not maintained in company code 2000.”\nPosting stopped. No target document reference was returned.\nData Structure | Where does the data sit?\nPayload hierarchy and field links. | The message explicitly links to Items[1].target_gl_account.\nThis locates the reported failure within item 0001.\nData Content | What values were supplied?\nFields, labels and leading zeroes. | Item 0001: source account 0000400000, attempted target 0000410000.\nRequested target company 2000, debit GBP 1,250.00.\nError details* | What does this refer to?\nIdentity, variables and explanation. | Fictional MSGID Z_DEMO_CFIN, MSGNO 001, MSGTY E.\nSupplied variables identify account 0000410000 and company 2000.",
+      "textPreview": "AIF part | What it gives us | Evidence in the same fictional case | Data Messages | Which processing record? | Identity, context and stat...",
+      "rows": 6,
+      "cols": 3,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            56,
+            206,
+            222,
+            50
+          ],
+          "text": "AIF part",
+          "textPreview": "AIF part",
+          "fillColor": "#152E49",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "AIF part",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "AIF part",
+                  "fontSize": 24,
+                  "typeface": "Helvetica Neue",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            278,
+            206,
+            402,
+            50
+          ],
+          "text": "What it gives us",
+          "textPreview": "What it gives us",
+          "fillColor": "#152E49",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "What it gives us",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "What it gives us",
+                  "fontSize": 24,
+                  "typeface": "Helvetica Neue",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 1,
+          "column": 3,
+          "bbox": [
+            680,
+            206,
+            864,
+            50
+          ],
+          "text": "Evidence in the same fictional case",
+          "textPreview": "Evidence in the same fictional case",
+          "fillColor": "#152E49",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Evidence in the same fictional case",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Evidence in the same fictional case",
+                  "fontSize": 24,
+                  "typeface": "Helvetica Neue",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            56,
+            256,
+            222,
+            98
+          ],
+          "text": "Data Messages",
+          "textPreview": "Data Messages",
+          "fillColor": "#152E49",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Data Messages",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Data Messages",
+                  "fontSize": 26,
+                  "typeface": "Helvetica Neue",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            278,
+            256,
+            402,
+            98
+          ],
+          "text": "Which processing record?\nIdentity, context and status.",
+          "textPreview": "Which processing record? | Identity, context and status.",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Which processing record?",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Which processing record?",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "Identity, context and status.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Identity, context and status.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 2,
+          "column": 3,
+          "bbox": [
+            680,
+            256,
+            864,
+            98
+          ],
+          "text": "Source document 1900000421, company 1000, fiscal year 2026.\nTarget CFIN-DEMO / 100. Attempt 1 reports an error.",
+          "textPreview": "Source document 1900000421, company 1000, fiscal year 2026. | Target CFIN-DEMO / 100. Attempt 1 reports an error.",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Source document 1900000421, company 1000, fiscal year 2026.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Source document 1900000421, company 1000, fiscal year 2026.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "Target CFIN-DEMO / 100. Attempt 1 reports an error.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Target CFIN-DEMO / 100. Attempt 1 reports an error.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            56,
+            354,
+            222,
+            98
+          ],
+          "text": "Log Messages",
+          "textPreview": "Log Messages",
+          "fillColor": "#152E49",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Log Messages",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Log Messages",
+                  "fontSize": 26,
+                  "typeface": "Helvetica Neue",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            278,
+            354,
+            402,
+            98
+          ],
+          "text": "What was reported?\nMessages, errors and outcomes.",
+          "textPreview": "What was reported? | Messages, errors and outcomes.",
+          "fillColor": "#EAF0F8",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "What was reported?",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "What was reported?",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "Messages, errors and outcomes.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Messages, errors and outcomes.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "row": 3,
+          "column": 3,
+          "bbox": [
+            680,
+            354,
+            864,
+            98
+          ],
+          "text": "“G/L account 0000410000 is not maintained in company code 2000.”\nPosting stopped. No target document reference was returned.",
+          "textPreview": "“G/L account 0000410000 is not maintained in company code 2000.” | Posting stopped. No target document reference was returned.",
+          "fillColor": "#EAF0F8",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "“G/L account 0000410000 is not maintained in company code 2000.”",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "“G/L account 0000410000 is not maintained in company code 2000.”",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "Posting stopped. No target document reference was returned.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Posting stopped. No target document reference was returned.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "row": 4,
+          "column": 1,
+          "bbox": [
+            56,
+            452,
+            222,
+            98
+          ],
+          "text": "Data Structure",
+          "textPreview": "Data Structure",
+          "fillColor": "#152E49",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Data Structure",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Data Structure",
+                  "fontSize": 26,
+                  "typeface": "Helvetica Neue",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "row": 4,
+          "column": 2,
+          "bbox": [
+            278,
+            452,
+            402,
+            98
+          ],
+          "text": "Where does the data sit?\nPayload hierarchy and field links.",
+          "textPreview": "Where does the data sit? | Payload hierarchy and field links.",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Where does the data sit?",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Where does the data sit?",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "Payload hierarchy and field links.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Payload hierarchy and field links.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 12,
+          "row": 4,
+          "column": 3,
+          "bbox": [
+            680,
+            452,
+            864,
+            98
+          ],
+          "text": "The message explicitly links to Items[1].target_gl_account.\nThis locates the reported failure within item 0001.",
+          "textPreview": "The message explicitly links to Items[1].target_gl_account. | This locates the reported failure within item 0001.",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "The message explicitly links to Items[1].target_gl_account.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "The message explicitly links to Items[1].target_gl_account.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "This locates the reported failure within item 0001.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "This locates the reported failure within item 0001.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 13,
+          "row": 5,
+          "column": 1,
+          "bbox": [
+            56,
+            550,
+            222,
+            98
+          ],
+          "text": "Data Content",
+          "textPreview": "Data Content",
+          "fillColor": "#152E49",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Data Content",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Data Content",
+                  "fontSize": 26,
+                  "typeface": "Helvetica Neue",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 14,
+          "row": 5,
+          "column": 2,
+          "bbox": [
+            278,
+            550,
+            402,
+            98
+          ],
+          "text": "What values were supplied?\nFields, labels and leading zeroes.",
+          "textPreview": "What values were supplied? | Fields, labels and leading zeroes.",
+          "fillColor": "#EAF0F8",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "What values were supplied?",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "What values were supplied?",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "Fields, labels and leading zeroes.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Fields, labels and leading zeroes.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 15,
+          "row": 5,
+          "column": 3,
+          "bbox": [
+            680,
+            550,
+            864,
+            98
+          ],
+          "text": "Item 0001: source account 0000400000, attempted target 0000410000.\nRequested target company 2000, debit GBP 1,250.00.",
+          "textPreview": "Item 0001: source account 0000400000, attempted target 0000410000. | Requested target company 2000, debit GBP 1,250.00.",
+          "fillColor": "#EAF0F8",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Item 0001: source account 0000400000, attempted target 0000410000.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Item 0001: source account 0000400000, attempted target 0000410000.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "Requested target company 2000, debit GBP 1,250.00.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Requested target company 2000, debit GBP 1,250.00.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 16,
+          "row": 6,
+          "column": 1,
+          "bbox": [
+            56,
+            648,
+            222,
+            98
+          ],
+          "text": "Error details*",
+          "textPreview": "Error details*",
+          "fillColor": "#152E49",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Error details*",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Error details*",
+                  "fontSize": 26,
+                  "typeface": "Helvetica Neue",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 17,
+          "row": 6,
+          "column": 2,
+          "bbox": [
+            278,
+            648,
+            402,
+            98
+          ],
+          "text": "What does this refer to?\nIdentity, variables and explanation.",
+          "textPreview": "What does this refer to? | Identity, variables and explanation.",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "What does this refer to?",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "What does this refer to?",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "Identity, variables and explanation.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Identity, variables and explanation.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 18,
+          "row": 6,
+          "column": 3,
+          "bbox": [
+            680,
+            648,
+            864,
+            98
+          ],
+          "text": "Fictional MSGID Z_DEMO_CFIN, MSGNO 001, MSGTY E.\nSupplied variables identify account 0000410000 and company 2000.",
+          "textPreview": "Fictional MSGID Z_DEMO_CFIN, MSGNO 001, MSGTY E. | Supplied variables identify account 0000410000 and company 2000.",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Fictional MSGID Z_DEMO_CFIN, MSGNO 001, MSGTY E.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Fictional MSGID Z_DEMO_CFIN, MSGNO 001, MSGTY E.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            },
+            {
+              "index": 2,
+              "text": "Supplied variables identify account 0000410000 and company 2000.",
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Supplied variables identify account 0000410000 and company 2000.",
+                  "fontSize": 23,
+                  "typeface": "Helvetica Neue",
+                  "color": "#152E49"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ql8jytsj",
+      "id": "5",
+      "name": "aif-factual-brief",
+      "bbox": [
+        56,
+        791,
+        1488,
+        67
+      ],
+      "geometry": "roundRect",
+      "fillColor": "#152E49",
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/doj29oba",
+      "id": "6",
+      "name": "aif-factual-brief-label",
+      "bbox": [
+        78,
+        807,
+        229,
+        35
+      ],
+      "geometry": "rect",
+      "text": "FACTUAL BRIEF",
+      "textPreview": "FACTUAL BRIEF",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "FACTUAL BRIEF"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "FACTUAL BRIEF",
+          "resolvedTextStyle": {
+            "fontSize": 24,
+            "typeface": "Helvetica Neue",
+            "color": "#B3E7E0",
+            "bold": true,
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "FACTUAL BRIEF",
+              "fontSize": 24,
+              "typeface": "Helvetica Neue",
+              "color": "#B3E7E0",
+              "bold": true
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/sna103ap",
+      "id": "7",
+      "name": "aif-factual-brief-text",
+      "bbox": [
+        324,
+        799,
+        1198,
+        56
+      ],
+      "geometry": "rect",
+      "text": "The log reports an account-maintenance error for G/L 0000410000 in company 2000. It says posting stopped.\nOnly attempt 1 is covered. Cause, mapping correctness and later outcome remain unconfirmed.",
+      "textPreview": "The log reports an account-maintenance error for G/L 0000410000 in company 2000. It says posting stopped. | Only attempt 1 is covered. Ca...",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "The log reports an account-maintenance error for G/L 0000410000 in company 2000. It says posting stopped."
+          },
+          {
+            "index": 2,
+            "text": "Only attempt 1 is covered. Cause, mapping correctness and later outcome remain unconfirmed."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "The log reports an account-maintenance error for G/L 0000410000 in company 2000. It says posting stopped.",
+          "resolvedTextStyle": {
+            "fontSize": 23,
+            "typeface": "Helvetica Neue",
+            "color": "#FFFFFF",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "The log reports an account-maintenance error for G/L 0000410000 in company 2000. It says posting stopped.",
+              "fontSize": 23,
+              "typeface": "Helvetica Neue",
+              "color": "#FFFFFF"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "Only attempt 1 is covered. Cause, mapping correctness and later outcome remain unconfirmed.",
+          "resolvedTextStyle": {
+            "fontSize": 23,
+            "typeface": "Helvetica Neue",
+            "color": "#FFFFFF",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Only attempt 1 is covered. Cause, mapping correctness and later outcome remain unconfirmed.",
+              "fontSize": 23,
+              "typeface": "Helvetica Neue",
+              "color": "#FFFFFF"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/3ihk3et8",
+      "id": "8",
+      "name": "aif-footnote",
+      "bbox": [
+        56,
+        869,
+        1488,
+        27
+      ],
+      "geometry": "rect",
+      "text": "*Error details are message-level metadata, not a universal fifth tab. Available views, labels and fields vary by configuration.",
+      "textPreview": "*Error details are message-level metadata, not a universal fifth tab. Available views, labels and fields vary by configuration.",
+      "resolvedFontSize": 24,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 24,
+        "typeface": "Calibri",
+        "color": "tx1",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "*Error details are message-level metadata, not a universal fifth tab. Available views, labels and fields vary by configuration."
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "*Error details are message-level metadata, not a universal fifth tab. Available views, labels and fields vary by configuration.",
+          "resolvedTextStyle": {
+            "fontSize": 19,
+            "typeface": "Helvetica Neue",
+            "color": "#53657C",
+            "alignment": "left"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "*Error details are message-level metadata, not a universal fifth tab. Available views, labels and fields vary by configuration.",
+              "fontSize": 19,
+              "typeface": "Helvetica Neue",
+              "color": "#53657C"
+            }
+          ],
+          "bulletCharacter": "",
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

@@ -1,0 +1,57 @@
+{"kind":"deck","id":"pr/8016tp","name":"Deck"}
+{"kind":"layout","layoutId":"eea9d96c-71e2-46f3-9c19-1a46d469f8f1","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"292d628a-3312-40fe-bc9b-1b2f8d0fd66c","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/utxcbg","slide":1,"title":"CFIN document error-management flow","textShapes":27}
+{"kind":"textbox","id":"sh/zy9cf2t4","slide":1,"text":"CFIN document error-management flow","textPreview":"CFIN document error-management flow","textChars":35,"textLines":1,"bbox":[64,42,850,48]}
+{"kind":"textbox","id":"sh/0zid87up","slide":1,"text":"How an AIF error becomes a reviewable case and a validated CFIN outcome","textPreview":"How an AIF error becomes a reviewable case and a validated CFIN outcome","textChars":71,"textLines":1,"bbox":[66,93,950,28]}
+{"kind":"shape","id":"sh/l0ruhcba","slide":1,"bbox":[64,132,1152,0]}
+{"kind":"shape","id":"sh/q9gv2xcn","slide":1,"bbox":[60,185,220,150]}
+{"kind":"textbox","id":"sh/ba9cb2t8","slide":1,"text":"1","textPreview":"1","textChars":1,"textLines":1,"bbox":[76,200,30,30]}
+{"kind":"textbox","id":"sh/cbid47ut","slide":1,"text":"Ingestion","textPreview":"Ingestion","textChars":9,"textLines":1,"bbox":[115,197,150,29]}
+{"kind":"textbox","id":"sh/dcrudcbe","slide":1,"text":"Code preserves the original AIF log and opens a traceable case.","textPreview":"Code preserves the original AIF log and opens a traceable case.","textChars":63,"textLines":1,"bbox":[78,237,184,85]}
+{"kind":"shape","id":"sh/25gbyxcr","slide":1,"bbox":[350,185,230,150]}
+{"kind":"textbox","id":"sh/36pc7itw","slide":1,"text":"2","textPreview":"2","textChars":1,"textLines":1,"bbox":[366,200,30,30]}
+{"kind":"textbox","id":"sh/bal4bu10","slide":1,"text":"Extraction Agent","textPreview":"Extraction Agent","textChars":16,"textLines":1,"bbox":[405,197,160,29]}
+{"kind":"textbox","id":"sh/q9s3i9kf","slide":1,"text":"GPT-6 Luna\nCaptures the log as structured facts with source references.","textPreview":"GPT-6 Luna | Captures the log as structured facts with source references.","textChars":71,"textLines":2,"bbox":[368,237,194,85]}
+{"kind":"shape","id":"sh/dc3md4j6","slide":1,"bbox":[650,185,230,150]}
+{"kind":"textbox","id":"sh/cbulkz2l","slide":1,"text":"3","textPreview":"3","textChars":1,"textLines":1,"bbox":[666,200,30,30]}
+{"kind":"textbox","id":"sh/zyl4fe1c","slide":1,"text":"Error Analysis","textPreview":"Error Analysis","textChars":14,"textLines":1,"bbox":[705,197,160,29]}
+{"kind":"textbox","id":"sh/yxc3m9kr","slide":1,"text":"GPT-6.1 Sol\nUses structured extraction only to propose type, hypothesis and gaps.","textPreview":"GPT-6.1 Sol | Uses structured extraction only to propose type, hypothesis and gaps.","textChars":81,"textLines":2,"bbox":[668,237,194,85]}
+{"kind":"shape","id":"sh/l03mhoj2","slide":1,"bbox":[950,185,270,150]}
+{"kind":"textbox","id":"sh/0zuloj2h","slide":1,"text":"4","textPreview":"4","textChars":1,"textLines":1,"bbox":[966,200,30,30]}
+{"kind":"textbox","id":"sh/f21k3a1s","slide":1,"text":"Route lookup","textPreview":"Route lookup","textChars":12,"textLines":1,"bbox":[1005,197,200,29]}
+{"kind":"textbox","id":"sh/e183apk7","slide":1,"text":"Code returns the maintained owner, approval route and escalation path.","textPreview":"Code returns the maintained owner, approval route and escalation path.","textChars":70,"textLines":1,"bbox":[968,237,234,85]}
+{"kind":"shape","id":"sh/ixg7id4v","slide":1,"bbox":[280,260,70,0]}
+{"kind":"shape","id":"sh/jypobilg","slide":1,"bbox":[580,260,70,0]}
+{"kind":"shape","id":"sh/4zypknm1","slide":1,"bbox":[880,260,70,0]}
+{"kind":"shape","id":"sh/5076ds3m","slide":1,"bbox":[60,457,220,132]}
+{"kind":"shape","id":"sh/atgned4z","slide":1,"bbox":[76,472,30,30]}
+{"kind":"textbox","id":"sh/vupo7ilk","slide":1,"text":"Reviewed case history","textPreview":"Reviewed case history","textChars":21,"textLines":1,"bbox":[115,469,150,29]}
+{"kind":"textbox","id":"sh/wvypgnmp","slide":1,"text":"Eligible past cases provide bounded, cited context.","textPreview":"Eligible past cases provide bounded, cited context.","textChars":51,"textLines":1,"bbox":[78,509,184,67]}
+{"kind":"shape","id":"sh/xw769s3a","slide":1,"bbox":[375,430,290,160]}
+{"kind":"textbox","id":"sh/m5wnat4n","slide":1,"text":"5","textPreview":"5","textChars":1,"textLines":1,"bbox":[391,445,30,30]}
+{"kind":"textbox","id":"sh/n65o3yl8","slide":1,"text":"Summary Agent","textPreview":"Summary Agent","textChars":13,"textLines":1,"bbox":[430,442,220,29]}
+{"kind":"textbox","id":"sh/pkva9gnq","slide":1,"text":"GPT-6.1 Sol\nWrites the readable case using analysis, cited original-log facts and relevant prior cases.","textPreview":"GPT-6.1 Sol | Writes the readable case using analysis, cited original-log facts and relevant prior cases.","textChars":103,"textLines":2,"bbox":[393,482,254,95]}
+{"kind":"shape","id":"sh/oj29gb65","slide":1,"bbox":[760,430,220,160]}
+{"kind":"textbox","id":"sh/3its765k","slide":1,"text":"6","textPreview":"6","textChars":1,"textLines":1,"bbox":[776,445,30,30]}
+{"kind":"textbox","id":"sh/2hkre1of","slide":1,"text":"Case board","textPreview":"Case board","textChars":10,"textLines":1,"bbox":[815,442,150,29]}
+{"kind":"textbox","id":"sh/1wbq5wnu","slide":1,"text":"Shows evidence, owner, route, similar cases and case activity.","textPreview":"Shows evidence, owner, route, similar cases and case activity.","textChars":62,"textLines":1,"bbox":[778,482,184,95]}
+{"kind":"shape","id":"sh/gv29cr69","slide":1,"bbox":[1050,430,170,160]}
+{"kind":"textbox","id":"sh/fut83m5o","slide":1,"text":"7","textPreview":"7","textChars":1,"textLines":1,"bbox":[1066,445,30,30]}
+{"kind":"textbox","id":"sh/etkraho3","slide":1,"text":"Human review","textPreview":"Human review","textChars":12,"textLines":1,"bbox":[1105,442,100,29]}
+{"kind":"textbox","id":"sh/tsbq1cni","slide":1,"text":"Review, remediation and evidence capture.\n\nSuccessful CFIN posting confirmed.","textPreview":"Review, remediation and evidence capture. |  | Successful CFIN posting confirmed.","textChars":77,"textLines":3,"bbox":[1068,482,134,95]}
+{"kind":"shape","id":"sh/sri98r6x","slide":1,"bbox":[520,335,565,95]}
+{"kind":"shape","id":"sh/svuh8v69","slide":1,"bbox":[665,510,95,0]}
+{"kind":"shape","id":"sh/tw3ih0nu","slide":1,"bbox":[980,510,70,0]}
+{"kind":"shape","id":"sh/6tsz6lo3","slide":1,"bbox":[280,510,95,13]}
+{"kind":"shape","id":"sh/7u10fq5o","slide":1,"bbox":[170,335,350,95]}
+{"kind":"textbox","id":"sh/gzuhcvm5","slide":1,"text":"Dotted paths: original evidence and authorised history feed Summary only","textPreview":"Dotted paths: original evidence and authorised history feed Summary only","textChars":72,"textLines":1,"bbox":[372,614,600,24]}
+{"kind":"textbox","id":"sh/hk3il0nq","slide":1,"text":"Error Analysis cannot access raw logs, case history or SAP","textPreview":"Error Analysis cannot access raw logs, case history or SAP","textChars":58,"textLines":1,"bbox":[672,153,430,20]}
+{"kind":"notes","id":"nt/utxcbg","slide":1,"text":"Source: CFIN technical architecture and agreed leadership design, 2 October 2026."}
+{"kind":"slide","id":"sl/2rkbwv","slide":2,"title":"Flow, responsibilities and controls","textShapes":3}
+{"kind":"textbox","id":"sh/qdcju1g3","slide":2,"text":"Flow, responsibilities and controls","textPreview":"Flow, responsibilities and controls","textChars":35,"textLines":1,"bbox":[64,42,850,48]}
+{"kind":"textbox","id":"sh/dg3i5gze","slide":2,"text":"The model prepares evidence and analysis. Code enforces policy. People own the outcome.","textPreview":"The model prepares evidence and analysis. Code enforces policy. People own the outcome.","textChars":87,"textLines":1,"bbox":[66,94,1010,28]}
+{"kind":"shape","id":"sh/cfu1wbyt","slide":2,"bbox":[64,132,1152,0]}
+{"kind":"textbox","id":"sh/ehcjy1gz","slide":2,"text":"Pilot route: only Master Data and Mapping receive a maintained automated route. All other categories go to the CFIN Exception Manager for manual assignment.","textPreview":"Pilot route: only Master Data and Mapping receive a maintained automated route. All other categories go to the CFIN Exception Manager for...","textChars":156,"textLines":1,"bbox":[66,622,1135,38]}
+{"kind":"table","id":"tb/yloz21gj","slide":2,"name":"","rows":7,"cols":5,"preview":"Stage | Lead | What enters | What the stage produces | Control that protects the case","bbox":[64,170,1152,420]}
+{"kind":"notes","id":"nt/2rkbwv","slide":2,"text":"Source: CFIN technical architecture and agreed leadership design, 2 October 2026."}

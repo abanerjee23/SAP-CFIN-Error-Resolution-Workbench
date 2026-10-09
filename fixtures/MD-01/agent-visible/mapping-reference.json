@@ -1,0 +1,78 @@
+{
+  "synthetic": true,
+  "source_id": "MD01-mapping",
+  "source_version": "1",
+  "kind": "records",
+  "observed_at": "2026-09-30T09:00:00Z",
+  "attempt_id": null,
+  "provenance": "Authored fictional applicable mapping reference for the failure-time snapshot. Its approval is required and has not occurred.",
+  "owner_role": "Demo Mapping Owner",
+  "review": {
+    "reuse_status": "pending_review",
+    "approved_version": null,
+    "reviewer": null,
+    "reviewed_at": null,
+    "review_rationale": null,
+    "effective_from": "2026-09-01",
+    "review_due": "2026-12-30",
+    "expires_on": "2027-03-31",
+    "withdrawn_at": null,
+    "approval_required": true,
+    "approval_note": "Generated synthetic draft. An actual authenticated reviewer must approve this exact version and scope; no human approval has been recorded."
+  },
+  "query_scope": {
+    "source_system": "ERP-DEMO",
+    "source_client": "010",
+    "source_company_code": "0010",
+    "target_system": "CFIN-DEMO",
+    "target_client": "100",
+    "company_code": "0010",
+    "chart_of_accounts": "SYN1",
+    "interface": "DEMO_CFIN_GL"
+  },
+  "scope_complete": true,
+  "state": "found",
+  "records": [
+    {
+      "record_id": "mapping-0001",
+      "source_account": "0000400000",
+      "target_account": "0041001000",
+      "effective_from": "2026-09-01",
+      "expires_on": "2027-03-31",
+      "posting_date_in_scope": "2026-09-30",
+      "scope": {
+        "source_system": "ERP-DEMO",
+        "source_client": "010",
+        "source_company_code": "0010",
+        "target_system": "CFIN-DEMO",
+        "target_client": "100",
+        "company_code": "0010",
+        "chart_of_accounts": "SYN1",
+        "interface": "DEMO_CFIN_GL"
+      }
+    },
+    {
+      "record_id": "mapping-0002",
+      "source_account": "0000200000",
+      "target_account": "0021000000",
+      "effective_from": "2026-09-01",
+      "expires_on": "2027-03-31",
+      "posting_date_in_scope": "2026-09-30",
+      "scope": {
+        "source_system": "ERP-DEMO",
+        "source_client": "010",
+        "source_company_code": "0010",
+        "target_system": "CFIN-DEMO",
+        "target_client": "100",
+        "company_code": "0010",
+        "chart_of_accounts": "SYN1",
+        "interface": "DEMO_CFIN_GL"
+      }
+    }
+  ],
+  "limitations": [
+    "A found draft row is not an approved intended target.",
+    "Applicability is limited to the supplied fictional source and target scope and date.",
+    "No customer policy or real SAP configuration is asserted."
+  ]
+}

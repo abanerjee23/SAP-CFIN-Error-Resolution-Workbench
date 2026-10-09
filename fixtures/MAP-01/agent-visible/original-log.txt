@@ -1,0 +1,17 @@
+SYNTHETIC FIXTURE — MAP-01; fictional application log, not an SAP export.
+No SAP release, message class, message number, or product-specific interface semantics are asserted.
+2026-09-30T09:00:00Z | attempt_id=MAP01-0001 | processing_order=1 | event=replication_started
+source_system=ERP-DEMO | source_client=010 | source_company_code=0010
+fiscal_year=2026 | document_number=0000123457 | source_status=posted
+source_posting_date=2026-09-30 | source_posted_at=2026-09-30T08:45:00Z
+target_system=CFIN-DEMO | target_client=100 | target_company_code=0010
+interface=DEMO_CFIN_GL | target_chart_of_accounts=SYN1
+source_line=0001 | source_account=0000400000 | debit=1250.00 | credit=0.00 | currency=GBP
+source_line=0002 | source_account=0000200000 | debit=0.00 | credit=1250.00 | currency=GBP
+2026-09-30T09:00:00Z | synthetic_message_id=DEMO_GL_LOOKUP_FAILURE | severity=error
+2026-09-30T09:00:00Z | ERROR | No applicable source-to-target mapping for source G/L account 0000400000 in company 0010.
+Requested posting company code: 0010. Requested target line: 0001.
+2026-09-30T09:00:00Z | synthetic_message_id=DEMO_POSTING_STOPPED | severity=error
+Target posting stopped for this attempt; no target document reference was returned.
+2026-09-30T09:00:00Z | event=replication_finished | result=failed
+Evidence is limited to this attempt. Error wording alone does not establish an approved diagnosis.

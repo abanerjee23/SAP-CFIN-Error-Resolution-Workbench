@@ -1,0 +1,50 @@
+{
+  "synthetic": true,
+  "source_id": "MAP01-source-posting",
+  "source_version": "1",
+  "kind": "records",
+  "observed_at": "2026-09-30T08:45:01Z",
+  "attempt_id": "MAP01-0001",
+  "provenance": "Authored fictional source business-record snapshot. No live SAP lookup was performed.",
+  "identity": {
+    "workspace_id": "synthetic-cfin-demo",
+    "source_system": "ERP-DEMO",
+    "source_client": "010",
+    "source_company_code": "0010",
+    "fiscal_year": "2026",
+    "document_number": "0000123457",
+    "target_system": "CFIN-DEMO",
+    "target_client": "100",
+    "interface": "DEMO_CFIN_GL"
+  },
+  "records": [
+    {
+      "record_id": "source-header",
+      "posting_status": "posted",
+      "posted_at": "2026-09-30T08:45:00Z",
+      "posting_date": "2026-09-30",
+      "currency": "GBP",
+      "debit_total": "1250.00",
+      "credit_total": "1250.00",
+      "source_document_number": "0000123457",
+      "source_company_code": "0010",
+      "fiscal_year": "2026"
+    },
+    {
+      "record_id": "source-line-0001",
+      "line_number": "0001",
+      "source_account": "0000400000",
+      "debit": "1250.00",
+      "credit": "0.00",
+      "currency": "GBP"
+    },
+    {
+      "record_id": "source-line-0002",
+      "line_number": "0002",
+      "source_account": "0000200000",
+      "debit": "0.00",
+      "credit": "1250.00",
+      "currency": "GBP"
+    }
+  ]
+}

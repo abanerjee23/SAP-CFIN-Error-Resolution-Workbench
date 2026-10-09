@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "railway": "3.12.0"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  },
+  "name": "cfin-railway-config",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit && node --import tsx validate.mjs"
+  }
+}

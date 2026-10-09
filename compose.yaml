@@ -1,0 +1,27 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.backend
+    # LOG_ONLY_ENABLED defaults false in backend/.env.example; set true only after target migration verification.
+    env_file: backend/.env
+    ports: ["8000:8000"]
+    restart: unless-stopped
+  worker:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.backend
+    command: ["python", "-m", "cfin.worker"]
+    # LOG_ONLY_ENABLED defaults false in backend/.env.example; set true only after target migration verification.
+    env_file: backend/.env
+    restart: unless-stopped
+  web:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.frontend
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+        NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY}
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+    ports: ["3000:3000"]
+    restart: unless-stopped

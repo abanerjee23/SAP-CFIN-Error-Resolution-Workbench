@@ -1,0 +1,153 @@
+[
+  {
+    "lookup_id": "md01-required-chart-account",
+    "state": "confirmed_absent",
+    "query_scope": {
+      "target_system": "CFIN-DEMO",
+      "target_client": "100",
+      "company_code": "0010",
+      "target_account": "0041001000",
+      "missing_component": "chart_account",
+      "chart_of_accounts": "SYN1"
+    },
+    "scope_complete": true,
+    "records": [],
+    "source": {
+      "source_id": "MD01-target-master-snapshot",
+      "source_version": "1",
+      "kind": "records",
+      "observed_at": "2026-09-30T09:00:00Z",
+      "attempt_id": "MD01-0001",
+      "synthetic": true,
+      "record_ids": [
+        "lookup-required-chart-complete"
+      ]
+    },
+    "citations": [
+      {
+        "source_id": "MD01-target-master-snapshot",
+        "source_version": "1",
+        "attempt_id": "MD01-0001",
+        "record_id": "lookup-required-chart-complete"
+      }
+    ],
+    "detail": "Completed exact-key query over the full fictional snapshot for this scope. Zero rows returned. The citation identifies the query-completion audit record, not an invented account row."
+  },
+  {
+    "lookup_id": "md01-required-company-extension",
+    "state": "confirmed_absent",
+    "query_scope": {
+      "target_system": "CFIN-DEMO",
+      "target_client": "100",
+      "company_code": "0010",
+      "target_account": "0041001000",
+      "missing_component": "company_code_extension",
+      "chart_of_accounts": "SYN1"
+    },
+    "scope_complete": true,
+    "records": [],
+    "source": {
+      "source_id": "MD01-target-master-snapshot",
+      "source_version": "1",
+      "kind": "records",
+      "observed_at": "2026-09-30T09:00:00Z",
+      "attempt_id": "MD01-0001",
+      "synthetic": true,
+      "record_ids": [
+        "lookup-required-extension-complete"
+      ]
+    },
+    "citations": [
+      {
+        "source_id": "MD01-target-master-snapshot",
+        "source_version": "1",
+        "attempt_id": "MD01-0001",
+        "record_id": "lookup-required-extension-complete"
+      }
+    ],
+    "detail": "Completed exact-key query over the full fictional snapshot for this scope. Zero rows returned. The citation identifies the query-completion audit record, not an invented account row."
+  },
+  {
+    "lookup_id": "md01-counterpart-chart-account",
+    "state": "found",
+    "query_scope": {
+      "target_system": "CFIN-DEMO",
+      "target_client": "100",
+      "company_code": "0010",
+      "target_account": "0021000000",
+      "missing_component": "chart_account",
+      "chart_of_accounts": "SYN1"
+    },
+    "scope_complete": true,
+    "records": [
+      {
+        "record_id": "counterpart-chart-account",
+        "chart_of_accounts": "SYN1",
+        "target_account": "0021000000",
+        "posting_blocked": false
+      }
+    ],
+    "source": {
+      "source_id": "MD01-target-master-snapshot",
+      "source_version": "1",
+      "kind": "records",
+      "observed_at": "2026-09-30T09:00:00Z",
+      "attempt_id": "MD01-0001",
+      "synthetic": true,
+      "record_ids": [
+        "counterpart-chart-account"
+      ]
+    },
+    "citations": [
+      {
+        "source_id": "MD01-target-master-snapshot",
+        "source_version": "1",
+        "attempt_id": "MD01-0001",
+        "record_id": "counterpart-chart-account"
+      }
+    ],
+    "detail": "Completed exact-key query over the full fictional snapshot for this scope. One matching record returned."
+  },
+  {
+    "lookup_id": "md01-counterpart-company-extension",
+    "state": "found",
+    "query_scope": {
+      "target_system": "CFIN-DEMO",
+      "target_client": "100",
+      "company_code": "0010",
+      "target_account": "0021000000",
+      "missing_component": "company_code_extension",
+      "chart_of_accounts": "SYN1"
+    },
+    "scope_complete": true,
+    "records": [
+      {
+        "record_id": "counterpart-company-extension",
+        "chart_of_accounts": "SYN1",
+        "company_code": "0010",
+        "target_account": "0021000000",
+        "posting_blocked": false
+      }
+    ],
+    "source": {
+      "source_id": "MD01-target-master-snapshot",
+      "source_version": "1",
+      "kind": "records",
+      "observed_at": "2026-09-30T09:00:00Z",
+      "attempt_id": "MD01-0001",
+      "synthetic": true,
+      "record_ids": [
+        "counterpart-company-extension"
+      ]
+    },
+    "citations": [
+      {
+        "source_id": "MD01-target-master-snapshot",
+        "source_version": "1",
+        "attempt_id": "MD01-0001",
+        "record_id": "counterpart-company-extension"
+      }
+    ],
+    "detail": "Completed exact-key query over the full fictional snapshot for this scope. One matching record returned."
+  }
+]

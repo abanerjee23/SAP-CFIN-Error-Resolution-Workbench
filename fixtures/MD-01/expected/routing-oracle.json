@@ -1,0 +1,141 @@
+{
+  "synthetic": true,
+  "oracle_only": true,
+  "scenario_id": "MD-01",
+  "fixture_version": "1",
+  "provenance": "Software consistency expectations for this curated fixture, not an evaluated quality score. Not agent input or searchable history.",
+  "as_shipped": {
+    "mapping_status": "pending_review",
+    "guidance_status": "pending_review",
+    "diagnosis_status": "needs_review",
+    "primary_category": "cause_not_established",
+    "supported_causes": [],
+    "candidate_cause": "missing_target_gl_master_data",
+    "required_missing_checks": [
+      "approved_mapping_identifies_target"
+    ],
+    "agent_3_called": false,
+    "flags": [
+      "Cause not established",
+      "Guidance unavailable",
+      "Owner assignment required"
+    ],
+    "owner": null,
+    "priority": "P2",
+    "resolved": false,
+    "validation": "pending",
+    "reason": "Failure-time evidence is coherent, but the intended target is not yet established by an approved mapping and the guidance has no actual approval."
+  },
+  "after_actual_mapping_approval_only": {
+    "preconditions": [
+      "Actual authorised human review approves exact MD01-mapping version 1 and its scope; version remains applicable, accessible and not withdrawn.",
+      "Current failure-time records/citations remain valid and no material contradiction is introduced."
+    ],
+    "diagnosis_status": "ai_supported",
+    "primary_category": "missing_target_gl_master_data",
+    "supported_causes": [
+      "missing_target_gl_master_data"
+    ],
+    "missing_component": "chart_account",
+    "target_account": "0041001000",
+    "company_code": "0010",
+    "chart_of_accounts": "SYN1",
+    "agent_3_called": false,
+    "flags": [
+      "Guidance unavailable",
+      "Owner assignment required"
+    ],
+    "reason": "Completed failure-time lookup confirms the approved intended chart account absent; playbook is still Pending review.",
+    "primary_category_label": "Master data missing"
+  },
+  "after_actual_mapping_and_playbook_approval": {
+    "preconditions": [
+      "Actual authorised reviewer records approval of exact applicable mapping version 1 and SYN-MD-GL-001 version 1.",
+      "Approval includes actual reviewer, time, version, scope and rationale; no fictional independent approval is substituted.",
+      "Versions are accessible, effective, not expired, not withdrawn and have no conflicting applicable rules.",
+      "Known identity/attempt, complete negative target lookup and no unresolved material contradiction remain."
+    ],
+    "diagnosis_status": "ai_supported",
+    "primary_category": "missing_target_gl_master_data",
+    "supported_causes": [
+      "missing_target_gl_master_data"
+    ],
+    "affected_object": "gl_account",
+    "agent_3_called": true,
+    "priority": "P2",
+    "owner": null,
+    "owner_reason": "Role labels alone do not configure a unique active authenticated owner. Missing ownership does not suppress an otherwise eligible brief.",
+    "brief_requires_unmet_prerequisites": [
+      "human diagnosis confirmation",
+      "target-change authority and approved attributes",
+      "configured owner and designated validator"
+    ],
+    "must_not_claim": [
+      "human-confirmed cause",
+      "approvals already granted for a target change",
+      "correction performed",
+      "Resolved",
+      "knowledge approved for reuse"
+    ],
+    "primary_category_label": "Master data missing"
+  },
+  "evidence_trace": [
+    {
+      "fact": "Source is already posted and balanced in GBP",
+      "source_id": "MD01-source-posting",
+      "source_version": "1",
+      "record_ids": [
+        "source-header",
+        "source-line-0001",
+        "source-line-0002"
+      ]
+    },
+    {
+      "fact": "Candidate applicable mapping contains intended target rather than a missing mapping row; its approval is pending",
+      "source_id": "MD01-mapping",
+      "source_version": "1",
+      "record_ids": [
+        "mapping-0001",
+        "mapping-0002"
+      ]
+    },
+    {
+      "fact": "Required chart account and company extension are absent at the failed attempt time",
+      "source_id": "MD01-target-master-snapshot",
+      "source_version": "1",
+      "record_ids": [
+        "lookup-required-chart-complete",
+        "lookup-required-extension-complete"
+      ]
+    },
+    {
+      "fact": "Counterpart account/extension exist in the same fictional failure-time scope",
+      "source_id": "MD01-target-master-snapshot",
+      "source_version": "1",
+      "record_ids": [
+        "counterpart-chart-account",
+        "counterpart-company-extension"
+      ]
+    }
+  ],
+  "future_successful_journey": {
+    "preconditions": [
+      "Every planned human action is actually recorded by an authorised authenticated actor.",
+      "Proof uploads persist successfully and humans explicitly confirm relevance/accuracy.",
+      "Latest applicable attempt is MD01-0002 with known order 2 and successful result.",
+      "Designated human validator records Passed for MD01-0002 using expected-versus-observed checks.",
+      "Complete resolution record has actual resolver/time, cause or honest gaps, evidence, correction, scope/limitations and outcome/proof.",
+      "No unreviewed later failure exists."
+    ],
+    "lifecycle_status": "document_reprocessed",
+    "validation": "passed",
+    "derived_resolved": true,
+    "knowledge_reuse_status": "pending_review",
+    "must_not_do": [
+      "Infer human action or approval from any prepared synthetic asset.",
+      "Use the earlier failure-time snapshot as correction proof.",
+      "Use MD01-0002 success or validation to satisfy a later attempt.",
+      "Publish new historical knowledge without the required review and deferred evaluation gate."
+    ]
+  }
+}

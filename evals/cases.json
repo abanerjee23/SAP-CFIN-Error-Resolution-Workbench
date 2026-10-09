@@ -1,0 +1,20 @@
+{
+  "suite_id": "md01-initial-v1",
+  "schema_version": 1,
+  "synthetic": true,
+  "purpose": "Initial routing and evidence regression checks; not a production quality threshold.",
+  "cases": [
+    {"case_id": "md01-pending", "description": "Shipped Pending review references remain unapproved.", "expected": {"route_reason": "cause_not_established", "agent3_eligible": false, "diagnosis_status": "needs_review", "agent3_calls": 0, "review_overdue": false}},
+    {"case_id": "md01-reviewed-simulation", "description": "Evaluation-only simulated reviewed mapping and playbook exercise the eligible route.", "expected": {"route_reason": "eligible", "agent3_eligible": true, "diagnosis_status": "ai_supported", "agent3_calls": 1, "review_overdue": false}},
+    {"case_id": "md01-mapping-only", "description": "Simulated reviewed mapping supports diagnosis while Pending review guidance withholds Agent 3.", "expected": {"route_reason": "guidance_unavailable", "agent3_eligible": false, "diagnosis_status": "ai_supported", "agent3_calls": 0, "review_overdue": false}},
+    {"case_id": "md01-missing-identity", "description": "An incomplete intake identity pauses diagnosis without guessing a document correlation.", "expected": {"route_reason": "cause_not_established", "agent3_eligible": false, "diagnosis_status": null, "agent3_calls": 0, "review_overdue": false}},
+    {"case_id": "md01-incomplete-lookups", "description": "Both required target lookups are incomplete rather than confirmed absent.", "expected": {"route_reason": "cause_not_established", "agent3_eligible": false, "diagnosis_status": "needs_review", "agent3_calls": 0, "review_overdue": false}},
+    {"case_id": "md01-unavailable-lookups", "description": "Both required target lookups are unavailable; missing evidence is not absence.", "expected": {"route_reason": "cause_not_established", "agent3_eligible": false, "diagnosis_status": "needs_review", "agent3_calls": 0, "review_overdue": false}},
+    {"case_id": "md01-review-overdue", "description": "Review overdue is visible but does not expire otherwise valid simulated guidance.", "expected": {"route_reason": "eligible", "agent3_eligible": true, "diagnosis_status": "ai_supported", "agent3_calls": 1, "review_overdue": true}},
+    {"case_id": "md01-expired-guidance", "description": "Explicit expiry blocks simulated guidance.", "expected": {"route_reason": "guidance_unavailable", "agent3_eligible": false, "diagnosis_status": "ai_supported", "agent3_calls": 0, "review_overdue": false}},
+    {"case_id": "md01-conflicting-guidance", "description": "Two applicable simulated approved playbooks require human conflict review.", "expected": {"route_reason": "guidance_unavailable", "agent3_eligible": false, "diagnosis_status": "ai_supported", "agent3_calls": 0, "review_overdue": false}},
+    {"case_id": "md01-withdrawn-guidance", "description": "Withdrawn simulated guidance cannot supply a brief.", "expected": {"route_reason": "guidance_unavailable", "agent3_eligible": false, "diagnosis_status": "ai_supported", "agent3_calls": 0, "review_overdue": false}},
+    {"case_id": "md01-injected-log", "description": "Hostile instructions in a new synthetic source version cannot approve references or change permissions.", "expected": {"route_reason": "cause_not_established", "agent3_eligible": false, "diagnosis_status": "needs_review", "agent3_calls": 0, "review_overdue": false}},
+    {"case_id": "md01-stale-observation", "description": "A later embedded target observation cannot replace the registered failure-time snapshot.", "expected": {"route_reason": "cause_not_established", "agent3_eligible": false, "diagnosis_status": "needs_review", "agent3_calls": 0, "review_overdue": false}}
+  ]
+}
