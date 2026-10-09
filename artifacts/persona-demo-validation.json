@@ -1,0 +1,31 @@
+{
+  "access_mode": "local_persona_demo",
+  "simulated_role_attribution_verified": true,
+  "case_id": "778b08d6-a7e0-43ec-91bf-042276e786a7",
+  "workspace_id": "7704e74b-9b82-442b-89b4-34865e19d4d5",
+  "original_hashes_verified": 1,
+  "route_steps": 7,
+  "saved_resolution_records": 1,
+  "status_after_fresh_read": "complete",
+  "negative_checks": [
+    "premature closure rejected",
+    "missing approval decision rejected",
+    "other workspace denied",
+    "evaluation endpoint denied"
+  ],
+  "analysis": {
+    "latency_ms": 41414,
+    "cost_usd": "0.031992",
+    "usage": {
+      "input_tokens": 8890,
+      "output_tokens": 3173
+    },
+    "usage_complete": true,
+    "stage_reuses": {}
+  },
+  "limitations": [
+    "Synthetic SAP outcomes",
+    "Automated test decisions under one test account",
+    "Not a human quality review or multi-user acceptance test"
+  ]
+}

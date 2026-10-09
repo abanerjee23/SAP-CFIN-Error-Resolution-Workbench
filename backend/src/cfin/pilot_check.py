@@ -19,11 +19,27 @@ from cfin.config import Settings
 from cfin.integration_check import existing_user_session
 
 
-async def check(api_url: str, workspace_id: UUID, actor_id: UUID, case_id: UUID) -> dict:
+async def check(
+    api_url: str,
+    workspace_id: UUID,
+    actor_id: UUID | None,
+    case_id: UUID,
+    *,
+    demo_origin: str | None = None,
+) -> dict:
     async with httpx.AsyncClient(timeout=45) as client:
-        session = await existing_user_session(Settings(), client, actor_id)
-        headers = {"Authorization": "Bearer " + session.access_token.get_secret_value()}
         base = api_url.rstrip("/")
+        if demo_origin:
+            response = await client.post(
+                base + "/api/demo/session", headers={"Origin": demo_origin}
+            )
+            response.raise_for_status()
+            headers = {"Authorization": "Bearer " + response.json()["token"], "Origin": demo_origin}
+        else:
+            if actor_id is None:
+                raise ValueError("An existing test account is required outside local demo mode")
+            session = await existing_user_session(Settings(), client, actor_id)
+            headers = {"Authorization": "Bearer " + session.access_token.get_secret_value()}
 
         async def request(method, path, *, body=None, expected=200):
             response = await client.request(method, base + path, headers=headers, json=body)
@@ -162,7 +178,17 @@ async def check(api_url: str, workspace_id: UUID, actor_id: UUID, case_id: UUID)
         assert reloaded["case"]["status"] == "complete"
         assert len(reloaded["route_milestones"]) == 7
         assert len(reloaded["resolution_records"]) == 1
+        if demo_origin:
+            events = [
+                a
+                for a in reloaded["activity"]
+                if a["event_type"] in ("route_step_recorded", "case_finish_resolution")
+            ]
+            assert len(events) == 8
+            assert all(a["reason"].startswith("[Simulated demo persona:") for a in events)
         report = {
+            "access_mode": "local_persona_demo" if demo_origin else "authenticated_test_account",
+            "simulated_role_attribution_verified": bool(demo_origin),
             "case_id": str(case_id),
             "workspace_id": str(workspace_id),
             "original_hashes_verified": len(originals),
@@ -187,11 +213,24 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--api-url", default="http://127.0.0.1:8011")
     parser.add_argument("--workspace-id", type=UUID, required=True)
-    parser.add_argument("--actor-id", type=UUID, required=True)
+    parser.add_argument("--actor-id", type=UUID)
+    parser.add_argument(
+        "--demo-origin", help="Use the local persona demo, e.g. http://127.0.0.1:3011"
+    )
     parser.add_argument("--case-id", type=UUID, required=True)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    report = asyncio.run(check(args.api_url, args.workspace_id, args.actor_id, args.case_id))
+    if not args.actor_id and not args.demo_origin:
+        parser.error("Supply --actor-id or --demo-origin")
+    report = asyncio.run(
+        check(
+            args.api_url,
+            args.workspace_id,
+            args.actor_id,
+            args.case_id,
+            demo_origin=args.demo_origin,
+        )
+    )
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(report, indent=2) + "\n")

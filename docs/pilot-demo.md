@@ -13,7 +13,9 @@ The local demo connects a persona selector, uploads, three-agent analysis, priva
 
 The first run also exposed and helped fix real integration faults: routing context was missing from the worker's snapshot schema, and database publication mishandled an empty result and a JSON comparison. Saved checkpoints allowed recovery without repeating the successful model calls. Its 572 ms recovery time is not first-run model latency.
 
-Evidence: [workflow report](../artifacts/pilot-validation.json), [clean analysis report](../artifacts/pilot-clean-analysis.json). The automated walkthrough uses one existing synthetic test account with several roles. Its notes explicitly identify automated test decisions; they are not approvals by separate real people.
+Evidence: [workflow report](../artifacts/pilot-validation.json), [clean analysis report](../artifacts/pilot-clean-analysis.json), [connected persona API report](../artifacts/persona-demo-validation.json). The automated walkthrough uses one existing synthetic test account with several roles. Its notes explicitly identify automated test decisions; they are not approvals by separate real people.
+
+The connected persona API has also completed a fresh upload-to-closure walkthrough after configuration was restored. It verified all seven route steps, preserved original bytes, saved a resolution and labelled eight action records with simulated roles. That analysis took **41.4 seconds** and recorded **$0.031992** in model cost. Other-workspace requests, unsupported endpoints, early closure and a missing approval decision were rejected. This verifies the HTTP workflow; browser interaction remains unverified because the browser tool could not verify its access policy.
 
 ## Start the connected app
 
@@ -68,7 +70,9 @@ uv run python -m cfin.pilot_check \
   --output ../evals/results/pilot-workflow.json
 ```
 
-It requires the backend's existing service credential to establish a session for the supplied confirmed test account. It sends no email, prints no credentials and refuses non-synthetic workspaces. It writes clearly labelled synthetic decisions and closes the case.
+To exercise the same local access mode as the persona interface, replace `--actor-id` with `--demo-origin http://127.0.0.1:3011`. This uses the backend-held demo session and also verifies simulated-role attribution on all saved decisions.
+
+The direct authenticated mode requires the backend's existing service credential to establish a session for the supplied confirmed test account. It sends no email, prints no credentials and refuses non-synthetic workspaces. It writes clearly labelled synthetic decisions and closes the case.
 
 ## Software validation
 
@@ -76,7 +80,7 @@ The full backend suite passed 810 tests after the persona demo change, with one 
 
 ## Remaining portfolio acceptance work
 
-- Complete the connected persona browser walkthrough, including upload, role actions and refresh, after restoring the local environment configuration.
+- Complete the connected persona browser walkthrough, including upload, role actions and refresh, once browser access is available. The live persona API workflow and restored configuration have been verified.
 - Review a representative set of 15–20 synthetic logs with explicit expected classifications and factual claims. The five existing deterministic Promptfoo cases test policy interpretation; they do not measure model quality.
 - Review the AI brief with a finance/domain reviewer, record corrections and rerun the same examples after changes.
 - Read back the exported Arize trace, record a short demo, and test deployment before sharing a hosted link.
