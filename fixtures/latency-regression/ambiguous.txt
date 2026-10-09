@@ -1,0 +1,10 @@
+SYNTHETIC LATENCY REGRESSION. Fictional application log; no real customer data.
+source_system=ERP-AMBIGUOUS | source_client=020 | source_company_code=0020
+target_system=CFIN-AMBIGUOUS | target_client=200 | target_company_code=0088
+document_number=0000123702 | fiscal_year=2026 | interface=DEMO_CFIN_GL
+2026-10-09T16:10:00Z | attempt_id=AMBIGUOUS-A1 | processing_order=1 | event=replication_started
+2026-10-09T16:10:01Z | severity=error | synthetic_message_id=AMBIGUOUS-01 | Target account 0041000010 could not be determined.
+Diagnostic note: either the source-to-target account mapping was unavailable or the target account was not found. The log does not distinguish these alternatives.
+No mapping lookup result or target account existence check was captured. Do not infer that either check was performed.
+2026-10-09T16:10:02Z | event=replication_finished | result=failed
+No correction, approval, or successful reprocessing was recorded. Current target configuration and the root cause remain unverified.

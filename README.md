@@ -26,8 +26,7 @@ AI helps interpret logs that vary in wording and structure. Software controls ac
 
 | Area | What users can do |
 | --- | --- |
-| **Dashboard** | See key metrics and cases that need their attention. |
-| **Data** | Upload a log for investigation. |
+| **Dashboard** | See key metrics, upload a log and follow analysis progress before opening the completed case. |
 | **Case Board** | Find cases by owner, status or date, and export the filtered list to CSV. |
 | **Case workspace** | Read the summary, discuss the case, record decisions and inspect the original log. |
 
@@ -45,7 +44,7 @@ flowchart TD
     A1["2. EXTRACTION · AGENT 1<br/>GPT-6 Luna<br/>Capture all supplied entries, fields and source references"]
     A2["3. ERROR ANALYSIS · AGENT 2<br/>GPT-6.1 Sol<br/>Classify the extracted error and form a supported cause hypothesis"]
     R["CONTROLLED ROUTE LOOKUP · CODE TOOL<br/>Return the selected category's owner,<br/>remediation path and escalation rule"]
-    A3["4. SUMMARY · AGENT 3<br/>GPT-6.1 Sol<br/>Write the case brief, cited analysis and Related cases section"]
+    A3["4. SUMMARY · AGENT 3<br/>GPT-6 Luna<br/>Write the case brief, cited analysis and Related cases section"]
     C["5. CASE CREATION AND ROUTING · CODE<br/>Compile the case, embed the original log<br/>and assign ownership"]
     H["6. HUMAN REVIEW AND FEEDBACK<br/>Review the case and record corrections,<br/>findings and outcomes"]
     K["7. REVIEWED CASE HISTORY<br/>Retain approved, versioned learnings<br/>and retrieve relevant past case evidence"]
@@ -114,6 +113,68 @@ We evaluate whether analysts understand and progress cases with less effort:
 - **Cost:** model usage and cost per completed case.
 
 Synthetic examples test software behaviour. Real logs and analyst review are needed to measure model quality and user benefit.
+
+## Latency optimisation
+
+**The problem.** Users waited an average of 82.9 seconds from upload to a case result
+in our initial test. Two things contributed: the models spent time reproducing log
+text and document details already available to the application, and cases waited
+in a queue because only one could be analysed at a time. Writing alone took about
+21 seconds; queueing and worker startup added another 29 seconds on average.
+
+**What we changed.** We reduced the content the models had to generate. They now
+identify relevant evidence, interpret the errors and write the explanation; the
+application copies the exact source text and attaches document details. For example,
+the model explains why an account lookup may have failed, while software supplies
+the document number and original error message. We also enabled two cases to be
+analysed concurrently.
+
+On the same ten synthetic logs, average upload-to-result time fell from **82.9 to
+37.9 seconds—a 54% reduction**. Analysis time fell from 51.9 to 33.1 seconds, and
+recorded model cost fell **39%**. All ten outputs, plus three additional difficult
+cases, passed automated checks and source-based review in that experiment.
+
+**The trade-offs.** Moving repeatable work into software reduced generation time
+and cost, but made the application responsible for assembling complete, correctly
+cited results. We checked that document details and evidence survived that change.
+Processing two cases at once reduced queueing but increased simultaneous resource
+demand, so concurrency is capped at two. Lowering reasoning effort for extraction
+and writing also looked faster, but one file failed extraction twice; we retained
+medium reasoning in the selected configuration.
+
+**What we learned from changing models.** A further 58 analyses compared model
+combinations, with all 180 model-call traces verified in Arize. Using Luna for
+writing cut that step's time by **23%** and total model cost by **51%** across the
+12 cases it and the Sol-writing control both completed. However, total waiting
+time improved only **3%** on those cases: extraction and retries still consumed
+much of the time. A cheaper, faster writer does not remove every source of delay.
+
+The table compares the same 13 logs using a fresh run of the previous configuration.
+Every option used Luna medium for extraction; only analysis and writing varied.
+
+| Analysis | Writing | Average wait for a result | Recorded cost, 13 runs | Passed validation |
+| --- | --- | ---: | ---: | --- |
+| Sol medium | Sol medium — previous | 40.2 s | $0.351 | 13/13 |
+| Sol medium | Luna medium — selected | 37.2 s* | $0.158 | 12/13; one extraction failure |
+| Sol medium | Sol low | 35.1 s | $0.322 | 13/13 |
+| Luna medium | Luna medium | 33.6 s | $0.035 | 12/13; one confidence issue |
+
+*The Luna-writing average covers its 12 completed results; cost includes the failed
+run. In a separate repeat of three difficult logs, Luna writing passed 3/3 and
+Sol low writing passed 2/3: Sol analysis also produced an inconsistent confidence
+label. Validation here means automated evidence checks and source-based output
+review, not completion of the broader model-output evaluation.
+
+The local demo now uses **Luna medium for extraction, Sol medium for analysis, and
+Luna medium for writing** for new uploads. This is the selected configuration for
+the next model-output evaluation. Occasional extraction failures and confidence
+labels that contradicted an unknown cause, including with Sol analysis, remain
+open issues. Switching models does not resolve them. These are small synthetic
+experiments; we will update the decision as broader evaluation evidence grows.
+
+See the [latency results](docs/latency-optimization-results.md) and
+[model comparison](docs/model-comparison-results.md) for measurements, failures and
+evaluation limits.
 
 ## Technology
 

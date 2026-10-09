@@ -1,5 +1,6 @@
 import type { Activity, CaseAttachment, CaseRecord, Role } from '../components/workbench-app';
 import type { SavedWorkbenchCase } from './workbench-connection';
+import { analysisView } from './analysis-progress';
 
 const people: Record<string, { name: string; role: Role }> = {
   mdg_process_owner: { name: 'Maya Shah', role: 'MDG Process Owner' },
@@ -45,14 +46,22 @@ export function mapSavedCase(saved: SavedWorkbenchCase): CaseRecord {
     const first = saved.activity.find(row => row.id === a.id), second = saved.activity.find(row => row.id === b.id);
     return string(first?.created_at).localeCompare(string(second?.created_at));
   });
-  const categoryId = saved.brief?.category || string(item.category, 'unclassified');
-  const category = ({ master_data: 'Master data', mapping: 'Mapping', unclassified: 'Unclassified', posting_period: 'Posting period' } as Record<string, string>)[categoryId] || categoryId.replaceAll('_', ' ').replace(/^./, c => c.toUpperCase());
+  const brief = saved.analysisState === 'available' ? saved.brief : null;
+  const categoryId = brief?.category || string(item.category, 'unclassified');
+  const progress = analysisView(saved);
+  const category = !brief ? (progress.active ? 'Analysis in progress' : 'Analysis incomplete') : ({ master_data: 'Master data', mapping: 'Mapping', unclassified: 'Unclassified', posting_period: 'Posting period' } as Record<string, string>)[categoryId] || categoryId.replaceAll('_', ' ').replace(/^./, c => c.toUpperCase());
   const routeKind = categoryId === 'master_data' || categoryId === 'mapping' ? categoryId : 'manual';
+  const metadata = brief?.metadata || {};
+  const identity = (value: string | undefined, canonical: unknown) => value || string(canonical);
+  const system = (name: string, client: string) => name ? `${name}${client ? ` / ${client}` : ''}` : client ? `Client ${client}` : 'Not supplied';
   return {
-    id: string(item.id), title: saved.brief?.title.text || string(item.title, 'Uploaded document error log'), category,
-    source: string(item.source_system, 'Not supplied'), company: string(item.source_company_code, 'Not supplied'),
-    document: string(item.document_number, original.text.match(/(?:source document|document)\s*:?\s*(\d{6,})/i)?.[1] || 'Not supplied'),
-    amount: 'Not supplied', priority: item.priority === 'P1' || item.priority === 'P3' ? item.priority : 'P2',
+    id: string(item.id), caseNumber: string(item.case_number, 'Not assigned'), title: brief?.title.text || string(item.title, 'Uploaded document error log'), category,
+    source: system(identity(metadata.sourceSystem, item.source_system), identity(metadata.sourceClient, item.source_client)),
+    target: system(identity(metadata.targetSystem, item.target_system), identity(metadata.targetClient, item.target_client)),
+    company: identity(metadata.company, item.source_company_code) || 'Not supplied',
+    document: identity(metadata.document, item.document_number) || 'Not supplied',
+    interface: identity(metadata.interface, item.interface) || 'Not supplied',
+    priority: item.priority === 'P1' || item.priority === 'P3' ? item.priority : 'P2',
     status: closure ? 'Closed' : item.status === 'blocked' ? 'Blocked' : item.status === 'created' ? 'Open' : 'In progress',
     createdAt: string(item.created_at), dueAt: string(item.due_at), updated: 'Saved',
     assignee: owner.name, assigneeRole: owner.role, routeKind, currentStep: 0,

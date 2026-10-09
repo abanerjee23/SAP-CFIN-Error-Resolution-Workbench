@@ -222,9 +222,10 @@ class OpenAIStageAdapter:
             ErrorAnalysisDraft,
         )
         from cfin.error_analysis_prompts import (
+            COMPACT_PROMPT_VERSIONS,
             ERROR_ANALYSIS_BOUNDARY,
             ERROR_ANALYSIS_INSTRUCTIONS,
-            ERROR_ANALYSIS_PROMPT_VERSIONS,
+            supported_prompt_versions,
         )
         from cfin.log_only_contracts import ExtractedLog
 
@@ -241,9 +242,12 @@ class OpenAIStageAdapter:
         if stage == "agent2" and any(key in payload for key in ("sources", "history", "route")):
             raise RuntimeError("Error Analysis must receive structured extraction only")
         binding = ErrorAnalysisBinding.model_validate(payload["binding"])
-        if binding.prompt_versions != ERROR_ANALYSIS_PROMPT_VERSIONS:
+        if not supported_prompt_versions(binding.prompt_versions):
             raise RuntimeError("Application execution binding has incompatible prompt versions")
-        if binding.model_configuration != {
+        pinned_models = {
+            key: binding.model_configuration[key] for key in (*self.models, "reasoning_effort")
+        }
+        if pinned_models != {
             **self.models,
             "reasoning_effort": self.settings.model_reasoning_effort,
         }:
@@ -259,9 +263,21 @@ class OpenAIStageAdapter:
                 separators=(",", ":"),
             ).encode("utf-8")
         ).hexdigest()
+        if binding.prompt_versions == COMPACT_PROMPT_VERSIONS:
+            from cfin.compact_analysis import COMPACT_EXTRACTION_PROMPT, COMPACT_SUMMARY_PROMPT
+
+            instructions = {
+                "agent1": COMPACT_EXTRACTION_PROMPT,
+                "agent2": ERROR_ANALYSIS_INSTRUCTIONS["agent2"],
+                "agent3": COMPACT_SUMMARY_PROMPT,
+            }
+            return (
+                ERROR_ANALYSIS_BOUNDARY + "\n\n" + instructions[stage],
+                binding.prompt_versions[stage],
+            )
         return ERROR_ANALYSIS_BOUNDARY + "\n\n" + ERROR_ANALYSIS_INSTRUCTIONS[
             stage
-        ], ERROR_ANALYSIS_PROMPT_VERSIONS[stage]
+        ], binding.prompt_versions[stage]
 
     async def execute(
         self,
@@ -316,8 +332,36 @@ class OpenAIStageAdapter:
             return output
         model = self.models[stage]
         input_price, output_price = PRICES[model]
-        schema = AgentOutputSchema(output_type)
-        encoded = json.dumps(payload, ensure_ascii=False)
+        wire_type, wire_payload = output_type, payload
+        reasoning_effort = self.settings.model_reasoning_effort
+        compact = False
+        if self.workflow_version == ERROR_ANALYSIS_WORKFLOW_VERSION:
+            from cfin.error_analysis_prompts import COMPACT_PROMPT_VERSIONS
+
+            binding = self.stage_bindings[stage]
+            reasoning_effort = binding.model_configuration.get(
+                f"{stage}_reasoning_effort", binding.model_configuration["reasoning_effort"]
+            )
+            compact = binding.prompt_versions == COMPACT_PROMPT_VERSIONS
+            if compact:
+                from cfin.compact_analysis import CaseNarrative, CompactExtraction
+
+                # Application bindings remain in the hashed checkpoint but need not
+                # be generated or interpreted by the model.
+                wire_payload = {key: value for key, value in payload.items() if key != "binding"}
+                if stage == "agent1":
+                    wire_type = CompactExtraction
+                    wire_payload["sources"] = [
+                        {"source": index, "filename": item["source"]["original_filename"],
+                         "readable": item["source"]["readable"], "lines": item["lines"]}
+                        for index, item in enumerate(payload["sources"], 1)
+                    ]
+                elif stage == "agent3":
+                    wire_type = CaseNarrative
+                    wire_payload.pop("sources")  # All exact text is in validated extraction.
+        schema = AgentOutputSchema(wire_type)
+        encoded = json.dumps(wire_payload, ensure_ascii=False,
+                             **({"separators": (",", ":")} if compact else {}))
         # A UTF-8 byte bound is deliberately conservative for text-token input. Include the
         # exact schema/instructions and a bounded protocol overhead allowance before dispatch.
         bound = len((encoded + instructions + json.dumps(schema.json_schema())).encode()) + 32768
@@ -337,7 +381,7 @@ class OpenAIStageAdapter:
                 output_type=schema,
                 model_settings=ModelSettings(
                     max_tokens=MAX_OUTPUT_TOKENS,
-                    reasoning={"effort": self.settings.model_reasoning_effort},
+                    reasoning={"effort": reasoning_effort},
                     store=False,
                     extra_body={"service_tier": "default"},
                 ),
@@ -410,6 +454,31 @@ class OpenAIStageAdapter:
         candidate = result.final_output
         if isinstance(candidate, BaseModel):
             candidate = candidate.model_dump(mode="json")
+        raw_model_output = candidate
+        hydration_error = None
+        if compact and stage in {"agent1", "agent3"}:
+            from cfin.compact_analysis import (
+                CaseNarrative,
+                CompactExtraction,
+                hydrate_extraction,
+                hydrate_narrative,
+            )
+            from cfin.log_only_contracts import ExtractedLog
+
+            try:
+                hydrated = (
+                    hydrate_extraction(CompactExtraction.model_validate(candidate), inputs)
+                    if stage == "agent1" else
+                    hydrate_narrative(CaseNarrative.model_validate(candidate),
+                                      ExtractedLog.model_validate(payload["extracted"]))
+                )
+                candidate = hydrated.model_dump(mode="json")
+            except ValueError as exc:
+                # Reconcile real usage even when a model candidate fails validation.
+                # A paid invalid candidate must not become an unknown reservation.
+                hydration_error = exc
+                candidate = {"invalid_compact_output": candidate}
+        normalized_candidate = candidate
         if not isinstance(candidate, dict):
             candidate = {"invalid_output_type": type(candidate).__name__}
         if self.workflow_version == LOG_WORKFLOW_VERSION:
@@ -439,6 +508,12 @@ class OpenAIStageAdapter:
                 "output": candidate,
                 "schema_name": output_type.__name__,
                 "validation_status": "pending_workflow_validation",
+                **({
+                    "wire_input": {"instructions": instructions, "payload": wire_payload},
+                    "wire_schema_name": wire_type.__name__,
+                    "raw_model_output": raw_model_output,
+                    "effective_reasoning_effort": reasoning_effort,
+                } if compact else {}),
             },
             provider_request_id=request_id if isinstance(request_id, str) else None,
         )
@@ -446,4 +521,8 @@ class OpenAIStageAdapter:
             self.usage[key] += value
         self.cost_usd += getattr(self.ledger, "reconciled_costs", {}).get(reservation, cost)
         self.usage_complete = previous_usage_complete
-        return output_type.model_validate(result.final_output)
+        if hydration_error is not None:
+            raise ValueError(
+                "Compact output failed source or reference validation"
+            ) from hydration_error
+        return output_type.model_validate(normalized_candidate)

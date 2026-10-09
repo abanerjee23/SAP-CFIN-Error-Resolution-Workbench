@@ -17,6 +17,8 @@ jobs:
         working-directory: backend
       - run: uv run pytest -q
         working-directory: backend
+      - run: uv run pytest -q ../scripts/tests/test_benchmark_latency.py
+        working-directory: backend
       - run: uv run python -m unittest discover -s ../examples -p "test_*.py"
         working-directory: backend
   frontend:
@@ -57,7 +59,7 @@ jobs:
           python-version: '3.12'
       - run: uv sync --locked --group dev
         working-directory: backend
-      - run: uv run pytest -q tests/test_log_only_migration.py
+      - run: uv run pytest -q tests/test_log_only_migration.py tests/test_case_number_migration.py tests/test_parallel_analysis_database.py
         working-directory: backend
         env:
           CFIN_POSTGRES_CONTAINER: ${{ job.services.postgres.id }}

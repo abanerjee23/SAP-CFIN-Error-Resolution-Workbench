@@ -31,6 +31,9 @@ class Settings(BaseSettings):
     model_agent_3: str = "gpt-6.1-sol"
     model_agent_4: str = ""
     model_reasoning_effort: Literal["low", "medium", "high"] = "medium"
+    error_analysis_profile: Literal[
+        "baseline", "compact", "fast", "writer_luna", "writer_low", "all_luna"
+    ] = "baseline"
     model_monthly_budget_usd: Decimal = Field(default=Decimal("10.00"), gt=0, le=10)
     model_run_budget_usd: Decimal = Field(default=Decimal("1.00"), gt=0, le=1)
     stage_timeout_seconds: int = Field(default=60, gt=0, le=60)

@@ -1,0 +1,2408 @@
+{
+  "schema_version": "model-comparison-v1",
+  "date": "2026-10-09",
+  "decision": {
+    "active_profile": "compact",
+    "automatically_promoted": false,
+    "recommendation": "Keep Sol diagnosis; evaluate Luna medium writing further for cost. No stable latency winner established. Address shared extraction reliability and confidence consistency before selecting a new default."
+  },
+  "controls": [
+    "Frontend, prompts and schema unchanged",
+    "Luna medium extraction in every profile",
+    "Medium diagnosis; only designated model/writing-effort settings vary",
+    "Two case workers; profile order rotates by file pair",
+    "Fresh control and same fixture bytes",
+    "Retain failures and retry costs; report selected repeats separately"
+  ],
+  "review_method": "Codex source-grounded assistant review of narratives, hypotheses, alternatives and open questions against synthetic fixture expectations. Automated provenance, metadata, citations, coverage and route checks plus actual frontend projection. No independent domain-expert adjudication or extra model judge.",
+  "limitations": [
+    "Small synthetic English-language set, mostly mapping/master-data failures",
+    "One main observation per file/profile; selected hard-case repeat is exploratory",
+    "Timing includes shared extraction variability and retries; not browser rendering",
+    "Cost uses saved application price catalogue, not provider invoice",
+    "No real-customer-log, production load or adversarial evaluation"
+  ],
+  "totals": {
+    "analyses": 58,
+    "model_calls": 180,
+    "recorded_cost_usd": "0.967499",
+    "arize_readback_verified": true
+  },
+  "suites": {
+    "model-matrix-20261009": {
+      "plan": {
+        "suite": "model-matrix-20261009",
+        "profiles": [
+          "compact",
+          "writer_luna",
+          "writer_low",
+          "all_luna"
+        ],
+        "concurrency": 2,
+        "fixtures": {
+          "batch-01-master_data.txt": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+          "batch-01-mapping.txt": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+          "batch-02-master_data.txt": "b873b5ecb082f0787db8907e7cfdc9f46db3c87b2bbdcd7b99df026e008f7c79",
+          "batch-02-mapping.txt": "13239b6114ec0fef3d49814d3ed0c6fefe4dd43f42fe3f3df0e79c7e984d4bc6",
+          "batch-03-master_data.txt": "6614240d8728b1b330994782f6b4dcbf034e0a429a1b28d9a7c4a66d9aac7dfb",
+          "batch-03-mapping.txt": "df68f88cd5162c6fff9af33835f142a0a2c4418b4480bcacaee250d153a5c208",
+          "batch-04-master_data.txt": "9196bd2aab3888f4994d3b78ceae3fb8938176901618195972cf7a532ac419c4",
+          "batch-04-mapping.txt": "c984fdff26a6ec9d4d37e4347f8e42ad672515ee764634f3541f92072c7d2240",
+          "batch-05-master_data.txt": "cb1fd79d0bc1727727f0cca1793466fd7e449b6137d13b0d211d716861fa83af",
+          "batch-05-mapping.txt": "63f21e757d4c737c4ae95fd8f061fa248dc3eb628eaf34c5257c32d217169af6",
+          "unknown.txt": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+          "ambiguous.txt": "4e1ec3cefdf62d8996de58bee8674126b8d936699655487b053e9c2fea3df43f",
+          "multiple-attempts.txt": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f"
+        },
+        "schedule": [
+          {
+            "pair": 1,
+            "profile": "compact",
+            "files": [
+              "batch-01-master_data.txt",
+              "batch-01-mapping.txt"
+            ]
+          },
+          {
+            "pair": 1,
+            "profile": "writer_luna",
+            "files": [
+              "batch-01-master_data.txt",
+              "batch-01-mapping.txt"
+            ]
+          },
+          {
+            "pair": 1,
+            "profile": "writer_low",
+            "files": [
+              "batch-01-master_data.txt",
+              "batch-01-mapping.txt"
+            ]
+          },
+          {
+            "pair": 1,
+            "profile": "all_luna",
+            "files": [
+              "batch-01-master_data.txt",
+              "batch-01-mapping.txt"
+            ]
+          },
+          {
+            "pair": 2,
+            "profile": "writer_luna",
+            "files": [
+              "batch-02-master_data.txt",
+              "batch-02-mapping.txt"
+            ]
+          },
+          {
+            "pair": 2,
+            "profile": "writer_low",
+            "files": [
+              "batch-02-master_data.txt",
+              "batch-02-mapping.txt"
+            ]
+          },
+          {
+            "pair": 2,
+            "profile": "all_luna",
+            "files": [
+              "batch-02-master_data.txt",
+              "batch-02-mapping.txt"
+            ]
+          },
+          {
+            "pair": 2,
+            "profile": "compact",
+            "files": [
+              "batch-02-master_data.txt",
+              "batch-02-mapping.txt"
+            ]
+          },
+          {
+            "pair": 3,
+            "profile": "writer_low",
+            "files": [
+              "batch-03-master_data.txt",
+              "batch-03-mapping.txt"
+            ]
+          },
+          {
+            "pair": 3,
+            "profile": "all_luna",
+            "files": [
+              "batch-03-master_data.txt",
+              "batch-03-mapping.txt"
+            ]
+          },
+          {
+            "pair": 3,
+            "profile": "compact",
+            "files": [
+              "batch-03-master_data.txt",
+              "batch-03-mapping.txt"
+            ]
+          },
+          {
+            "pair": 3,
+            "profile": "writer_luna",
+            "files": [
+              "batch-03-master_data.txt",
+              "batch-03-mapping.txt"
+            ]
+          },
+          {
+            "pair": 4,
+            "profile": "all_luna",
+            "files": [
+              "batch-04-master_data.txt",
+              "batch-04-mapping.txt"
+            ]
+          },
+          {
+            "pair": 4,
+            "profile": "compact",
+            "files": [
+              "batch-04-master_data.txt",
+              "batch-04-mapping.txt"
+            ]
+          },
+          {
+            "pair": 4,
+            "profile": "writer_luna",
+            "files": [
+              "batch-04-master_data.txt",
+              "batch-04-mapping.txt"
+            ]
+          },
+          {
+            "pair": 4,
+            "profile": "writer_low",
+            "files": [
+              "batch-04-master_data.txt",
+              "batch-04-mapping.txt"
+            ]
+          },
+          {
+            "pair": 5,
+            "profile": "compact",
+            "files": [
+              "batch-05-master_data.txt",
+              "batch-05-mapping.txt"
+            ]
+          },
+          {
+            "pair": 5,
+            "profile": "writer_luna",
+            "files": [
+              "batch-05-master_data.txt",
+              "batch-05-mapping.txt"
+            ]
+          },
+          {
+            "pair": 5,
+            "profile": "writer_low",
+            "files": [
+              "batch-05-master_data.txt",
+              "batch-05-mapping.txt"
+            ]
+          },
+          {
+            "pair": 5,
+            "profile": "all_luna",
+            "files": [
+              "batch-05-master_data.txt",
+              "batch-05-mapping.txt"
+            ]
+          },
+          {
+            "pair": 6,
+            "profile": "writer_luna",
+            "files": [
+              "unknown.txt",
+              "ambiguous.txt"
+            ]
+          },
+          {
+            "pair": 6,
+            "profile": "writer_low",
+            "files": [
+              "unknown.txt",
+              "ambiguous.txt"
+            ]
+          },
+          {
+            "pair": 6,
+            "profile": "all_luna",
+            "files": [
+              "unknown.txt",
+              "ambiguous.txt"
+            ]
+          },
+          {
+            "pair": 6,
+            "profile": "compact",
+            "files": [
+              "unknown.txt",
+              "ambiguous.txt"
+            ]
+          },
+          {
+            "pair": 7,
+            "profile": "writer_low",
+            "files": [
+              "multiple-attempts.txt"
+            ]
+          },
+          {
+            "pair": 7,
+            "profile": "all_luna",
+            "files": [
+              "multiple-attempts.txt"
+            ]
+          },
+          {
+            "pair": 7,
+            "profile": "compact",
+            "files": [
+              "multiple-attempts.txt"
+            ]
+          },
+          {
+            "pair": 7,
+            "profile": "writer_luna",
+            "files": [
+              "multiple-attempts.txt"
+            ]
+          }
+        ]
+      },
+      "frontend_projection_passed": true,
+      "published_projection_count": 51,
+      "profiles": {
+        "compact": {
+          "source_report": ".local-runtime/latency-benchmark/model-matrix-20261009-compact-c2/report.json",
+          "model_configuration": {
+            "agent1": "gpt-6-luna",
+            "agent2": "gpt-6.1-sol",
+            "agent3": "gpt-6.1-sol",
+            "reasoning_effort": "medium",
+            "agent1_reasoning_effort": "medium",
+            "agent2_reasoning_effort": "medium",
+            "agent3_reasoning_effort": "medium"
+          },
+          "prompt_versions": {
+            "agent1": "error-analysis-extraction-compact-v2",
+            "agent2": "error-analysis-v1",
+            "agent3": "error-analysis-summary-compact-v2"
+          },
+          "summary": {
+            "recorded_cases": 13,
+            "completed_observations": 13,
+            "published": 13,
+            "automated_quality_passes": 13,
+            "semantic_review": "required; automatic checks are not semantic quality evidence",
+            "model_calls": 41,
+            "tokens": {
+              "input_tokens": 108748,
+              "output_tokens": 44805
+            },
+            "known_cost_usd": "0.350858",
+            "unresolved_reserved_usd": "0",
+            "workflow_latency": {
+              "mean_seconds": 34.694,
+              "median_seconds": 34.116,
+              "p95_seconds": 58.559,
+              "max_seconds": 58.559
+            },
+            "upload_to_result_latency": {
+              "mean_seconds": 40.213,
+              "median_seconds": 39.855,
+              "p95_seconds": 63.995,
+              "max_seconds": 63.995
+            },
+            "queue_and_startup_latency": {
+              "mean_seconds": 3.217,
+              "median_seconds": 2.83,
+              "p95_seconds": 4.462,
+              "max_seconds": 4.462
+            },
+            "stage_latency": {
+              "agent_1": {
+                "mean_seconds": 15.038,
+                "median_seconds": 15.493,
+                "p95_seconds": 19.941,
+                "max_seconds": 19.941
+              },
+              "agent_2": {
+                "mean_seconds": 6.729,
+                "median_seconds": 6.654,
+                "p95_seconds": 8.331,
+                "max_seconds": 8.331
+              },
+              "agent_3": {
+                "mean_seconds": 9.558,
+                "median_seconds": 9.108,
+                "p95_seconds": 14.947,
+                "max_seconds": 14.947
+              }
+            },
+            "observed_peak_case_execution_overlap": 2,
+            "trace_exports_acknowledged": 13,
+            "caveat": "Small synthetic experiment, not a production SLA or load test. Stage timestamps include reservation/reconciliation overhead. Upload-to-result includes queue, worker/export, and API readback. Resumed runs are marked separately."
+          },
+          "published_results_mean_wait_seconds": 40.213,
+          "arize": {
+            "project_name": "cfin-document-error-analysis",
+            "expected_traces": 41,
+            "found_traces": 41,
+            "readback_verified": true
+          },
+          "runs": [
+            {
+              "file": "batch-01-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-01-master_data.txt",
+              "sha256": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+              "run_id": "0020a200-cab3-4b96-925d-d28580709f34",
+              "case_number": "CFIN-2026-000049",
+              "published": true,
+              "workflow_seconds": 34.116,
+              "end_to_end_seconds": 40.541,
+              "known_cost_usd": "0.023294",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "49c0706d0717cb71225e28b8d39e7ebd",
+                "4e25cf1f3bc9dfc3ca1d5361968b7cfc",
+                "a32e4fcd6fd336e456c2ef5a8090823a"
+              ]
+            },
+            {
+              "file": "batch-01-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-01-mapping.txt",
+              "sha256": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+              "run_id": "166c2f58-ca3a-4d43-8c20-9f0a6332cf86",
+              "case_number": "CFIN-2026-000050",
+              "published": true,
+              "workflow_seconds": 31.422,
+              "end_to_end_seconds": 36.515,
+              "known_cost_usd": "0.022524",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "865af00c25fa6f2be9e3cbc9af522c57",
+                "9a2e180ca4b09a2f923785a5238d3eb5",
+                "ec7ba5b003cb101122139b0ac0b70b2a"
+              ]
+            },
+            {
+              "file": "batch-02-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-02-master_data.txt",
+              "sha256": "b873b5ecb082f0787db8907e7cfdc9f46db3c87b2bbdcd7b99df026e008f7c79",
+              "run_id": "1753b47b-ca35-4331-a458-4cea300d092e",
+              "case_number": "CFIN-2026-000063",
+              "published": true,
+              "workflow_seconds": 31.79,
+              "end_to_end_seconds": 37.927,
+              "known_cost_usd": "0.025099",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "0d79758078ca88745155b6619194e173",
+                "ada14b240d64f014563d1d17e93b9fd6",
+                "b8e9eed30958220b295863f43a14e873"
+              ]
+            },
+            {
+              "file": "batch-02-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-02-mapping.txt",
+              "sha256": "13239b6114ec0fef3d49814d3ed0c6fefe4dd43f42fe3f3df0e79c7e984d4bc6",
+              "run_id": "b2880ddb-49ba-443e-8fa9-e6bdd01d2804",
+              "case_number": "CFIN-2026-000064",
+              "published": true,
+              "workflow_seconds": 27.293,
+              "end_to_end_seconds": 31.707,
+              "known_cost_usd": "0.025473",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "320e17a2d4c97ad95b02414dd8777743",
+                "4a5fd973cef228667f815bf1d1e9a71b",
+                "a9f705905decc2abc5b6869af25371a2"
+              ]
+            },
+            {
+              "file": "batch-03-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-03-master_data.txt",
+              "sha256": "6614240d8728b1b330994782f6b4dcbf034e0a429a1b28d9a7c4a66d9aac7dfb",
+              "run_id": "c301c34f-f501-464c-b345-50dad32a0b32",
+              "case_number": "CFIN-2026-000069",
+              "published": true,
+              "workflow_seconds": 34.12,
+              "end_to_end_seconds": 40.804,
+              "known_cost_usd": "0.027202",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "3030cbd6003bf762e57b76d9b3ffba8a",
+                "64bd9b4caeb03d42a551b1ab2d6b9279",
+                "752cef52ac6b303897d3619aff68bf8e"
+              ]
+            },
+            {
+              "file": "batch-03-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-03-mapping.txt",
+              "sha256": "df68f88cd5162c6fff9af33835f142a0a2c4418b4480bcacaee250d153a5c208",
+              "run_id": "fd0e4a72-6830-4d71-93c9-9a354573f7e8",
+              "case_number": "CFIN-2026-000070",
+              "published": true,
+              "workflow_seconds": 26.483,
+              "end_to_end_seconds": 31.346,
+              "known_cost_usd": "0.025981",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "13d921647344e7a0df6345750d6777e4",
+                "37ceee0aa0cfd141b9f55ab07f960144",
+                "a632d082ebe391a49d4bec6a511ba90a"
+              ]
+            },
+            {
+              "file": "batch-04-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-04-master_data.txt",
+              "sha256": "9196bd2aab3888f4994d3b78ceae3fb8938176901618195972cf7a532ac419c4",
+              "run_id": "cc01ffa4-68a9-4585-9ea6-76979c4b8781",
+              "case_number": "CFIN-2026-000075",
+              "published": true,
+              "workflow_seconds": 36.764,
+              "end_to_end_seconds": 42.572,
+              "known_cost_usd": "0.029318",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "08a059095e41eb3163332c3805895449",
+                "19e0fffb8dd21932f42c2056a391fdf0",
+                "d131612adfbc0660e51cab8d12002176"
+              ]
+            },
+            {
+              "file": "batch-04-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-04-mapping.txt",
+              "sha256": "c984fdff26a6ec9d4d37e4347f8e42ad672515ee764634f3541f92072c7d2240",
+              "run_id": "e860a6cf-96ac-4c30-a5e0-91b0cdcf9744",
+              "case_number": "CFIN-2026-000076",
+              "published": true,
+              "workflow_seconds": 51.735,
+              "end_to_end_seconds": 56.107,
+              "known_cost_usd": "0.031893",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 4,
+              "failed_call_attempts": [
+                {
+                  "stage": "agent_1",
+                  "invocation": 0,
+                  "latency_seconds": 16.76,
+                  "actual_usd": 0.001461
+                }
+              ],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "19e1a21aedde11bb09c4a33fdfcc850c",
+                "67f8f32a6c0f4d2f401b33a0c7780074",
+                "9793210d5530cebaddadf21b82fff154",
+                "bfb2a97548691710fc6be56b9435b9ab"
+              ]
+            },
+            {
+              "file": "batch-05-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-05-master_data.txt",
+              "sha256": "cb1fd79d0bc1727727f0cca1793466fd7e449b6137d13b0d211d716861fa83af",
+              "run_id": "d6f6c91d-3426-40a3-b04f-8de5c6cbadd4",
+              "case_number": "CFIN-2026-000081",
+              "published": true,
+              "workflow_seconds": 39.409,
+              "end_to_end_seconds": 45.617,
+              "known_cost_usd": "0.034297",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "61259e1075c92a606bebc2d0ee27c189",
+                "620c5fa5d31f27735d4e10043b0afb00",
+                "7debe68d5f683caeb2c798077ff85c86"
+              ]
+            },
+            {
+              "file": "batch-05-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-05-mapping.txt",
+              "sha256": "63f21e757d4c737c4ae95fd8f061fa248dc3eb628eaf34c5257c32d217169af6",
+              "run_id": "8f00e33f-3fa2-4dda-9c38-0337ed7c76d0",
+              "case_number": "CFIN-2026-000082",
+              "published": true,
+              "workflow_seconds": 34.98,
+              "end_to_end_seconds": 39.855,
+              "known_cost_usd": "0.030798",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "45e978a4ab11edf1a8a87701db3493b4",
+                "9e5f9e224e9afc064c6f6d5250d1948b",
+                "eb738a48fe3939acdfad023ea324784e"
+              ]
+            },
+            {
+              "file": "unknown.txt",
+              "path": "fixtures/latency-regression/unknown.txt",
+              "sha256": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+              "run_id": "67a9bf6a-1564-4583-b9d9-8cda99f9a4b8",
+              "case_number": "CFIN-2026-000095",
+              "published": true,
+              "workflow_seconds": 19.949,
+              "end_to_end_seconds": 26.782,
+              "known_cost_usd": "0.017114",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Unknown cause and low confidence preserved; no specific diagnosis or completed remediation invented.",
+                "category": "unclassified",
+                "confidence": "low"
+              },
+              "trace_ids": [
+                "26c4a784312073972b2d00f424ebbf58",
+                "26e528997afcb97e0e1c0180c4df0486",
+                "d8e2490295a50446841f813d648f4500"
+              ]
+            },
+            {
+              "file": "ambiguous.txt",
+              "path": "fixtures/latency-regression/ambiguous.txt",
+              "sha256": "4e1ec3cefdf62d8996de58bee8674126b8d936699655487b053e9c2fea3df43f",
+              "run_id": "1bba2808-5ec7-4e6c-8824-1b8fdb75c201",
+              "case_number": "CFIN-2026-000096",
+              "published": true,
+              "workflow_seconds": 24.405,
+              "end_to_end_seconds": 29.004,
+              "known_cost_usd": "0.021213",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Mapping versus master-data ambiguity and low confidence preserved; missing checks not claimed completed.",
+                "category": "mapping",
+                "confidence": "low"
+              },
+              "trace_ids": [
+                "b28bdbee3ca34a0a9ff65e6facef7687",
+                "e44bb4615885bf0d1ac94cbc490d0e1f",
+                "fadc2aad7cee15b99aa9f523e496c311"
+              ]
+            },
+            {
+              "file": "multiple-attempts.txt",
+              "path": "fixtures/latency-regression/multiple-attempts.txt",
+              "sha256": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f",
+              "run_id": "3aa2ec94-bde8-4ea8-acba-b9122a3ce61e",
+              "case_number": "CFIN-2026-000099",
+              "published": true,
+              "workflow_seconds": 58.559,
+              "end_to_end_seconds": 63.995,
+              "known_cost_usd": "0.036652",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 4,
+              "failed_call_attempts": [
+                {
+                  "stage": "agent_1",
+                  "invocation": 0,
+                  "latency_seconds": 14.75,
+                  "actual_usd": 0.001338
+                }
+              ],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Distinct attempts and source/target roles preserved. Earlier mapping failure is not claimed corrected; no successful posting or independently verified SAP state invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "01ba5c23defb32776c5701cf4fb229d0",
+                "7f53166c2252d88ad06125855a5a8abe",
+                "a4eb58e90e13149c8b0d523be8f8235a",
+                "c3a5a017726007ce6d0538096c172dfb"
+              ]
+            }
+          ]
+        },
+        "writer_luna": {
+          "source_report": ".local-runtime/latency-benchmark/model-matrix-20261009-writer_luna-c2/report.json",
+          "model_configuration": {
+            "agent1": "gpt-6-luna",
+            "agent2": "gpt-6.1-sol",
+            "agent3": "gpt-6-luna",
+            "reasoning_effort": "medium",
+            "agent1_reasoning_effort": "medium",
+            "agent2_reasoning_effort": "medium",
+            "agent3_reasoning_effort": "medium"
+          },
+          "prompt_versions": {
+            "agent1": "error-analysis-extraction-compact-v2",
+            "agent2": "error-analysis-v1",
+            "agent3": "error-analysis-summary-compact-v2"
+          },
+          "summary": {
+            "recorded_cases": 13,
+            "completed_observations": 13,
+            "published": 12,
+            "automated_quality_passes": 12,
+            "semantic_review": "required; automatic checks are not semantic quality evidence",
+            "model_calls": 40,
+            "tokens": {
+              "input_tokens": 102133,
+              "output_tokens": 48942
+            },
+            "known_cost_usd": "0.158109",
+            "unresolved_reserved_usd": "0",
+            "workflow_latency": {
+              "mean_seconds": 31.671,
+              "median_seconds": 29.855,
+              "p95_seconds": 44.488,
+              "max_seconds": 44.488
+            },
+            "upload_to_result_latency": {
+              "mean_seconds": 37.047,
+              "median_seconds": 33.868,
+              "p95_seconds": 56.486,
+              "max_seconds": 56.486
+            },
+            "queue_and_startup_latency": {
+              "mean_seconds": 2.844,
+              "median_seconds": 2.708,
+              "p95_seconds": 4.583,
+              "max_seconds": 4.583
+            },
+            "stage_latency": {
+              "agent_1": {
+                "mean_seconds": 14.609,
+                "median_seconds": 15.156,
+                "p95_seconds": 18.801,
+                "max_seconds": 18.801
+              },
+              "agent_2": {
+                "mean_seconds": 6.939,
+                "median_seconds": 6.864,
+                "p95_seconds": 8.747,
+                "max_seconds": 8.747
+              },
+              "agent_3": {
+                "mean_seconds": 6.975,
+                "median_seconds": 6.899,
+                "p95_seconds": 8.848,
+                "max_seconds": 8.848
+              }
+            },
+            "observed_peak_case_execution_overlap": 2,
+            "trace_exports_acknowledged": 13,
+            "caveat": "Small synthetic experiment, not a production SLA or load test. Stage timestamps include reservation/reconciliation overhead. Upload-to-result includes queue, worker/export, and API readback. Resumed runs are marked separately."
+          },
+          "published_results_mean_wait_seconds": 37.16,
+          "arize": {
+            "project_name": "cfin-document-error-analysis",
+            "expected_traces": 40,
+            "found_traces": 40,
+            "readback_verified": true
+          },
+          "runs": [
+            {
+              "file": "batch-01-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-01-master_data.txt",
+              "sha256": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+              "run_id": "c11d0d51-4a24-47bf-aff8-3437feb487bf",
+              "case_number": "CFIN-2026-000051",
+              "published": true,
+              "workflow_seconds": 23.073,
+              "end_to_end_seconds": 28.645,
+              "known_cost_usd": "0.010417",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "605fb3a29052940b5eb6bd0e4fc34e6a",
+                "afce23b0dfadcb2c635fe80fa230fdce",
+                "c8590c70bac76c56eaeec35186692b7b"
+              ]
+            },
+            {
+              "file": "batch-01-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-01-mapping.txt",
+              "sha256": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+              "run_id": "3b942668-9fb3-48a5-bb06-868f22200306",
+              "case_number": "CFIN-2026-000052",
+              "published": true,
+              "workflow_seconds": 29.186,
+              "end_to_end_seconds": 32.994,
+              "known_cost_usd": "0.010645",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "3d51f8a75182e09a2c776fe0e1800a87",
+                "83474d94117e232d6d9d02eecaeef61c",
+                "c9f34242bac6a86b719b3f22ed5512e9"
+              ]
+            },
+            {
+              "file": "batch-02-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-02-master_data.txt",
+              "sha256": "b873b5ecb082f0787db8907e7cfdc9f46db3c87b2bbdcd7b99df026e008f7c79",
+              "run_id": "76dd3b6b-b814-4d53-a7ef-cfafd3c95797",
+              "case_number": "CFIN-2026-000057",
+              "published": true,
+              "workflow_seconds": 29.04,
+              "end_to_end_seconds": 33.868,
+              "known_cost_usd": "0.012030",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "3a6e735dcaf87b3fe2ec406ff891f6db",
+                "9f673fdbc3613ea8f08db641d437d664",
+                "ada087afe28ab2aa04551455ebd59ad7"
+              ]
+            },
+            {
+              "file": "batch-02-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-02-mapping.txt",
+              "sha256": "13239b6114ec0fef3d49814d3ed0c6fefe4dd43f42fe3f3df0e79c7e984d4bc6",
+              "run_id": "3d40de60-ae20-4362-9466-9aa7a555f632",
+              "case_number": "CFIN-2026-000058",
+              "published": true,
+              "workflow_seconds": 33.117,
+              "end_to_end_seconds": 36.655,
+              "known_cost_usd": "0.013147",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "29429f1ed04b2d950f4dd407da94e105",
+                "3e46e47e87776249d7dd1ece458f4a4d",
+                "64c839f6b9a3fa42a05540db4a7df62a"
+              ]
+            },
+            {
+              "file": "batch-03-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-03-master_data.txt",
+              "sha256": "6614240d8728b1b330994782f6b4dcbf034e0a429a1b28d9a7c4a66d9aac7dfb",
+              "run_id": "2df55bfe-db34-4610-949e-de36da0b0f9f",
+              "case_number": "CFIN-2026-000071",
+              "published": true,
+              "workflow_seconds": 44.488,
+              "end_to_end_seconds": 50.423,
+              "known_cost_usd": "0.015540",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 4,
+              "failed_call_attempts": [
+                {
+                  "stage": "agent_1",
+                  "invocation": 0,
+                  "latency_seconds": 10.803,
+                  "actual_usd": 0.001027
+                }
+              ],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "31f3a7fdf294e09729a6a6b60acd505e",
+                "8ed7df3fd0a23bec9e0f19938aa983f3",
+                "a3bf2343a9de8cb3e09ae1d1bd519764",
+                "ff144a0e88dd4da80c4703eb5188d247"
+              ]
+            },
+            {
+              "file": "batch-03-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-03-mapping.txt",
+              "sha256": "df68f88cd5162c6fff9af33835f142a0a2c4418b4480bcacaee250d153a5c208",
+              "run_id": "5a033e25-1acf-45a6-be8f-911070918edd",
+              "case_number": "CFIN-2026-000072",
+              "published": true,
+              "workflow_seconds": 29.855,
+              "end_to_end_seconds": 33.682,
+              "known_cost_usd": "0.013054",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "54dbf62b2273dba1ca1ff7d0610e9c26",
+                "a011c14d0c3bf8200584591004b661ee",
+                "dfdb669882f0b7c8cd8287e74727cc4b"
+              ]
+            },
+            {
+              "file": "batch-04-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-04-master_data.txt",
+              "sha256": "9196bd2aab3888f4994d3b78ceae3fb8938176901618195972cf7a532ac419c4",
+              "run_id": "64f49789-3168-42b9-aad8-2555562665b5",
+              "case_number": "CFIN-2026-000077",
+              "published": true,
+              "workflow_seconds": 44.415,
+              "end_to_end_seconds": 56.486,
+              "known_cost_usd": "0.015745",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 4,
+              "failed_call_attempts": [
+                {
+                  "stage": "agent_1",
+                  "invocation": 0,
+                  "latency_seconds": 15.177,
+                  "actual_usd": 0.001352
+                }
+              ],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "6da6149842dd6406b623f4c42041f4af",
+                "902457686ae03f05e2c8a55e538f974c",
+                "b39c18a4766c9d27e274bfdb0a471aa1",
+                "c95efd6ce9a65e3006f1b31263d75e7f"
+              ]
+            },
+            {
+              "file": "batch-04-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-04-mapping.txt",
+              "sha256": "c984fdff26a6ec9d4d37e4347f8e42ad672515ee764634f3541f92072c7d2240",
+              "run_id": "7570748d-13c3-4f96-88fd-bf3d98892241",
+              "case_number": "CFIN-2026-000078",
+              "published": true,
+              "workflow_seconds": 32.283,
+              "end_to_end_seconds": 36.922,
+              "known_cost_usd": "0.015194",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "34bf47d8b7d7fac1dcdabb28b24debcb",
+                "570e6f1a4cebe2dd9f03b985f7f25631",
+                "b7f2b285b878ea12c595e8d2ddaae25f"
+              ]
+            },
+            {
+              "file": "batch-05-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-05-master_data.txt",
+              "sha256": "cb1fd79d0bc1727727f0cca1793466fd7e449b6137d13b0d211d716861fa83af",
+              "run_id": "bf11b6c1-605c-4fd6-b787-b298e89404c2",
+              "case_number": "CFIN-2026-000083",
+              "published": true,
+              "workflow_seconds": 36.017,
+              "end_to_end_seconds": 43.112,
+              "known_cost_usd": "0.01576",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "2ee35a16c2697954001ae75bf7773058",
+                "7ebb3d6952723a7b2f0952a8da4051bf",
+                "acc8b89110b7a4cc2c78de7008276c20"
+              ]
+            },
+            {
+              "file": "batch-05-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-05-mapping.txt",
+              "sha256": "63f21e757d4c737c4ae95fd8f061fa248dc3eb628eaf34c5257c32d217169af6",
+              "run_id": "a09aa184-cfbf-469f-aa6b-d59c5d21c015",
+              "case_number": "CFIN-2026-000084",
+              "published": true,
+              "workflow_seconds": 27.675,
+              "end_to_end_seconds": 32.475,
+              "known_cost_usd": "0.014005",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "3a3d85db8969ed1b1ca9b958151feed4",
+                "5a6d2ee3a3aee1ea9e3ee040ff45ba1c",
+                "f4e7a3921d45019dabfeaadabf01cf57"
+              ]
+            },
+            {
+              "file": "unknown.txt",
+              "path": "fixtures/latency-regression/unknown.txt",
+              "sha256": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+              "run_id": "1ff870c2-f903-4ac8-9ba5-b441af4cafa0",
+              "case_number": "CFIN-2026-000089",
+              "published": true,
+              "workflow_seconds": 21.794,
+              "end_to_end_seconds": 27.573,
+              "known_cost_usd": "0.009299",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Unknown cause and low confidence preserved; no specific diagnosis or completed remediation invented.",
+                "category": "unclassified",
+                "confidence": "low"
+              },
+              "trace_ids": [
+                "02f76af8b1181e0a0584a1f14fc257fa",
+                "2528d1c3930d63fb2a45cfc7bd0963e7",
+                "de02aa8259f035878767398f1415ac66"
+              ]
+            },
+            {
+              "file": "ambiguous.txt",
+              "path": "fixtures/latency-regression/ambiguous.txt",
+              "sha256": "4e1ec3cefdf62d8996de58bee8674126b8d936699655487b053e9c2fea3df43f",
+              "run_id": "24e3ac2a-848e-4595-a6f6-13a4b7bf425c",
+              "case_number": "CFIN-2026-000090",
+              "published": true,
+              "workflow_seconds": 29.181,
+              "end_to_end_seconds": 33.08,
+              "known_cost_usd": "0.010406",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Mapping versus master-data ambiguity and low confidence preserved; missing checks not claimed completed.",
+                "category": "mapping",
+                "confidence": "low"
+              },
+              "trace_ids": [
+                "419d4e78fbf0a9e7137f9419aaf1588f",
+                "4c73883567e673c4255223f5b81d01a4",
+                "d67ec242a4b33e9d4b7392d05b2c8423"
+              ]
+            },
+            {
+              "file": "multiple-attempts.txt",
+              "path": "fixtures/latency-regression/multiple-attempts.txt",
+              "sha256": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f",
+              "run_id": "8fa560f7-0f7d-455e-bdab-f35a0dd47e9c",
+              "case_number": "CFIN-2026-000100",
+              "published": false,
+              "workflow_seconds": 31.593,
+              "end_to_end_seconds": 35.692,
+              "known_cost_usd": "0.002867",
+              "automated_quality_passed": false,
+              "failed_checks": [
+                "published_current_run",
+                "completed",
+                "category_allowed",
+                "contract_and_provenance_validation"
+              ],
+              "model_call_count": 2,
+              "failed_call_attempts": [
+                {
+                  "stage": "agent_1",
+                  "invocation": 0,
+                  "latency_seconds": 16.077,
+                  "actual_usd": 0.001524
+                },
+                {
+                  "stage": "agent_1",
+                  "invocation": 1,
+                  "latency_seconds": 15.136,
+                  "actual_usd": 0.001343
+                }
+              ],
+              "semantic_review": {
+                "verdict": "failed_before_diagnosis_and_writing",
+                "note": "Extraction invalid on both permitted attempts. No narrative to review.",
+                "category": null,
+                "confidence": null
+              },
+              "trace_ids": [
+                "291db3be3790f373da850182d7b72ecc",
+                "df66f0d37eb1889f91b6721a0827152f"
+              ]
+            }
+          ]
+        },
+        "writer_low": {
+          "source_report": ".local-runtime/latency-benchmark/model-matrix-20261009-writer_low-c2/report.json",
+          "model_configuration": {
+            "agent1": "gpt-6-luna",
+            "agent2": "gpt-6.1-sol",
+            "agent3": "gpt-6.1-sol",
+            "reasoning_effort": "medium",
+            "agent1_reasoning_effort": "medium",
+            "agent2_reasoning_effort": "medium",
+            "agent3_reasoning_effort": "low"
+          },
+          "prompt_versions": {
+            "agent1": "error-analysis-extraction-compact-v2",
+            "agent2": "error-analysis-v1",
+            "agent3": "error-analysis-summary-compact-v2"
+          },
+          "summary": {
+            "recorded_cases": 13,
+            "completed_observations": 13,
+            "published": 13,
+            "automated_quality_passes": 13,
+            "semantic_review": "required; automatic checks are not semantic quality evidence",
+            "model_calls": 39,
+            "tokens": {
+              "input_tokens": 101916,
+              "output_tokens": 33815
+            },
+            "known_cost_usd": "0.321608",
+            "unresolved_reserved_usd": "0",
+            "workflow_latency": {
+              "mean_seconds": 28.886,
+              "median_seconds": 28.377,
+              "p95_seconds": 32.914,
+              "max_seconds": 32.914
+            },
+            "upload_to_result_latency": {
+              "mean_seconds": 35.129,
+              "median_seconds": 33.56,
+              "p95_seconds": 49.453,
+              "max_seconds": 49.453
+            },
+            "queue_and_startup_latency": {
+              "mean_seconds": 4.07,
+              "median_seconds": 2.982,
+              "p95_seconds": 13.866,
+              "max_seconds": 13.866
+            },
+            "stage_latency": {
+              "agent_1": {
+                "mean_seconds": 12.662,
+                "median_seconds": 13.097,
+                "p95_seconds": 16.31,
+                "max_seconds": 16.31
+              },
+              "agent_2": {
+                "mean_seconds": 7.381,
+                "median_seconds": 6.983,
+                "p95_seconds": 13.357,
+                "max_seconds": 13.357
+              },
+              "agent_3": {
+                "mean_seconds": 8.052,
+                "median_seconds": 8.269,
+                "p95_seconds": 9.46,
+                "max_seconds": 9.46
+              }
+            },
+            "observed_peak_case_execution_overlap": 2,
+            "trace_exports_acknowledged": 13,
+            "caveat": "Small synthetic experiment, not a production SLA or load test. Stage timestamps include reservation/reconciliation overhead. Upload-to-result includes queue, worker/export, and API readback. Resumed runs are marked separately."
+          },
+          "published_results_mean_wait_seconds": 35.129,
+          "arize": {
+            "project_name": "cfin-document-error-analysis",
+            "expected_traces": 39,
+            "found_traces": 39,
+            "readback_verified": true
+          },
+          "runs": [
+            {
+              "file": "batch-01-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-01-master_data.txt",
+              "sha256": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+              "run_id": "d0e4a133-8fa7-4f6d-a0c6-8ede90536465",
+              "case_number": "CFIN-2026-000053",
+              "published": true,
+              "workflow_seconds": 24.298,
+              "end_to_end_seconds": 29.244,
+              "known_cost_usd": "0.021395",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "02c1f7d3465f803016b61722dbad00ef",
+                "7267ea2a1a1269cd4f6a0588bcc6ca87",
+                "82d1cf5178a105ee36273f704fdc291d"
+              ]
+            },
+            {
+              "file": "batch-01-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-01-mapping.txt",
+              "sha256": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+              "run_id": "deb25879-69c1-4e14-b6b5-76c51d547503",
+              "case_number": "CFIN-2026-000054",
+              "published": true,
+              "workflow_seconds": 25.872,
+              "end_to_end_seconds": 29.624,
+              "known_cost_usd": "0.019325",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "132863618fc256d7a3d6bfe831a35087",
+                "547a720d923823d1b607b73ee1d6292e",
+                "d82dba9e113b26cfeddfba887a313b44"
+              ]
+            },
+            {
+              "file": "batch-02-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-02-master_data.txt",
+              "sha256": "b873b5ecb082f0787db8907e7cfdc9f46db3c87b2bbdcd7b99df026e008f7c79",
+              "run_id": "8642347e-883b-4d95-939c-c3b133e291cc",
+              "case_number": "CFIN-2026-000059",
+              "published": true,
+              "workflow_seconds": 27.631,
+              "end_to_end_seconds": 33.56,
+              "known_cost_usd": "0.023914",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "260a80aa3ca02a2948a80d2a087d0e81",
+                "3a1ef402ddae1543388ad7deeffee6b7",
+                "d6ac0d6cbb27fb2830a407fd681e6873"
+              ]
+            },
+            {
+              "file": "batch-02-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-02-mapping.txt",
+              "sha256": "13239b6114ec0fef3d49814d3ed0c6fefe4dd43f42fe3f3df0e79c7e984d4bc6",
+              "run_id": "d4e15e6b-aafd-4d0d-bb0a-e7154fe83ac8",
+              "case_number": "CFIN-2026-000060",
+              "published": true,
+              "workflow_seconds": 28.252,
+              "end_to_end_seconds": 32.283,
+              "known_cost_usd": "0.022397",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "bbbb8155a58d12a7f05bf4ff817b9883",
+                "c4cd0797849c036af8ed8d6b87d7a65c",
+                "ecc39b01bb2964ffdadcfffe502ba888"
+              ]
+            },
+            {
+              "file": "batch-03-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-03-master_data.txt",
+              "sha256": "6614240d8728b1b330994782f6b4dcbf034e0a429a1b28d9a7c4a66d9aac7dfb",
+              "run_id": "1c3ef9ed-b48b-4b57-9d9c-11aa740effb4",
+              "case_number": "CFIN-2026-000065",
+              "published": true,
+              "workflow_seconds": 32.914,
+              "end_to_end_seconds": 37.815,
+              "known_cost_usd": "0.028332",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "2f916aac07318c3977efd5cdaa6e3291",
+                "9d5c2ecb0292e8aaa49e477111ce0762",
+                "e3eb9645661cfeca979f16acf89db2cd"
+              ]
+            },
+            {
+              "file": "batch-03-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-03-mapping.txt",
+              "sha256": "df68f88cd5162c6fff9af33835f142a0a2c4418b4480bcacaee250d153a5c208",
+              "run_id": "ff0b4e78-3a1b-4143-924a-6368cd3c73f3",
+              "case_number": "CFIN-2026-000066",
+              "published": true,
+              "workflow_seconds": 28.377,
+              "end_to_end_seconds": 32.218,
+              "known_cost_usd": "0.025149",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "793f433d5ee1b843a14736bc501c37c4",
+                "b6ca0a4755f800f8d43977c5cc6edceb",
+                "c538199cb59844189bca8fe7db22a90b"
+              ]
+            },
+            {
+              "file": "batch-04-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-04-master_data.txt",
+              "sha256": "9196bd2aab3888f4994d3b78ceae3fb8938176901618195972cf7a532ac419c4",
+              "run_id": "6d6a3724-feb7-476f-aeb5-42e6569e53a0",
+              "case_number": "CFIN-2026-000079",
+              "published": true,
+              "workflow_seconds": 32.455,
+              "end_to_end_seconds": 49.453,
+              "known_cost_usd": "0.027691",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "207d63844ea0a27da90a2d83479ba739",
+                "21e7b768698c7911f607f80b21817dae",
+                "9f962126dc5283206f7ff2d8c1eafb37"
+              ]
+            },
+            {
+              "file": "batch-04-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-04-mapping.txt",
+              "sha256": "c984fdff26a6ec9d4d37e4347f8e42ad672515ee764634f3541f92072c7d2240",
+              "run_id": "506d5c33-a6f0-4d0d-aaf5-393be0541f5b",
+              "case_number": "CFIN-2026-000080",
+              "published": true,
+              "workflow_seconds": 31.486,
+              "end_to_end_seconds": 42.877,
+              "known_cost_usd": "0.028161",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "3741c4d1856f291e22aa6ed079aed5a3",
+                "7712b016c96595eb91de3da71da589d9",
+                "7a219241272e51f3ae7d0eac0f990a7b"
+              ]
+            },
+            {
+              "file": "batch-05-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-05-master_data.txt",
+              "sha256": "cb1fd79d0bc1727727f0cca1793466fd7e449b6137d13b0d211d716861fa83af",
+              "run_id": "18eb9066-2733-4fe7-81fc-ab995a7d8e00",
+              "case_number": "CFIN-2026-000085",
+              "published": true,
+              "workflow_seconds": 32.037,
+              "end_to_end_seconds": 37.847,
+              "known_cost_usd": "0.029850",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "09a0c168672ed49d299bc653fd8ede5a",
+                "709b8fcf8f4f63f4a9c0f5cf4469bc8b",
+                "82e0e8afd5fb067f40bcd9121450176f"
+              ]
+            },
+            {
+              "file": "batch-05-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-05-mapping.txt",
+              "sha256": "63f21e757d4c737c4ae95fd8f061fa248dc3eb628eaf34c5257c32d217169af6",
+              "run_id": "758383e4-00cb-4b40-99d9-e2ee8a5ab359",
+              "case_number": "CFIN-2026-000086",
+              "published": true,
+              "workflow_seconds": 32.339,
+              "end_to_end_seconds": 36.264,
+              "known_cost_usd": "0.029704",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "319a07f4d1d020cda92b8bc25e3a4b4c",
+                "6ffbe08dc5aa37bda6db660af4ea1003",
+                "9160956125ab109a858959169c887754"
+              ]
+            },
+            {
+              "file": "unknown.txt",
+              "path": "fixtures/latency-regression/unknown.txt",
+              "sha256": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+              "run_id": "33b3fceb-88bb-4233-8e72-4bb52772016b",
+              "case_number": "CFIN-2026-000091",
+              "published": true,
+              "workflow_seconds": 22.909,
+              "end_to_end_seconds": 28.944,
+              "known_cost_usd": "0.018742",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Unknown cause and low confidence preserved; no specific diagnosis or completed remediation invented.",
+                "category": "unclassified",
+                "confidence": "low"
+              },
+              "trace_ids": [
+                "54afce975d97d0a1d93c53475d7de349",
+                "9aa07a2ff5caf47b96dcea99cd6921ea",
+                "c97f674be5d298d05031c50469bcfca6"
+              ]
+            },
+            {
+              "file": "ambiguous.txt",
+              "path": "fixtures/latency-regression/ambiguous.txt",
+              "sha256": "4e1ec3cefdf62d8996de58bee8674126b8d936699655487b053e9c2fea3df43f",
+              "run_id": "2193e371-9b62-4ef1-9d71-79ee1c2b3041",
+              "case_number": "CFIN-2026-000092",
+              "published": true,
+              "workflow_seconds": 29.492,
+              "end_to_end_seconds": 34.381,
+              "known_cost_usd": "0.019675",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Mapping versus master-data ambiguity and low confidence preserved; missing checks not claimed completed.",
+                "category": "mapping",
+                "confidence": "low"
+              },
+              "trace_ids": [
+                "3ab687d1eccaea33e60e6545e53c3e7a",
+                "bf13a828b5de5fea36a16441968eafbd",
+                "e8d21481da23885973f82d9d8bbefe5c"
+              ]
+            },
+            {
+              "file": "multiple-attempts.txt",
+              "path": "fixtures/latency-regression/multiple-attempts.txt",
+              "sha256": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f",
+              "run_id": "d182d9aa-3646-4eb6-9c90-29a36fb8f96a",
+              "case_number": "CFIN-2026-000097",
+              "published": true,
+              "workflow_seconds": 27.45,
+              "end_to_end_seconds": 32.173,
+              "known_cost_usd": "0.027273",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Distinct attempts and source/target roles preserved. Earlier mapping failure is not claimed corrected; no successful posting or independently verified SAP state invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "22e586be23b3122290cb348ff1240b91",
+                "63cbb8ac73d67edbd0d8300a08ed516f",
+                "7ab29ad98b862a8552a039107dcf7af7"
+              ]
+            }
+          ]
+        },
+        "all_luna": {
+          "source_report": ".local-runtime/latency-benchmark/model-matrix-20261009-all_luna-c2/report.json",
+          "model_configuration": {
+            "agent1": "gpt-6-luna",
+            "agent2": "gpt-6-luna",
+            "agent3": "gpt-6-luna",
+            "reasoning_effort": "medium",
+            "agent1_reasoning_effort": "medium",
+            "agent2_reasoning_effort": "medium",
+            "agent3_reasoning_effort": "medium"
+          },
+          "prompt_versions": {
+            "agent1": "error-analysis-extraction-compact-v2",
+            "agent2": "error-analysis-v1",
+            "agent3": "error-analysis-summary-compact-v2"
+          },
+          "summary": {
+            "recorded_cases": 13,
+            "completed_observations": 13,
+            "published": 13,
+            "automated_quality_passes": 12,
+            "semantic_review": "required; automatic checks are not semantic quality evidence",
+            "model_calls": 40,
+            "tokens": {
+              "input_tokens": 104138,
+              "output_tokens": 44607
+            },
+            "known_cost_usd": "0.035339",
+            "unresolved_reserved_usd": "0",
+            "workflow_latency": {
+              "mean_seconds": 27.556,
+              "median_seconds": 27.043,
+              "p95_seconds": 41.352,
+              "max_seconds": 41.352
+            },
+            "upload_to_result_latency": {
+              "mean_seconds": 33.635,
+              "median_seconds": 33.89,
+              "p95_seconds": 47.828,
+              "max_seconds": 47.828
+            },
+            "queue_and_startup_latency": {
+              "mean_seconds": 3.858,
+              "median_seconds": 3.046,
+              "p95_seconds": 11.93,
+              "max_seconds": 11.93
+            },
+            "stage_latency": {
+              "agent_1": {
+                "mean_seconds": 14.015,
+                "median_seconds": 14.338,
+                "p95_seconds": 18.274,
+                "max_seconds": 18.274
+              },
+              "agent_2": {
+                "mean_seconds": 4.095,
+                "median_seconds": 3.903,
+                "p95_seconds": 6.508,
+                "max_seconds": 6.508
+              },
+              "agent_3": {
+                "mean_seconds": 7.434,
+                "median_seconds": 7.325,
+                "p95_seconds": 10.262,
+                "max_seconds": 10.262
+              }
+            },
+            "observed_peak_case_execution_overlap": 2,
+            "trace_exports_acknowledged": 13,
+            "caveat": "Small synthetic experiment, not a production SLA or load test. Stage timestamps include reservation/reconciliation overhead. Upload-to-result includes queue, worker/export, and API readback. Resumed runs are marked separately."
+          },
+          "published_results_mean_wait_seconds": 33.635,
+          "arize": {
+            "project_name": "cfin-document-error-analysis",
+            "expected_traces": 40,
+            "found_traces": 40,
+            "readback_verified": true
+          },
+          "runs": [
+            {
+              "file": "batch-01-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-01-master_data.txt",
+              "sha256": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+              "run_id": "248760e5-79b7-4bfb-9484-ee211bad825d",
+              "case_number": "CFIN-2026-000055",
+              "published": true,
+              "workflow_seconds": 22.89,
+              "end_to_end_seconds": 27.642,
+              "known_cost_usd": "0.002183",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "25d1d98c9a774b2b391a6fd8e8bb409f",
+                "6b9db7cecac56be4ba2f0d36d8ff6a72",
+                "964f2b9fbcd7f04db518fe5a75d7466b"
+              ]
+            },
+            {
+              "file": "batch-01-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-01-mapping.txt",
+              "sha256": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+              "run_id": "762ee82b-490c-4230-b1e9-45f53510a4fd",
+              "case_number": "CFIN-2026-000056",
+              "published": true,
+              "workflow_seconds": 21.336,
+              "end_to_end_seconds": 24.945,
+              "known_cost_usd": "0.002017",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "62e5b092243629b8e9188dd82482638b",
+                "8e5876041efdf4fa4de43916d8fb5112",
+                "ea74dc4be2e8b8c35eeee9e51a7f6570"
+              ]
+            },
+            {
+              "file": "batch-02-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-02-master_data.txt",
+              "sha256": "b873b5ecb082f0787db8907e7cfdc9f46db3c87b2bbdcd7b99df026e008f7c79",
+              "run_id": "9eb52f0a-f337-42bb-8db2-498f6ba0cfb9",
+              "case_number": "CFIN-2026-000061",
+              "published": true,
+              "workflow_seconds": 27.043,
+              "end_to_end_seconds": 42.413,
+              "known_cost_usd": "0.002588",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "01aefe605a1cf099f159440154b53039",
+                "971c07213e4c3a647785ac554f5c0ff1",
+                "f96309158f20ffb5845ab9ba0e01293d"
+              ]
+            },
+            {
+              "file": "batch-02-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-02-mapping.txt",
+              "sha256": "13239b6114ec0fef3d49814d3ed0c6fefe4dd43f42fe3f3df0e79c7e984d4bc6",
+              "run_id": "c4494e26-6c4d-4c8c-beb9-6d93e93cb1da",
+              "case_number": "CFIN-2026-000062",
+              "published": true,
+              "workflow_seconds": 26.382,
+              "end_to_end_seconds": 35.382,
+              "known_cost_usd": "0.002577",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "07e076451ae8de7ae8ddd11c9d2ee0ee",
+                "6e127c96ce659035e1977137a2ae9915",
+                "c6e5cbc0c595895f6568818b40dceb6f"
+              ]
+            },
+            {
+              "file": "batch-03-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-03-master_data.txt",
+              "sha256": "6614240d8728b1b330994782f6b4dcbf034e0a429a1b28d9a7c4a66d9aac7dfb",
+              "run_id": "b5e7c74b-479d-4b0f-938c-438c3e4c3824",
+              "case_number": "CFIN-2026-000067",
+              "published": true,
+              "workflow_seconds": 29.579,
+              "end_to_end_seconds": 35.254,
+              "known_cost_usd": "0.002863",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "2dbf810e8e98cc8703172e7f1894a6eb",
+                "2ee9cfb09015fb8865155922c2a253f2",
+                "969a87081b95d811f7db55769e2247ae"
+              ]
+            },
+            {
+              "file": "batch-03-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-03-mapping.txt",
+              "sha256": "df68f88cd5162c6fff9af33835f142a0a2c4418b4480bcacaee250d153a5c208",
+              "run_id": "33f07e31-3e9d-4e55-8f2f-e37afc4a780d",
+              "case_number": "CFIN-2026-000068",
+              "published": true,
+              "workflow_seconds": 29.554,
+              "end_to_end_seconds": 33.89,
+              "known_cost_usd": "0.002883",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "23b145cbc9aa4282d96149f4153d5c2a",
+                "2d470901531759664bdf458716cd19fc",
+                "7bf485458c0621da5b3cd563f7384646"
+              ]
+            },
+            {
+              "file": "batch-04-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-04-master_data.txt",
+              "sha256": "9196bd2aab3888f4994d3b78ceae3fb8938176901618195972cf7a532ac419c4",
+              "run_id": "f1464b2c-ed4a-41f9-8d27-fd2002650691",
+              "case_number": "CFIN-2026-000073",
+              "published": true,
+              "workflow_seconds": 30.981,
+              "end_to_end_seconds": 36.919,
+              "known_cost_usd": "0.003231",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "3b3eb998b8361313ab108d7ebad01c09",
+                "b5b460bce4cab561b3068795fca52e68",
+                "c6a36d19ad238b45230c74fc05a7cedb"
+              ]
+            },
+            {
+              "file": "batch-04-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-04-mapping.txt",
+              "sha256": "c984fdff26a6ec9d4d37e4347f8e42ad672515ee764634f3541f92072c7d2240",
+              "run_id": "2bcaeb93-ea8d-4f3e-be16-df432fcf656a",
+              "case_number": "CFIN-2026-000074",
+              "published": true,
+              "workflow_seconds": 26.25,
+              "end_to_end_seconds": 31.011,
+              "known_cost_usd": "0.002680",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "4aa7a1546a831017355c1f6193df413c",
+                "76d5474aa591283797309f6f7847185d",
+                "a57e0019abb6b8125c4451b8011ce8be"
+              ]
+            },
+            {
+              "file": "batch-05-master_data.txt",
+              "path": "fixtures/analysis-batches/batch-05-master_data.txt",
+              "sha256": "cb1fd79d0bc1727727f0cca1793466fd7e449b6137d13b0d211d716861fa83af",
+              "run_id": "a6232036-4b5d-4062-ac80-bb8717623e2e",
+              "case_number": "CFIN-2026-000087",
+              "published": true,
+              "workflow_seconds": 41.352,
+              "end_to_end_seconds": 47.828,
+              "known_cost_usd": "0.004124",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 4,
+              "failed_call_attempts": [
+                {
+                  "stage": "agent_1",
+                  "invocation": 0,
+                  "latency_seconds": 16.014,
+                  "actual_usd": 0.001476
+                }
+              ],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "250b07f2c9aef285707a400ee35d35dc",
+                "2e313742920a9619ea1356bd686eb5b7",
+                "314a30384f267cef6f0afdabe0398a74",
+                "d90c10113121bcf510a4200c8b6cc11c"
+              ]
+            },
+            {
+              "file": "batch-05-mapping.txt",
+              "path": "fixtures/analysis-batches/batch-05-mapping.txt",
+              "sha256": "63f21e757d4c737c4ae95fd8f061fa248dc3eb628eaf34c5257c32d217169af6",
+              "run_id": "2eb59ad4-1b73-444c-a032-d53ecfb1cc7a",
+              "case_number": "CFIN-2026-000088",
+              "published": true,
+              "workflow_seconds": 28.003,
+              "end_to_end_seconds": 32.516,
+              "known_cost_usd": "0.003078",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Facts and cited evidence retain logged errors and failed outcome. Hypotheses remain separate from independently verified state; no completed remediation invented.",
+                "category": "mapping",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "1773123a4e226ab7f5676d17f5f0c946",
+                "626072732b9a5d75f0f13b1dca110246",
+                "fd3b88c4f69c41617c2b37aedc390743"
+              ]
+            },
+            {
+              "file": "unknown.txt",
+              "path": "fixtures/latency-regression/unknown.txt",
+              "sha256": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+              "run_id": "e3713b49-215b-46b7-86f3-b141dfce7f79",
+              "case_number": "CFIN-2026-000093",
+              "published": true,
+              "workflow_seconds": 19.567,
+              "end_to_end_seconds": 25.234,
+              "known_cost_usd": "0.001781",
+              "automated_quality_passed": false,
+              "failed_checks": [
+                "no_high_confidence_on_ambiguous_evidence"
+              ],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "fails_uncertainty_requirement",
+                "note": "Unknown cause is correctly retained in prose, but high confidence fails the existing acceptance requirement. No specific cause was invented.",
+                "category": "unclassified",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "0590b824908eb2307b6d2cfd9fdd3fb9",
+                "45ead8b444849cac2deb653f88dcc7a9",
+                "ed3eb4e80b9fd1078d0a00971ec30cc2"
+              ]
+            },
+            {
+              "file": "ambiguous.txt",
+              "path": "fixtures/latency-regression/ambiguous.txt",
+              "sha256": "4e1ec3cefdf62d8996de58bee8674126b8d936699655487b053e9c2fea3df43f",
+              "run_id": "b1ec9762-65e5-4706-ab8d-329d18439704",
+              "case_number": "CFIN-2026-000094",
+              "published": true,
+              "workflow_seconds": 26.071,
+              "end_to_end_seconds": 30.118,
+              "known_cost_usd": "0.002308",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Mapping versus master-data ambiguity and low confidence preserved; missing checks not claimed completed.",
+                "category": "mapping",
+                "confidence": "low"
+              },
+              "trace_ids": [
+                "50888e53e4930db4248702dbfdd2285a",
+                "8164e320151346c7f27c9e06027e6008",
+                "c47dc2b3da947dc7554198241bda9418"
+              ]
+            },
+            {
+              "file": "multiple-attempts.txt",
+              "path": "fixtures/latency-regression/multiple-attempts.txt",
+              "sha256": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f",
+              "run_id": "cdc12c48-8a12-4812-8acf-480997024a96",
+              "case_number": "CFIN-2026-000098",
+              "published": true,
+              "workflow_seconds": 29.221,
+              "end_to_end_seconds": 34.102,
+              "known_cost_usd": "0.003026",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Distinct attempts and source/target roles preserved. Earlier mapping failure is not claimed corrected; no successful posting or independently verified SAP state invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "13a268a8c826c7d6ec80d7a3852552ae",
+                "3a367e44488aa45be24f8a463267f41f",
+                "81b4f97ce383ace855d5e93523670ddf"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "model-matrix-confirm-20261009": {
+      "plan": {
+        "suite": "model-matrix-confirm-20261009",
+        "profiles": [
+          "writer_luna",
+          "writer_low"
+        ],
+        "concurrency": 2,
+        "fixtures": {
+          "unknown.txt": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+          "ambiguous.txt": "4e1ec3cefdf62d8996de58bee8674126b8d936699655487b053e9c2fea3df43f",
+          "multiple-attempts.txt": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f"
+        },
+        "schedule": [
+          {
+            "pair": 1,
+            "profile": "writer_luna",
+            "files": [
+              "unknown.txt",
+              "ambiguous.txt"
+            ]
+          },
+          {
+            "pair": 1,
+            "profile": "writer_low",
+            "files": [
+              "unknown.txt",
+              "ambiguous.txt"
+            ]
+          },
+          {
+            "pair": 2,
+            "profile": "writer_low",
+            "files": [
+              "multiple-attempts.txt"
+            ]
+          },
+          {
+            "pair": 2,
+            "profile": "writer_luna",
+            "files": [
+              "multiple-attempts.txt"
+            ]
+          }
+        ]
+      },
+      "frontend_projection_passed": true,
+      "published_projection_count": 6,
+      "profiles": {
+        "writer_luna": {
+          "source_report": ".local-runtime/latency-benchmark/model-matrix-confirm-20261009-writer_luna-c2/report.json",
+          "model_configuration": {
+            "agent1": "gpt-6-luna",
+            "agent2": "gpt-6.1-sol",
+            "agent3": "gpt-6-luna",
+            "reasoning_effort": "medium",
+            "agent1_reasoning_effort": "medium",
+            "agent2_reasoning_effort": "medium",
+            "agent3_reasoning_effort": "medium"
+          },
+          "prompt_versions": {
+            "agent1": "error-analysis-extraction-compact-v2",
+            "agent2": "error-analysis-v1",
+            "agent3": "error-analysis-summary-compact-v2"
+          },
+          "summary": {
+            "recorded_cases": 3,
+            "completed_observations": 3,
+            "published": 3,
+            "automated_quality_passes": 3,
+            "semantic_review": "required; automatic checks are not semantic quality evidence",
+            "model_calls": 9,
+            "tokens": {
+              "input_tokens": 20979,
+              "output_tokens": 8897
+            },
+            "known_cost_usd": "0.033695",
+            "unresolved_reserved_usd": "0",
+            "workflow_latency": {
+              "mean_seconds": 25.583,
+              "median_seconds": 26.169,
+              "p95_seconds": 31.8,
+              "max_seconds": 31.8
+            },
+            "upload_to_result_latency": {
+              "mean_seconds": 30.639,
+              "median_seconds": 30.711,
+              "p95_seconds": 35.709,
+              "max_seconds": 35.709
+            },
+            "queue_and_startup_latency": {
+              "mean_seconds": 2.934,
+              "median_seconds": 2.457,
+              "p95_seconds": 4.275,
+              "max_seconds": 4.275
+            },
+            "stage_latency": {
+              "agent_1": {
+                "mean_seconds": 12.271,
+                "median_seconds": 13.117,
+                "p95_seconds": 15.652,
+                "max_seconds": 15.652
+              },
+              "agent_2": {
+                "mean_seconds": 6.2,
+                "median_seconds": 5.947,
+                "p95_seconds": 7.733,
+                "max_seconds": 7.733
+              },
+              "agent_3": {
+                "mean_seconds": 6.419,
+                "median_seconds": 6.399,
+                "p95_seconds": 7.665,
+                "max_seconds": 7.665
+              }
+            },
+            "observed_peak_case_execution_overlap": 2,
+            "trace_exports_acknowledged": 3,
+            "caveat": "Small synthetic experiment, not a production SLA or load test. Stage timestamps include reservation/reconciliation overhead. Upload-to-result includes queue, worker/export, and API readback. Resumed runs are marked separately."
+          },
+          "published_results_mean_wait_seconds": 30.639,
+          "arize": {
+            "project_name": "cfin-document-error-analysis",
+            "expected_traces": 9,
+            "found_traces": 9,
+            "readback_verified": true
+          },
+          "runs": [
+            {
+              "file": "unknown.txt",
+              "path": "fixtures/latency-regression/unknown.txt",
+              "sha256": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+              "run_id": "2e8a0bed-1240-4a95-90c8-77c2666b2437",
+              "case_number": "CFIN-2026-000101",
+              "published": true,
+              "workflow_seconds": 18.779,
+              "end_to_end_seconds": 25.496,
+              "known_cost_usd": "0.009011",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Unknown cause and low confidence preserved; no specific diagnosis or completed remediation invented.",
+                "category": "unclassified",
+                "confidence": "low"
+              },
+              "trace_ids": [
+                "074349e0ffa1626aa60eb104416a8b71",
+                "2621078ecccaf213a2617d5ee6f46d49",
+                "a523bcd8ae86db2d7a4d88b1b4abee6a"
+              ]
+            },
+            {
+              "file": "ambiguous.txt",
+              "path": "fixtures/latency-regression/ambiguous.txt",
+              "sha256": "4e1ec3cefdf62d8996de58bee8674126b8d936699655487b053e9c2fea3df43f",
+              "run_id": "339aab97-b9d7-4cb0-b934-4624a157ffba",
+              "case_number": "CFIN-2026-000102",
+              "published": true,
+              "workflow_seconds": 26.169,
+              "end_to_end_seconds": 30.711,
+              "known_cost_usd": "0.011292",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Mapping versus master-data ambiguity and low confidence preserved; missing checks not claimed completed.",
+                "category": "mapping",
+                "confidence": "low"
+              },
+              "trace_ids": [
+                "35766b18a752a60fbcb705cecd6e7db0",
+                "899c4c00e9f2bae519a489f15e16fabe",
+                "e460e63eb11784ef3d8ca02291cae76c"
+              ]
+            },
+            {
+              "file": "multiple-attempts.txt",
+              "path": "fixtures/latency-regression/multiple-attempts.txt",
+              "sha256": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f",
+              "run_id": "a3b087ad-5579-4625-b138-54aa746b1e3c",
+              "case_number": "CFIN-2026-000106",
+              "published": true,
+              "workflow_seconds": 31.8,
+              "end_to_end_seconds": 35.709,
+              "known_cost_usd": "0.013392",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Distinct attempts and source/target roles preserved. Earlier mapping failure is not claimed corrected; no successful posting or independently verified SAP state invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "6339b0d13d247e3f80d9dbc6520204e2",
+                "7f681d0e890e3e810586005e10daf7a6",
+                "af557b418a87c06994556c62bd8a6c84"
+              ]
+            }
+          ]
+        },
+        "writer_low": {
+          "source_report": ".local-runtime/latency-benchmark/model-matrix-confirm-20261009-writer_low-c2/report.json",
+          "model_configuration": {
+            "agent1": "gpt-6-luna",
+            "agent2": "gpt-6.1-sol",
+            "agent3": "gpt-6.1-sol",
+            "reasoning_effort": "medium",
+            "agent1_reasoning_effort": "medium",
+            "agent2_reasoning_effort": "medium",
+            "agent3_reasoning_effort": "low"
+          },
+          "prompt_versions": {
+            "agent1": "error-analysis-extraction-compact-v2",
+            "agent2": "error-analysis-v1",
+            "agent3": "error-analysis-summary-compact-v2"
+          },
+          "summary": {
+            "recorded_cases": 3,
+            "completed_observations": 3,
+            "published": 3,
+            "automated_quality_passes": 2,
+            "semantic_review": "required; automatic checks are not semantic quality evidence",
+            "model_calls": 11,
+            "tokens": {
+              "input_tokens": 23062,
+              "output_tokens": 10844
+            },
+            "known_cost_usd": "0.067890",
+            "unresolved_reserved_usd": "0",
+            "workflow_latency": {
+              "mean_seconds": 36.003,
+              "median_seconds": 38.797,
+              "p95_seconds": 49.627,
+              "max_seconds": 49.627
+            },
+            "upload_to_result_latency": {
+              "mean_seconds": 40.731,
+              "median_seconds": 43.016,
+              "p95_seconds": 53.767,
+              "max_seconds": 53.767
+            },
+            "queue_and_startup_latency": {
+              "mean_seconds": 2.698,
+              "median_seconds": 2.268,
+              "p95_seconds": 3.835,
+              "max_seconds": 3.835
+            },
+            "stage_latency": {
+              "agent_1": {
+                "mean_seconds": 12.525,
+                "median_seconds": 12.577,
+                "p95_seconds": 15.512,
+                "max_seconds": 15.512
+              },
+              "agent_2": {
+                "mean_seconds": 6.482,
+                "median_seconds": 6.212,
+                "p95_seconds": 7.764,
+                "max_seconds": 7.764
+              },
+              "agent_3": {
+                "mean_seconds": 7.544,
+                "median_seconds": 6.714,
+                "p95_seconds": 9.952,
+                "max_seconds": 9.952
+              }
+            },
+            "observed_peak_case_execution_overlap": 2,
+            "trace_exports_acknowledged": 3,
+            "caveat": "Small synthetic experiment, not a production SLA or load test. Stage timestamps include reservation/reconciliation overhead. Upload-to-result includes queue, worker/export, and API readback. Resumed runs are marked separately."
+          },
+          "published_results_mean_wait_seconds": 40.731,
+          "arize": {
+            "project_name": "cfin-document-error-analysis",
+            "expected_traces": 11,
+            "found_traces": 11,
+            "readback_verified": true
+          },
+          "runs": [
+            {
+              "file": "unknown.txt",
+              "path": "fixtures/latency-regression/unknown.txt",
+              "sha256": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+              "run_id": "575725b0-5ebb-4aad-a449-ff3ca465818b",
+              "case_number": "CFIN-2026-000103",
+              "published": true,
+              "workflow_seconds": 19.586,
+              "end_to_end_seconds": 25.41,
+              "known_cost_usd": "0.017040",
+              "automated_quality_passed": false,
+              "failed_checks": [
+                "no_high_confidence_on_ambiguous_evidence"
+              ],
+              "model_call_count": 3,
+              "failed_call_attempts": [],
+              "semantic_review": {
+                "verdict": "fails_uncertainty_requirement",
+                "note": "Unknown cause is correctly retained in prose, but high confidence fails the existing acceptance requirement. No specific cause was invented.",
+                "category": "unclassified",
+                "confidence": "high"
+              },
+              "trace_ids": [
+                "85ea77bb5c7750623d38960687714e09",
+                "895214983819ecb134e6970a8b175b95",
+                "b187f772bb78532d0ae22220521a7fee"
+              ]
+            },
+            {
+              "file": "ambiguous.txt",
+              "path": "fixtures/latency-regression/ambiguous.txt",
+              "sha256": "4e1ec3cefdf62d8996de58bee8674126b8d936699655487b053e9c2fea3df43f",
+              "run_id": "a7a3f41e-ee96-4fd8-a61f-160dbd7acdb2",
+              "case_number": "CFIN-2026-000104",
+              "published": true,
+              "workflow_seconds": 38.797,
+              "end_to_end_seconds": 43.016,
+              "known_cost_usd": "0.021484",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 4,
+              "failed_call_attempts": [
+                {
+                  "stage": "agent_1",
+                  "invocation": 0,
+                  "latency_seconds": 12.577,
+                  "actual_usd": 0.001011
+                }
+              ],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Mapping versus master-data ambiguity and low confidence preserved; missing checks not claimed completed.",
+                "category": "mapping",
+                "confidence": "low"
+              },
+              "trace_ids": [
+                "2483ff60a4341e9025cfe317cccbeab2",
+                "2679fe7d2b70b3f6e647528c49902829",
+                "b4792ff5f3235a53be9f048a731ac65d",
+                "de138d8c4b3f56238d05fd0f1fda0fec"
+              ]
+            },
+            {
+              "file": "multiple-attempts.txt",
+              "path": "fixtures/latency-regression/multiple-attempts.txt",
+              "sha256": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f",
+              "run_id": "0a7d3ae8-6c33-4c1c-9ac9-960af16c0fcb",
+              "case_number": "CFIN-2026-000105",
+              "published": true,
+              "workflow_seconds": 49.627,
+              "end_to_end_seconds": 53.767,
+              "known_cost_usd": "0.029366",
+              "automated_quality_passed": true,
+              "failed_checks": [],
+              "model_call_count": 4,
+              "failed_call_attempts": [
+                {
+                  "stage": "agent_1",
+                  "invocation": 0,
+                  "latency_seconds": 15.512,
+                  "actual_usd": 0.001315
+                }
+              ],
+              "semantic_review": {
+                "verdict": "pass_for_this_fixture",
+                "note": "Distinct attempts and source/target roles preserved. Earlier mapping failure is not claimed corrected; no successful posting or independently verified SAP state invented.",
+                "category": "master_data",
+                "confidence": "medium"
+              },
+              "trace_ids": [
+                "4f686cbb75f4d15c1f92813019a0177d",
+                "74dc168b295b8c981fd8a1e63461061b",
+                "7adc139f03dc95439d074814408f2655",
+                "e5f6bf7ff1be1b0350e5ec671c55a1e5"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  }
+}

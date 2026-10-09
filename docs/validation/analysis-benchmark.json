@@ -1,0 +1,826 @@
+{
+  "suite": "upload-progress-20261009-v1",
+  "summary": {
+    "runs": 10,
+    "succeeded": 10,
+    "model_calls": 30,
+    "known_cost_usd": "0.446880",
+    "unresolved_reserved_usd": "0",
+    "workflow_latency": {
+      "mean_seconds": 51.91,
+      "median_seconds": 50.3,
+      "p95_seconds": 59.95,
+      "max_seconds": 59.95
+    },
+    "upload_to_result_latency": {
+      "mean_seconds": 82.86,
+      "median_seconds": 82.24,
+      "p95_seconds": 120.69,
+      "max_seconds": 120.69
+    },
+    "stage_latency": {
+      "agent_1": {
+        "mean_seconds": 21.5,
+        "median_seconds": 21.66,
+        "p95_seconds": 27.49,
+        "max_seconds": 27.49
+      },
+      "agent_2": {
+        "mean_seconds": 8.11,
+        "median_seconds": 7.75,
+        "p95_seconds": 14.14,
+        "max_seconds": 14.14
+      },
+      "agent_3": {
+        "mean_seconds": 21.02,
+        "median_seconds": 21.08,
+        "p95_seconds": 24.66,
+        "max_seconds": 24.66
+      }
+    },
+    "trace_exports_acknowledged": 10,
+    "caveat": "Ten serial runs are a small initial baseline, not a load test or production SLA.",
+    "tokens": {
+      "input_tokens": 129287,
+      "output_tokens": 50147
+    }
+  },
+  "arize_readback": {
+    "project_name": "cfin-document-error-analysis",
+    "expected_traces": 30,
+    "found_traces": 30,
+    "readback_verified": true
+  },
+  "runs": [
+    {
+      "batch": 1,
+      "file": "batch-01-master_data.txt",
+      "errors": 1,
+      "expected_category": "master_data",
+      "document": "0000123510",
+      "sha256": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+      "bytes": 1147,
+      "case_id": "b044d953-66ca-4022-a558-263b3447f681",
+      "case_number": "CFIN-2026-000010",
+      "run_id": "9f2b1574-f146-4b60-a2b0-abdde60f9f2c",
+      "published": true,
+      "outcome": "completed",
+      "category": "master_data",
+      "workflow_seconds": 48.203,
+      "end_to_end_seconds": 54.022,
+      "known_cost_usd": "0.039343",
+      "unresolved_reserved_usd": "0",
+      "failure_reason": null,
+      "arize": {
+        "status": "export_acknowledged",
+        "retryable": false,
+        "trace_ids": [
+          "7ed0e582ac00e7b47871df86dab24463",
+          "b6bd3aa1dd8ed5ebe6d8759646a24183",
+          "e7bca939d59434d8088ca25b75a70b07"
+        ],
+        "span_count": 15,
+        "readback_verified": false,
+        "error_code": null
+      },
+      "queue_and_startup_seconds": 3.536,
+      "calls": [
+        {
+          "stage": "agent_1",
+          "invocation": 0,
+          "model_id": "gpt-6-luna",
+          "state": "succeeded",
+          "actual_usd": 0.001595,
+          "usage": {
+            "input_tokens": 1867,
+            "output_tokens": 2722
+          },
+          "created_at": "2026-10-09T18:40:26.11178+00:00",
+          "reconciled_at": "2026-10-09T18:40:43.847774+00:00",
+          "latency_seconds": 17.736
+        },
+        {
+          "stage": "agent_2",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.012678,
+          "usage": {
+            "input_tokens": 3907,
+            "output_tokens": 291
+          },
+          "created_at": "2026-10-09T18:40:44.121874+00:00",
+          "reconciled_at": "2026-10-09T18:40:52.164255+00:00",
+          "latency_seconds": 8.042
+        },
+        {
+          "stage": "agent_3",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.02507,
+          "usage": {
+            "input_tokens": 5444,
+            "output_tokens": 1146
+          },
+          "created_at": "2026-10-09T18:40:52.624897+00:00",
+          "reconciled_at": "2026-10-09T18:41:14.159685+00:00",
+          "latency_seconds": 21.535
+        }
+      ]
+    },
+    {
+      "batch": 1,
+      "file": "batch-01-mapping.txt",
+      "errors": 1,
+      "expected_category": "mapping",
+      "document": "0000123511",
+      "sha256": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+      "bytes": 1143,
+      "case_id": "5f451711-bc86-4e69-9ddd-2f0feb0d1fce",
+      "case_number": "CFIN-2026-000011",
+      "run_id": "81f84d76-4344-4f52-b208-d78c6387efe8",
+      "published": true,
+      "outcome": "completed",
+      "category": "mapping",
+      "workflow_seconds": 46.922,
+      "end_to_end_seconds": 99.81,
+      "known_cost_usd": "0.037703",
+      "unresolved_reserved_usd": "0",
+      "failure_reason": null,
+      "arize": {
+        "status": "export_acknowledged",
+        "retryable": false,
+        "trace_ids": [
+          "29afcff1195b59169c048e5caa5af3e5",
+          "93e7958723ca1d5005867e1885b865c2",
+          "ae6a23c26d56e4e930343b34de48e3ab"
+        ],
+        "span_count": 15,
+        "readback_verified": false,
+        "error_code": null
+      },
+      "queue_and_startup_seconds": 51.301,
+      "calls": [
+        {
+          "stage": "agent_1",
+          "invocation": 0,
+          "model_id": "gpt-6-luna",
+          "state": "succeeded",
+          "actual_usd": 0.001747,
+          "usage": {
+            "input_tokens": 1849,
+            "output_tokens": 3031
+          },
+          "created_at": "2026-10-09T18:41:15.903652+00:00",
+          "reconciled_at": "2026-10-09T18:41:39.089395+00:00",
+          "latency_seconds": 23.186
+        },
+        {
+          "stage": "agent_2",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.012433,
+          "usage": {
+            "input_tokens": 3949,
+            "output_tokens": 256
+          },
+          "created_at": "2026-10-09T18:41:39.290017+00:00",
+          "reconciled_at": "2026-10-09T18:41:45.146164+00:00",
+          "latency_seconds": 5.856
+        },
+        {
+          "stage": "agent_3",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.023523,
+          "usage": {
+            "input_tokens": 5309,
+            "output_tokens": 1025
+          },
+          "created_at": "2026-10-09T18:41:45.67178+00:00",
+          "reconciled_at": "2026-10-09T18:42:02.683352+00:00",
+          "latency_seconds": 17.012
+        }
+      ]
+    },
+    {
+      "batch": 2,
+      "file": "batch-02-master_data.txt",
+      "errors": 2,
+      "expected_category": "master_data",
+      "document": "0000123520",
+      "sha256": "b873b5ecb082f0787db8907e7cfdc9f46db3c87b2bbdcd7b99df026e008f7c79",
+      "bytes": 1346,
+      "case_id": "795fa211-ea3a-4d3f-9bbe-5715f6083ecd",
+      "case_number": "CFIN-2026-000013",
+      "run_id": "6a0ceaa3-0c3b-4741-95b6-9a61bb1979a4",
+      "published": true,
+      "outcome": "completed",
+      "category": "master_data",
+      "workflow_seconds": 46.773,
+      "end_to_end_seconds": 51.234,
+      "known_cost_usd": "0.042547",
+      "unresolved_reserved_usd": "0",
+      "failure_reason": null,
+      "arize": {
+        "status": "export_acknowledged",
+        "retryable": false,
+        "trace_ids": [
+          "3c4b74e18581e31f09e701bfd33c1032",
+          "5d54fddfd255f6a08ee0a9166188d36d",
+          "f6b66c33398941ca5878c39d66198aba"
+        ],
+        "span_count": 15,
+        "readback_verified": false,
+        "error_code": null
+      },
+      "queue_and_startup_seconds": 2.502,
+      "calls": [
+        {
+          "stage": "agent_1",
+          "invocation": 0,
+          "model_id": "gpt-6-luna",
+          "state": "succeeded",
+          "actual_usd": 0.001816,
+          "usage": {
+            "input_tokens": 1963,
+            "output_tokens": 3140
+          },
+          "created_at": "2026-10-09T18:42:07.130853+00:00",
+          "reconciled_at": "2026-10-09T18:42:24.756265+00:00",
+          "latency_seconds": 17.625
+        },
+        {
+          "stage": "agent_2",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.013643,
+          "usage": {
+            "input_tokens": 4281,
+            "output_tokens": 294
+          },
+          "created_at": "2026-10-09T18:42:25.00627+00:00",
+          "reconciled_at": "2026-10-09T18:42:31.268563+00:00",
+          "latency_seconds": 6.262
+        },
+        {
+          "stage": "agent_3",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.027088,
+          "usage": {
+            "input_tokens": 5911,
+            "output_tokens": 1231
+          },
+          "created_at": "2026-10-09T18:42:31.671232+00:00",
+          "reconciled_at": "2026-10-09T18:42:53.768896+00:00",
+          "latency_seconds": 22.098
+        }
+      ]
+    },
+    {
+      "batch": 2,
+      "file": "batch-02-mapping.txt",
+      "errors": 2,
+      "expected_category": "mapping",
+      "document": "0000123521",
+      "sha256": "13239b6114ec0fef3d49814d3ed0c6fefe4dd43f42fe3f3df0e79c7e984d4bc6",
+      "bytes": 1338,
+      "case_id": "c2081193-9892-4bab-949a-327fc0c0d6f3",
+      "case_number": "CFIN-2026-000014",
+      "run_id": "ba519efc-13f5-4e6d-ba9e-3534cba20f22",
+      "published": true,
+      "outcome": "completed",
+      "category": "mapping",
+      "workflow_seconds": 50.883,
+      "end_to_end_seconds": 101.85,
+      "known_cost_usd": "0.041678",
+      "unresolved_reserved_usd": "0",
+      "failure_reason": null,
+      "arize": {
+        "status": "export_acknowledged",
+        "retryable": false,
+        "trace_ids": [
+          "63f5914c1573b01a26aed54fd0c561b7",
+          "7c63d20402e53066ea364f7f1e402e35",
+          "d0b46c15ee19fcbc50d7a113719b02ed"
+        ],
+        "span_count": 15,
+        "readback_verified": false,
+        "error_code": null
+      },
+      "queue_and_startup_seconds": 49.063,
+      "calls": [
+        {
+          "stage": "agent_1",
+          "invocation": 0,
+          "model_id": "gpt-6-luna",
+          "state": "succeeded",
+          "actual_usd": 0.001903,
+          "usage": {
+            "input_tokens": 1945,
+            "output_tokens": 3319
+          },
+          "created_at": "2026-10-09T18:42:55.276453+00:00",
+          "reconciled_at": "2026-10-09T18:43:14.190432+00:00",
+          "latency_seconds": 18.914
+        },
+        {
+          "stage": "agent_2",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.01379,
+          "usage": {
+            "input_tokens": 4364,
+            "output_tokens": 288
+          },
+          "created_at": "2026-10-09T18:43:14.407003+00:00",
+          "reconciled_at": "2026-10-09T18:43:22.699891+00:00",
+          "latency_seconds": 8.293
+        },
+        {
+          "stage": "agent_3",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.025985,
+          "usage": {
+            "input_tokens": 5846,
+            "output_tokens": 1137
+          },
+          "created_at": "2026-10-09T18:43:26.926735+00:00",
+          "reconciled_at": "2026-10-09T18:43:45.860077+00:00",
+          "latency_seconds": 18.933
+        }
+      ]
+    },
+    {
+      "batch": 3,
+      "file": "batch-03-master_data.txt",
+      "errors": 3,
+      "expected_category": "master_data",
+      "document": "0000123530",
+      "sha256": "6614240d8728b1b330994782f6b4dcbf034e0a429a1b28d9a7c4a66d9aac7dfb",
+      "bytes": 1545,
+      "case_id": "b5c755a9-00bf-4692-b0ad-ca7377650f64",
+      "case_number": "CFIN-2026-000015",
+      "run_id": "751af2dc-82ae-4b35-89c9-51ec1dce5b47",
+      "published": true,
+      "outcome": "completed",
+      "category": "master_data",
+      "workflow_seconds": 49.794,
+      "end_to_end_seconds": 54.473,
+      "known_cost_usd": "0.046960",
+      "unresolved_reserved_usd": "0",
+      "failure_reason": null,
+      "arize": {
+        "status": "export_acknowledged",
+        "retryable": false,
+        "trace_ids": [
+          "4084d9cb897b004ad6401f9465e28a5c",
+          "8ef35bbecec4d542edfe1d15d7526364",
+          "b7d556a9ed98f6e10495ce6cc10dbc87"
+        ],
+        "span_count": 15,
+        "readback_verified": false,
+        "error_code": null
+      },
+      "queue_and_startup_seconds": 2.81,
+      "calls": [
+        {
+          "stage": "agent_1",
+          "invocation": 0,
+          "model_id": "gpt-6-luna",
+          "state": "succeeded",
+          "actual_usd": 0.002115,
+          "usage": {
+            "input_tokens": 2034,
+            "output_tokens": 3721
+          },
+          "created_at": "2026-10-09T18:43:50.985961+00:00",
+          "reconciled_at": "2026-10-09T18:44:12.917855+00:00",
+          "latency_seconds": 21.932
+        },
+        {
+          "stage": "agent_2",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.01571,
+          "usage": {
+            "input_tokens": 5024,
+            "output_tokens": 315
+          },
+          "created_at": "2026-10-09T18:44:13.061597+00:00",
+          "reconciled_at": "2026-10-09T18:44:20.348258+00:00",
+          "latency_seconds": 7.287
+        },
+        {
+          "stage": "agent_3",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.029135,
+          "usage": {
+            "input_tokens": 6750,
+            "output_tokens": 1226
+          },
+          "created_at": "2026-10-09T18:44:20.814461+00:00",
+          "reconciled_at": "2026-10-09T18:44:40.507673+00:00",
+          "latency_seconds": 19.693
+        }
+      ]
+    },
+    {
+      "batch": 3,
+      "file": "batch-03-mapping.txt",
+      "errors": 3,
+      "expected_category": "mapping",
+      "document": "0000123531",
+      "sha256": "df68f88cd5162c6fff9af33835f142a0a2c4418b4480bcacaee250d153a5c208",
+      "bytes": 1533,
+      "case_id": "f661949b-20f3-4c82-ac57-37bbf07c5c24",
+      "case_number": "CFIN-2026-000016",
+      "run_id": "48b58ec6-3a69-4a03-847d-fb5cd53d44f9",
+      "published": true,
+      "outcome": "completed",
+      "category": "mapping",
+      "workflow_seconds": 50.29,
+      "end_to_end_seconds": 104.491,
+      "known_cost_usd": "0.044745",
+      "unresolved_reserved_usd": "0",
+      "failure_reason": null,
+      "arize": {
+        "status": "export_acknowledged",
+        "retryable": false,
+        "trace_ids": [
+          "2a90722451787545861b58c87dff5d78",
+          "dc7c2eea0042ed3deee5a1de9924423b",
+          "f03748ac4a1d6b213dc6b658e3bea194"
+        ],
+        "span_count": 15,
+        "readback_verified": false,
+        "error_code": null
+      },
+      "queue_and_startup_seconds": 52.163,
+      "calls": [
+        {
+          "stage": "agent_1",
+          "invocation": 0,
+          "model_id": "gpt-6-luna",
+          "state": "succeeded",
+          "actual_usd": 0.002072,
+          "usage": {
+            "input_tokens": 2005,
+            "output_tokens": 3642
+          },
+          "created_at": "2026-10-09T18:44:42.048549+00:00",
+          "reconciled_at": "2026-10-09T18:45:03.718194+00:00",
+          "latency_seconds": 21.67
+        },
+        {
+          "stage": "agent_2",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.015058,
+          "usage": {
+            "input_tokens": 4823,
+            "output_tokens": 300
+          },
+          "created_at": "2026-10-09T18:45:04.038157+00:00",
+          "reconciled_at": "2026-10-09T18:45:11.022404+00:00",
+          "latency_seconds": 6.984
+        },
+        {
+          "stage": "agent_3",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.027615,
+          "usage": {
+            "input_tokens": 6374,
+            "output_tokens": 1168
+          },
+          "created_at": "2026-10-09T18:45:11.544445+00:00",
+          "reconciled_at": "2026-10-09T18:45:32.160434+00:00",
+          "latency_seconds": 20.616
+        }
+      ]
+    },
+    {
+      "batch": 4,
+      "file": "batch-04-master_data.txt",
+      "errors": 4,
+      "expected_category": "master_data",
+      "document": "0000123540",
+      "sha256": "9196bd2aab3888f4994d3b78ceae3fb8938176901618195972cf7a532ac419c4",
+      "bytes": 1744,
+      "case_id": "ee0bac5a-149a-4465-81b8-f5caeb1263e4",
+      "case_number": "CFIN-2026-000017",
+      "run_id": "db04e322-9a19-4480-b228-9696f1488bd8",
+      "published": true,
+      "outcome": "completed",
+      "category": "master_data",
+      "workflow_seconds": 59.951,
+      "end_to_end_seconds": 64.677,
+      "known_cost_usd": "0.048415",
+      "unresolved_reserved_usd": "0",
+      "failure_reason": null,
+      "arize": {
+        "status": "export_acknowledged",
+        "retryable": false,
+        "trace_ids": [
+          "0ac87894f9deabe3236650bd4a873619",
+          "4c1cfa80e44923cd218408626ed3282a",
+          "8791258c8c8328cd6311f21cc26cf002"
+        ],
+        "span_count": 15,
+        "readback_verified": false,
+        "error_code": null
+      },
+      "queue_and_startup_seconds": 2.759,
+      "calls": [
+        {
+          "stage": "agent_1",
+          "invocation": 0,
+          "model_id": "gpt-6-luna",
+          "state": "succeeded",
+          "actual_usd": 0.002017,
+          "usage": {
+            "input_tokens": 2088,
+            "output_tokens": 3511
+          },
+          "created_at": "2026-10-09T18:45:37.011685+00:00",
+          "reconciled_at": "2026-10-09T18:45:57.45115+00:00",
+          "latency_seconds": 20.439
+        },
+        {
+          "stage": "agent_2",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.015218,
+          "usage": {
+            "input_tokens": 4851,
+            "output_tokens": 309
+          },
+          "created_at": "2026-10-09T18:45:57.622201+00:00",
+          "reconciled_at": "2026-10-09T18:46:11.758217+00:00",
+          "latency_seconds": 14.136
+        },
+        {
+          "stage": "agent_3",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.03118,
+          "usage": {
+            "input_tokens": 6640,
+            "output_tokens": 1458
+          },
+          "created_at": "2026-10-09T18:46:12.176305+00:00",
+          "reconciled_at": "2026-10-09T18:46:36.803958+00:00",
+          "latency_seconds": 24.628
+        }
+      ]
+    },
+    {
+      "batch": 4,
+      "file": "batch-04-mapping.txt",
+      "errors": 4,
+      "expected_category": "mapping",
+      "document": "0000123541",
+      "sha256": "c984fdff26a6ec9d4d37e4347f8e42ad672515ee764634f3541f92072c7d2240",
+      "bytes": 1728,
+      "case_id": "4bed7dd7-ed64-411f-977e-d133ed49e2ec",
+      "case_number": "CFIN-2026-000018",
+      "run_id": "ff0ae7b1-eeb5-440f-a3a6-3650492be14c",
+      "published": true,
+      "outcome": "completed",
+      "category": "mapping",
+      "workflow_seconds": 50.313,
+      "end_to_end_seconds": 114.816,
+      "known_cost_usd": "0.043924",
+      "unresolved_reserved_usd": "0",
+      "failure_reason": null,
+      "arize": {
+        "status": "export_acknowledged",
+        "retryable": false,
+        "trace_ids": [
+          "8d8b82b9f0b21e48fcb32b53a809c9aa",
+          "956522ddecb8253a2cbcd083911be89a",
+          "b0b0420c3e0a685e0047b33f60fa5df2"
+        ],
+        "span_count": 15,
+        "readback_verified": false,
+        "error_code": null
+      },
+      "queue_and_startup_seconds": 62.655,
+      "calls": [
+        {
+          "stage": "agent_1",
+          "invocation": 0,
+          "model_id": "gpt-6-luna",
+          "state": "succeeded",
+          "actual_usd": 0.002014,
+          "usage": {
+            "input_tokens": 2065,
+            "output_tokens": 3511
+          },
+          "created_at": "2026-10-09T18:46:38.4581+00:00",
+          "reconciled_at": "2026-10-09T18:47:00.10325+00:00",
+          "latency_seconds": 21.645
+        },
+        {
+          "stage": "agent_2",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.014555,
+          "usage": {
+            "input_tokens": 4646,
+            "output_tokens": 294
+          },
+          "created_at": "2026-10-09T18:47:00.254557+00:00",
+          "reconciled_at": "2026-10-09T18:47:09.030894+00:00",
+          "latency_seconds": 8.776
+        },
+        {
+          "stage": "agent_3",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.027355,
+          "usage": {
+            "input_tokens": 6262,
+            "output_tokens": 1170
+          },
+          "created_at": "2026-10-09T18:47:09.338846+00:00",
+          "reconciled_at": "2026-10-09T18:47:28.546533+00:00",
+          "latency_seconds": 19.208
+        }
+      ]
+    },
+    {
+      "batch": 5,
+      "file": "batch-05-master_data.txt",
+      "errors": 5,
+      "expected_category": "master_data",
+      "document": "0000123550",
+      "sha256": "cb1fd79d0bc1727727f0cca1793466fd7e449b6137d13b0d211d716861fa83af",
+      "bytes": 1943,
+      "case_id": "0231fe18-68b3-4ccd-83b6-a34d91146ed7",
+      "case_number": "CFIN-2026-000019",
+      "run_id": "c1176378-9b80-47ca-aba3-a3d017afee32",
+      "published": true,
+      "outcome": "completed",
+      "category": "master_data",
+      "workflow_seconds": 58.16,
+      "end_to_end_seconds": 62.486,
+      "known_cost_usd": "0.052201",
+      "unresolved_reserved_usd": "0",
+      "failure_reason": null,
+      "arize": {
+        "status": "export_acknowledged",
+        "retryable": false,
+        "trace_ids": [
+          "049c4814624b60f274d0d2269dd2e0d0",
+          "b0db0c5b5ddf19a9a124b3f587e05df0",
+          "e66395908172c3e5d2f77171cb6e6a7e"
+        ],
+        "span_count": 15,
+        "readback_verified": false,
+        "error_code": null
+      },
+      "queue_and_startup_seconds": 2.391,
+      "calls": [
+        {
+          "stage": "agent_1",
+          "invocation": 0,
+          "model_id": "gpt-6-luna",
+          "state": "succeeded",
+          "actual_usd": 0.002471,
+          "usage": {
+            "input_tokens": 2173,
+            "output_tokens": 4398
+          },
+          "created_at": "2026-10-09T18:47:32.850643+00:00",
+          "reconciled_at": "2026-10-09T18:48:00.340078+00:00",
+          "latency_seconds": 27.489
+        },
+        {
+          "stage": "agent_2",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.01714,
+          "usage": {
+            "input_tokens": 5636,
+            "output_tokens": 305
+          },
+          "created_at": "2026-10-09T18:48:00.566683+00:00",
+          "reconciled_at": "2026-10-09T18:48:08.150658+00:00",
+          "latency_seconds": 7.584
+        },
+        {
+          "stage": "agent_3",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.03259,
+          "usage": {
+            "input_tokens": 7492,
+            "output_tokens": 1386
+          },
+          "created_at": "2026-10-09T18:48:08.898969+00:00",
+          "reconciled_at": "2026-10-09T18:48:30.744287+00:00",
+          "latency_seconds": 21.845
+        }
+      ]
+    },
+    {
+      "batch": 5,
+      "file": "batch-05-mapping.txt",
+      "errors": 5,
+      "expected_category": "mapping",
+      "document": "0000123551",
+      "sha256": "63f21e757d4c737c4ae95fd8f061fa248dc3eb628eaf34c5257c32d217169af6",
+      "bytes": 1923,
+      "case_id": "72c95310-34c7-487a-96e2-faa70b3ff1f6",
+      "case_number": "CFIN-2026-000020",
+      "run_id": "edd22f1b-b58f-4af5-9119-d3e540c917cf",
+      "published": true,
+      "outcome": "completed",
+      "category": "mapping",
+      "workflow_seconds": 57.789,
+      "end_to_end_seconds": 120.691,
+      "known_cost_usd": "0.049364",
+      "unresolved_reserved_usd": "0",
+      "failure_reason": null,
+      "arize": {
+        "status": "export_acknowledged",
+        "retryable": false,
+        "trace_ids": [
+          "21bf01426fdd8b96d4c02c198b8aed4c",
+          "7c907209a388ca3b34f5ad25865896a0",
+          "b6b412a15c32031b1897c6bc677be5f6"
+        ],
+        "span_count": 15,
+        "readback_verified": false,
+        "error_code": null
+      },
+      "queue_and_startup_seconds": 60.962,
+      "calls": [
+        {
+          "stage": "agent_1",
+          "invocation": 0,
+          "model_id": "gpt-6-luna",
+          "state": "succeeded",
+          "actual_usd": 0.002139,
+          "usage": {
+            "input_tokens": 2147,
+            "output_tokens": 3741
+          },
+          "created_at": "2026-10-09T18:48:32.840717+00:00",
+          "reconciled_at": "2026-10-09T18:48:57.216074+00:00",
+          "latency_seconds": 24.375
+        },
+        {
+          "stage": "agent_2",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.01541,
+          "usage": {
+            "input_tokens": 4976,
+            "output_tokens": 297
+          },
+          "created_at": "2026-10-09T18:48:57.389529+00:00",
+          "reconciled_at": "2026-10-09T18:49:05.296634+00:00",
+          "latency_seconds": 7.907
+        },
+        {
+          "stage": "agent_3",
+          "invocation": 0,
+          "model_id": "gpt-6.1-sol",
+          "state": "succeeded",
+          "actual_usd": 0.031815,
+          "usage": {
+            "input_tokens": 6666,
+            "output_tokens": 1515
+          },
+          "created_at": "2026-10-09T18:49:05.729717+00:00",
+          "reconciled_at": "2026-10-09T18:49:30.384685+00:00",
+          "latency_seconds": 24.655
+        }
+      ]
+    }
+  ]
+}

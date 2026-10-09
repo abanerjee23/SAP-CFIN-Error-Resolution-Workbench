@@ -190,6 +190,24 @@ def test_demo_audit_label_and_empty_note_guard(monkeypatch):
         action.assert_awaited_once()
 
 
+def test_demo_retry_keeps_normal_authorisation_and_requires_a_case_note(monkeypatch):
+    client, _ = build(monkeypatch)
+    with client:
+        headers = start(client)
+        action = AsyncMock(return_value={"saved": True})
+        client.app.state.operations.action = action
+        body = {"workspace_id": W, "expected_version": 1,
+                "acting_role": "process_owner", "action": "analyse",
+                "payload": {"note": "Retry after incomplete analysis."}}
+        assert client.post(f"/api/cases/{C}/actions", json=body, headers=headers).status_code == 200
+        saved = action.call_args.args[3]
+        assert saved.action == "analyse" and saved.expected_version == 1
+        assert saved.payload["note"].startswith("[Simulated demo persona:")
+        body["payload"] = {}
+        assert client.post(f"/api/cases/{C}/actions", json=body, headers=headers).status_code == 422
+        action.assert_awaited_once()
+
+
 def test_synthetic_flag_is_rechecked_and_session_refresh_stays_server_side(monkeypatch):
     client, establish = build(monkeypatch)
     with client:

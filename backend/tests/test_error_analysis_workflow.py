@@ -137,6 +137,37 @@ def test_pilot_unclassified_is_a_valid_live_result_when_evidence_gap_is_explicit
     assert outcome.result.analysis.route.owner_role == "cfin_exception_manager"
 
 
+@pytest.mark.parametrize("always_stuck", [False, True])
+def test_slow_stage_is_cancelled_then_retried_once(always_stuck):
+    value = inputs()
+    adapter = Adapter(value)
+    original_execute = adapter.execute
+    attempts = []
+    cancelled = []
+
+    async def slow(stage, payload, output_type, source):
+        if stage == "agent1":
+            attempts.append(stage)
+            if always_stuck or len(attempts) == 1:
+                try:
+                    await asyncio.sleep(1)
+                except asyncio.CancelledError:
+                    cancelled.append(stage)
+                    raise
+        return await original_execute(stage, payload, output_type, source)
+
+    adapter.execute = slow
+    result = asyncio.run(ErrorAnalysisWorkflowExecutor(
+        adapter, binding(value), InMemoryRouteRegistry(), timeout_seconds=0.01, max_retries=1,
+    ).run(value))
+    assert len(attempts) == 2
+    assert len(cancelled) == (2 if always_stuck else 1)
+    assert result.result.outcome == ("failed" if always_stuck else "completed")
+    if always_stuck:
+        assert result.result.case_content is None
+        assert "timeout" in result.result.failure_reason
+
+
 @pytest.mark.parametrize(
     ("category", "route_kind", "owner"),
     [

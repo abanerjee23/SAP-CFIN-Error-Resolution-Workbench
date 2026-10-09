@@ -1,0 +1,14 @@
+SYNTHETIC LATENCY REGRESSION. Fictional application log; no real customer data.
+source_system=ERP-ATTEMPTS | source_client=030 | source_company_code=0030
+target_system=CFIN-ATTEMPTS | target_client=300 | target_company_code=0077
+document_number=0000123703 | fiscal_year=2026 | interface=DEMO_CFIN_GL
+source_posting_date=2026-10-08 | source_status=posted
+2026-10-09T16:20:00Z | attempt_id=MULTI-A1 | processing_order=1 | event=replication_started
+2026-10-09T16:20:01Z | severity=error | synthetic_message_id=MULTI-01 | No source-to-target mapping was found for source G/L account 0000400001 to target company code 0077.
+2026-10-09T16:20:02Z | attempt_id=MULTI-A1 | event=replication_finished | result=failed
+2026-10-09T16:30:00Z | attempt_id=MULTI-A2 | processing_order=2 | event=replication_started
+2026-10-09T16:30:01Z | severity=info | synthetic_message_id=MULTI-02 | This attempt reports mapping source G/L account 0000400001 to target G/L account 0041000010; this is a logged result, not independent verification.
+2026-10-09T16:30:02Z | severity=error | synthetic_message_id=MULTI-03 | Target G/L account 0041000010 could not be located in chart SYN1, CFIN-ATTEMPTS/300, company code 0077.
+2026-10-09T16:30:03Z | attempt_id=MULTI-A2 | event=replication_finished | result=failed
+No target document reference or successful posting was returned for either attempt. No approval or correction was recorded.
+The two attempts and source versus target identifiers are distinct. Current SAP state and root cause require human validation.

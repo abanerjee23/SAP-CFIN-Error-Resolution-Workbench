@@ -81,13 +81,18 @@ class ErrorAnalysisBinding(LogContract):
     def prompt_and_model_shape(self) -> "ErrorAnalysisBinding":
         if set(self.prompt_versions) != {"agent1", "agent2", "agent3"}:
             raise ValueError("All three Error Analysis prompt versions are required")
-        if set(self.model_configuration) != {
+        base_keys = {
             "agent1",
             "agent2",
             "agent3",
             "reasoning_effort",
-        }:
+        }
+        effort_keys = {f"agent{i}_reasoning_effort" for i in (1, 2, 3)}
+        if set(self.model_configuration) not in (base_keys, base_keys | effort_keys):
             raise ValueError("Pinned model configuration is required")
+        if any(self.model_configuration[key] not in {"low", "medium", "high"}
+               for key in ({"reasoning_effort"} | effort_keys) & self.model_configuration.keys()):
+            raise ValueError("Unsupported pinned reasoning effort")
         return self
 
 

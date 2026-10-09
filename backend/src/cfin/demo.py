@@ -23,6 +23,7 @@ READ_PATH = re.compile(r"/api/(?:cases/page|cases/[0-9a-f-]{36}|evidence/[0-9a-f
 WRITE_PATH = re.compile(r"/api/cases/[0-9a-f-]{36}/(?:actions|evidence)$")
 ACTIONS = {
     "record_route_step", "comment", "record_approval", "assign", "set_status", "finish_resolution",
+    "analyse",
 }
 
 

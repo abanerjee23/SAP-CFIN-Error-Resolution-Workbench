@@ -1,4 +1,6 @@
 /** Data transport for the existing workbench. This module contains no UI or route policy. */
+import { projectSavedMetadata, type SavedCaseMetadata } from './workbench-metadata';
+import type { AnalysisProgress } from './analysis-progress';
 export type WorkbenchSession = {
   token: string;
   workspace: { id: string; name: string; synthetic: true; roles: string[] };
@@ -9,15 +11,17 @@ export type SavedOriginal = {
 };
 export type CitedText = { text: string; citations: { filename: string; lineStart: number; lineEnd: number }[] };
 export type SavedBrief = {
-  title: CitedText; facts: CitedText[]; context: CitedText[]; evidence: CitedText[];
+  title: CitedText; facts: CitedText[]; context: CitedText[]; evidence: CitedText[]; questions: CitedText[];
   hypothesis: CitedText; category: string; route: RecordValue;
   relatedCases: RecordValue[]; limitations: string[];
+  metadata: SavedCaseMetadata;
 };
 export type SavedWorkbenchCase = {
   case: RecordValue; originals: SavedOriginal[]; brief: SavedBrief | null;
   activity: RecordValue[]; routeMilestones: RecordValue[];
   evidence: RecordValue[]; assignments: RecordValue[]; resolutions: RecordValue[];
   analysisState: string; analysisFailure: string | null;
+  progress?: AnalysisProgress;
 };
 
 function record(value: unknown): value is RecordValue {
@@ -45,25 +49,25 @@ export function projectSavedBrief(result: unknown, originals: SavedOriginal[]): 
   const entries = records(result.extraction.entries, "Extracted evidence");
   const byId = new Map(entries.map(entry => [text(entry.entry_id, "Evidence identity"), entry]));
   if (byId.size !== entries.length) throw new Error("The analysis contains duplicate evidence identities.");
+  const verifyEntry = (entry: RecordValue | undefined): CitedText['citations'][number] => {
+    const source = entry && originals.find(item => item.sourceId === entry.source_id && item.sourceVersion === entry.source_version);
+    const span = entry?.source_span;
+    if (!entry || !source || !record(span) || !Number.isInteger(span.line_start) || !Number.isInteger(span.line_end)) {
+      throw new Error("A published citation cannot be matched to its original.");
+    }
+    const start = span.line_start as number, end = span.line_end as number;
+    // split with line endings retained: extraction raw_text is an exact source slice.
+    const lines = source.text.match(/[^\n]*\n|[^\n]+$/g) || [];
+    if (start < 1 || end < start || end > lines.length || lines.slice(start - 1, end).join("") !== entry.raw_text) {
+      throw new Error("A published citation differs from its saved original.");
+    }
+    return { filename: source.filename, lineStart: start, lineEnd: end };
+  };
   const cite = (value: unknown): CitedText => {
     if (!record(value)) throw new Error("The cited statement could not be read.");
     const ids = stringList(value.supporting_entry_ids, "Statement citations");
     if (!ids.length) throw new Error("The published statement has no source citation.");
-    return { text: text(value.text, "Statement"), citations: ids.map(id => {
-      const entry = byId.get(id);
-      const source = entry && originals.find(item => item.sourceId === entry.source_id && item.sourceVersion === entry.source_version);
-      const span = entry?.source_span;
-      if (!entry || !source || !record(span) || !Number.isInteger(span.line_start) || !Number.isInteger(span.line_end)) {
-        throw new Error("A published citation cannot be matched to its original.");
-      }
-      const start = span.line_start as number, end = span.line_end as number;
-      // split with line endings retained: extraction raw_text is an exact source slice.
-      const lines = source.text.match(/[^\n]*\n|[^\n]+$/g) || [];
-      if (start < 1 || end < start || end > lines.length || lines.slice(start - 1, end).join("") !== entry.raw_text) {
-        throw new Error("A published citation differs from its saved original.");
-      }
-      return { filename: source.filename, lineStart: start, lineEnd: end };
-    }) };
+    return { text: text(value.text, "Statement"), citations: ids.map(id => verifyEntry(byId.get(id))) };
   };
   const content = result.case_content, analysis = result.analysis;
   if (!record(analysis.route)) throw new Error("The saved route is unavailable.");
@@ -74,10 +78,12 @@ export function projectSavedBrief(result: unknown, originals: SavedOriginal[]): 
     facts: records(content.what_happened, "Case facts").map(cite),
     context: records(content.document_context, "Document context").map(cite),
     evidence: records(content.original_log_evidence, "Original evidence").map(cite),
+    questions: content.open_questions === undefined ? [] : records(content.open_questions, "Open questions").map(cite),
     hypothesis: cite({ text: analysis.cause_hypothesis, supporting_entry_ids: analysis.supporting_entry_ids }),
     category, route: analysis.route,
     relatedCases: records(content.related_cases, "Related cases"),
     limitations: stringList(result.limitations, "Analysis limitations"),
+    metadata: projectSavedMetadata(entries, verifyEntry),
   };
 }
 
@@ -86,7 +92,8 @@ export class WorkbenchRequestError extends Error {
 }
 
 export class WorkbenchConnection {
-  constructor(readonly origin: string, private readonly fetcher: typeof fetch = fetch) {
+  // Native browser fetch requires the global receiver, not this connection instance.
+  constructor(readonly origin: string, private readonly fetcher: typeof fetch = (...args) => globalThis.fetch(...args)) {
     const url = new URL(origin);
     if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password || url.search || url.hash || url.pathname !== '/') {
       throw new Error("Use a plain API origin without credentials or a path.");
@@ -221,6 +228,9 @@ export class WorkbenchConnection {
     const result = value.error_analysis_result ?? value.case.error_analysis_result;
     const currentResult = value.case.analysis_status === "available" && record(result)
       && result.workspace_id === session.workspace.id && result.case_id === caseId
+      && typeof value.case.published_run_id === 'string' && !!value.case.published_run_id
+      && typeof value.case.current_attempt_id === 'string' && !!value.case.current_attempt_id
+      && value.case.input_revision != null
       && result.run_id === value.case.published_run_id && result.attempt_id === value.case.current_attempt_id
       && String(result.input_revision) === String(value.case.input_revision);
     return {
@@ -229,6 +239,7 @@ export class WorkbenchConnection {
       evidence: records(value.evidence, "Evidence"), assignments: records(value.assignments ?? [], "Assignments"),
       resolutions: records(value.resolution_records ?? [], "Closure records"),
       analysisState: text(value.case.analysis_status, "Analysis state"),
+      progress: record(value.analysis_progress) ? value.analysis_progress as AnalysisProgress : undefined,
       analysisFailure: record(result) && typeof result.failure_reason === "string" ? result.failure_reason : null,
     };
   }

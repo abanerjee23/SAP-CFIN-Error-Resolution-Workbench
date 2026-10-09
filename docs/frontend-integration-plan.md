@@ -104,12 +104,12 @@ verification must never be inferred from API success or a successful build.
 
 | ID | Priority | Issue | State / next evidence |
 | --- | --- | --- | --- |
-| WB-01 | Blocking | User sees an empty Case Board; exact browser failure was not captured. | Open. Six-case API readback passes; retry/error handling is implemented. Requires actual browser reproduction and confirmation. |
-| WB-02 | Blocking | Browser automation cannot verify its security policy. | Open external dependency. Restore permitted access or collect a clearly labelled manual walkthrough. |
+| WB-01 | Blocking | Browser transport invoked native fetch with the connection object as its receiver, preventing case loading. | Fixed on 9 October. Reproduced in Chrome and the Codex in-app browser; all six saved cases load after the fix. Receiver regression, 21 frontend tests, typecheck and build pass. Broader persona/restart coverage remains in gate 1. |
+| WB-02 | Blocking | Previous chat could not verify the browser automation security policy. | No longer blocking in this chat: Chrome and the Codex in-app browser were controlled successfully on 9 October. The underlying policy error was not diagnosed or changed. |
 | WB-03 | High | Demo worker stopped; its previous output did not identify the exact cause. | Recovery fix and regression tests pass; verify resilience and automatic dispatch after a clean restart. |
 | WB-04 | High | Complete UI control/permission matrix has not been exercised. | Open. Adapter/API tests cover core operations; browser interaction evidence is outstanding. |
 | WB-05 | High | Repeatable real-model browser journeys and content review are incomplete. | Open. Prior master-data/mapping API journeys and an automatic unclassified run passed. Complete the browser quality gates above. |
-| WB-06 | Medium | Observability export was disabled during the recorded real-model checks. | Open. Verify end-to-end trace correlation and failure visibility without exposing secrets. |
+| WB-06 | Medium | Observability export was disabled during the original real-model checks. | Export and correlation verified on 9 October: all 30 trace IDs from ten new runs read back through Arize's API. Timeout/retry failure paths pass injected tests; no real provider timeout was observed in this baseline. See [baseline](analysis-latency-baseline.md). |
 
 Release evidence belongs in `docs/connected-workflow-validation.md` and `docs/validation/`.
 Keep README concise and aligned with demonstrated behavior. Push each tested change to the existing

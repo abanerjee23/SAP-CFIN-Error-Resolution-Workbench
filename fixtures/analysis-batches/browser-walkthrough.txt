@@ -1,0 +1,11 @@
+SYNTHETIC BROWSER WALKTHROUGH. Fictional application log, not an SAP export.
+2026-10-09T16:00:00Z | attempt_id=UI-PROGRESS-01 | processing_order=1 | event=replication_started
+source_system=ERP-DEMO | source_client=010 | source_company_code=0010
+document_number=0000123600 | fiscal_year=2026 | source_status=posted
+target_system=CFIN-DEMO | target_client=100 | target_company_code=0010
+interface=DEMO_CFIN_GL | target_chart_of_accounts=SYN1
+2026-10-09T16:00:01Z | severity=error | synthetic_message_id=DEMO_TARGET_GL_NOT_FOUND
+Target G/L account 0041001000 could not be located for chart SYN1 in CFIN-DEMO/100, company code 0010. Requested target line: 0001.
+Target posting stopped for this attempt; no target document reference was returned.
+2026-10-09T16:00:02Z | event=replication_finished | result=failed
+Evidence is limited to this attempt. No correction, approval, successful reprocessing or target validation has occurred. Human validation is required.

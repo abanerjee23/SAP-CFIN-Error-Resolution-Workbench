@@ -1,0 +1,15 @@
+SYNTHETIC BENCHMARK upload-progress-20261009-v1 / batch 3. Fictional application log, not an SAP export.
+No real customer data or SAP-specific message catalogue is asserted.
+2026-10-09T15:00:00Z | attempt_id=BENCH-3-1-A1 | processing_order=1 | event=replication_started
+source_system=ERP-DEMO | source_client=010 | source_company_code=0010
+fiscal_year=2026 | document_number=0000123531 | source_status=posted
+source_posting_date=2026-10-09 | source_posted_at=2026-10-09T14:55:00Z
+target_system=CFIN-DEMO | target_client=100 | target_company_code=0010
+interface=DEMO_CFIN_GL | target_chart_of_accounts=SYN1
+2026-10-09T15:00:01Z | severity=error | synthetic_message_id=BENCH-01 | No applicable source-to-target mapping for source G/L account 0000400001 in company code 0010; requested target line 0001.
+2026-10-09T15:00:02Z | severity=error | synthetic_message_id=BENCH-02 | No applicable source-to-target mapping for source G/L account 0000400002 in company code 0010; requested target line 0002.
+2026-10-09T15:00:03Z | severity=error | synthetic_message_id=BENCH-03 | No applicable source-to-target mapping for source G/L account 0000400003 in company code 0010; requested target line 0003.
+Target posting stopped for this attempt; no target document reference was returned.
+2026-10-09T15:00:10Z | event=replication_finished | result=failed
+Evidence is limited to this attempt. No correction, approval or successful reprocessing is recorded.
+Human validation is required to establish the current target configuration and root cause.

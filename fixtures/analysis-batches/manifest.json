@@ -1,0 +1,95 @@
+{
+  "suite": "upload-progress-20261009-v1",
+  "files": [
+    {
+      "batch": 1,
+      "file": "batch-01-master_data.txt",
+      "errors": 1,
+      "expected_category": "master_data",
+      "document": "0000123510",
+      "sha256": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+      "bytes": 1147
+    },
+    {
+      "batch": 1,
+      "file": "batch-01-mapping.txt",
+      "errors": 1,
+      "expected_category": "mapping",
+      "document": "0000123511",
+      "sha256": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+      "bytes": 1143
+    },
+    {
+      "batch": 2,
+      "file": "batch-02-master_data.txt",
+      "errors": 2,
+      "expected_category": "master_data",
+      "document": "0000123520",
+      "sha256": "b873b5ecb082f0787db8907e7cfdc9f46db3c87b2bbdcd7b99df026e008f7c79",
+      "bytes": 1346
+    },
+    {
+      "batch": 2,
+      "file": "batch-02-mapping.txt",
+      "errors": 2,
+      "expected_category": "mapping",
+      "document": "0000123521",
+      "sha256": "13239b6114ec0fef3d49814d3ed0c6fefe4dd43f42fe3f3df0e79c7e984d4bc6",
+      "bytes": 1338
+    },
+    {
+      "batch": 3,
+      "file": "batch-03-master_data.txt",
+      "errors": 3,
+      "expected_category": "master_data",
+      "document": "0000123530",
+      "sha256": "6614240d8728b1b330994782f6b4dcbf034e0a429a1b28d9a7c4a66d9aac7dfb",
+      "bytes": 1545
+    },
+    {
+      "batch": 3,
+      "file": "batch-03-mapping.txt",
+      "errors": 3,
+      "expected_category": "mapping",
+      "document": "0000123531",
+      "sha256": "df68f88cd5162c6fff9af33835f142a0a2c4418b4480bcacaee250d153a5c208",
+      "bytes": 1533
+    },
+    {
+      "batch": 4,
+      "file": "batch-04-master_data.txt",
+      "errors": 4,
+      "expected_category": "master_data",
+      "document": "0000123540",
+      "sha256": "9196bd2aab3888f4994d3b78ceae3fb8938176901618195972cf7a532ac419c4",
+      "bytes": 1744
+    },
+    {
+      "batch": 4,
+      "file": "batch-04-mapping.txt",
+      "errors": 4,
+      "expected_category": "mapping",
+      "document": "0000123541",
+      "sha256": "c984fdff26a6ec9d4d37e4347f8e42ad672515ee764634f3541f92072c7d2240",
+      "bytes": 1728
+    },
+    {
+      "batch": 5,
+      "file": "batch-05-master_data.txt",
+      "errors": 5,
+      "expected_category": "master_data",
+      "document": "0000123550",
+      "sha256": "cb1fd79d0bc1727727f0cca1793466fd7e449b6137d13b0d211d716861fa83af",
+      "bytes": 1943
+    },
+    {
+      "batch": 5,
+      "file": "batch-05-mapping.txt",
+      "errors": 5,
+      "expected_category": "mapping",
+      "document": "0000123551",
+      "sha256": "63f21e757d4c737c4ae95fd8f061fa248dc3eb628eaf34c5257c32d217169af6",
+      "bytes": 1923
+    }
+  ]
+}

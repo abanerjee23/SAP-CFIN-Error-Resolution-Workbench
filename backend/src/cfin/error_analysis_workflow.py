@@ -18,7 +18,7 @@ from cfin.error_analysis_contracts import (
     validate_case_content,
     validate_error_analysis_draft,
 )
-from cfin.error_analysis_prompts import ERROR_ANALYSIS_PROMPT_VERSIONS
+from cfin.error_analysis_prompts import supported_prompt_versions
 from cfin.error_route_registry import RouteRegistry, taxonomy_payload
 from cfin.log_only_contracts import ExtractedLog, HistoryRetrievalResult
 from cfin.log_only_inputs import LogInputs
@@ -79,7 +79,7 @@ class ErrorAnalysisWorkflowExecutor:
             raise ValueError("At most one retry per stage is supported")
         if getattr(adapter, "workflow_version", None) != binding.workflow_version:
             raise ValueError("Adapter and Error Analysis binding versions differ")
-        if binding.prompt_versions != ERROR_ANALYSIS_PROMPT_VERSIONS:
+        if not supported_prompt_versions(binding.prompt_versions):
             raise ValueError("Execution prompt versions do not match Error Analysis workflow")
         self.adapter = adapter
         self.binding = binding

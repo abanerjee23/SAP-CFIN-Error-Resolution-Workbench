@@ -19,7 +19,7 @@ test('does not turn a route role into an explicit handover', () => {
   assert.equal(mapSavedCase(value).assignee, 'Unassigned');
   value.assignments = [{ version: 1, owner_role: 'data_operations' }, { version: 2, owner_role: 'mdg_process_owner' }];
   const mapped = mapSavedCase(value);
-  assert.equal(mapped.assignee, 'Maya Shah'); assert.equal(mapped.document, '0000123456');
+  assert.equal(mapped.assignee, 'Maya Shah'); assert.equal(mapped.document, 'Not supplied');
 });
 test('approval author and external approver are separate and evidence stays message-linked', () => {
   const value = saved();
@@ -32,4 +32,15 @@ test('approval author and external approver are separate and evidence stays mess
 test('closure needs the explicitly recorded target reference, not a guessed source number', () => {
   assert.equal(closureReference('Reprocessed and validated. Target document: DEMO-1234'), 'DEMO-1234');
   assert.throws(() => closureReference('Document 0000123456 has a screenshot'), /Target document/);
+});
+test('uses the persistent human reference without changing the internal action identity or adding Value', () => {
+  const value = saved();
+  assert.equal(mapSavedCase(value).caseNumber, 'Not assigned');
+  value.case.case_number = 'CFIN-2026-000001';
+  value.case.document_number = '0000123456';
+  const mapped = mapSavedCase(value);
+  assert.equal(mapped.id, 'c');
+  assert.equal(mapped.caseNumber, 'CFIN-2026-000001');
+  assert.equal(mapped.document, '0000123456');
+  assert.equal('amount' in mapped, false);
 });

@@ -15,11 +15,52 @@ const result = () => ({
 });
 const json = (value: unknown, status = 200) => new Response(JSON.stringify(value), { status, headers: { 'Content-Type': 'application/json' } });
 
+test('default transport invokes browser fetch with its global receiver', async t => {
+  const requests: { url: string; init?: RequestInit }[] = [];
+  t.mock.method(globalThis, 'fetch', async function (this: unknown, input: RequestInfo | URL, init?: RequestInit) {
+    // Browsers reject a native fetch called with the connection object as `this`.
+    // Node's fetch and arrow-function test doubles do not enforce this contract.
+    if (this !== globalThis) throw new TypeError('Illegal invocation');
+    requests.push({ url: String(input), init });
+    return json(requests.length === 1 ? session : { total: 1, items: [{ id: 'case-a' }] });
+  });
+  const api = new WorkbenchConnection('http://127.0.0.1:8011');
+  const connected = await api.connect(signal());
+  assert.deepEqual(connected, session);
+  assert.deepEqual(await api.listCases(connected, signal()), [{ id: 'case-a' }]);
+  assert.equal(requests.length, 2);
+  assert.equal(requests[0].url, 'http://127.0.0.1:8011/api/demo/session');
+  assert.equal(requests[0].init?.method, 'POST');
+  assert.equal(requests[1].init?.method, 'GET');
+  assert.equal((requests[1].init?.headers as Record<string, string>).Authorization, 'Bearer local-demo-test');
+});
+
 test('projects saved citations with exact CRLF bytes and leaves route policy intact', () => {
   const saved = result(); const view = projectSavedBrief(saved, [original]);
   assert.equal(view?.title.citations[0].lineStart, 2);
   assert.equal(view?.route, saved.analysis.route);
   assert.equal(original.text.startsWith('Document 0000123456'), true);
+});
+test('preserves open questions with verified original citations and supports older briefs', () => {
+  const saved = result();
+  const question = { text: 'Has the missing mapping been confirmed in the target system?', supporting_entry_ids: ['entry'] };
+  const projected = projectSavedBrief({ ...saved, case_content: { ...saved.case_content, open_questions: [question] } }, [original]);
+  assert.deepEqual(projected?.questions, [{ text: question.text, citations: [{ filename: 'source.log', lineStart: 2, lineEnd: 2 }] }]);
+  assert.deepEqual(projectSavedBrief(saved, [original])?.questions, []);
+  assert.deepEqual(projectSavedBrief({ ...saved, case_content: { ...saved.case_content, open_questions: [] } }, [original])?.questions, []);
+});
+test('rejects uncited, unmatched and altered source evidence for open questions', () => {
+  const saved = result();
+  for (const ids of [[], ['missing']]) {
+    const value = { ...saved, case_content: { ...saved.case_content, open_questions: [{ text: 'Is the mapping confirmed?', supporting_entry_ids: ids }] } };
+    assert.throws(() => projectSavedBrief(value, [original]), /no source citation|cannot be matched/);
+  }
+  const value = {
+    ...saved,
+    extraction: { entries: [...saved.extraction.entries, { entry_id: 'question-entry', source_id: 's', source_version: '1', source_span: { line_start: 1, line_end: 1 }, raw_text: 'Altered document identity\r\n' }] },
+    case_content: { ...saved.case_content, open_questions: [{ text: 'Is the source document correct?', supporting_entry_ids: ['question-entry'] }] },
+  };
+  assert.throws(() => projectSavedBrief(value, [original]), /differs from its saved original/);
 });
 test('does not invent a brief before publication or on failure', () => {
   assert.equal(projectSavedBrief(null, [original]), null);

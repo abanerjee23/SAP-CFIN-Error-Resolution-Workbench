@@ -1,0 +1,9 @@
+SYNTHETIC LATENCY REGRESSION. Fictional application log; no real customer data.
+source_system=ERP-UNKNOWN | source_client=010 | source_company_code=0010
+target_system=CFIN-UNKNOWN | target_client=100 | target_company_code=0099
+document_number=0000123701 | fiscal_year=2026 | interface=DEMO_CFIN_GL
+2026-10-09T16:00:00Z | attempt_id=UNKNOWN-A1 | processing_order=1 | event=replication_started
+2026-10-09T16:00:01Z | severity=error | synthetic_message_id=UNRECOGNISED-01 | Processing ended with opaque diagnostic marker ZQ-17.
+No explanation, affected object, mapping result, account lookup, or technical failure detail was supplied.
+2026-10-09T16:00:02Z | event=replication_finished | result=failed
+The marker alone does not establish any maintained error category or root cause. No correction or reprocessing was recorded.

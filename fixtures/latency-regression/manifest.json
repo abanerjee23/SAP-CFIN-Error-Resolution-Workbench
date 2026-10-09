@@ -1,0 +1,28 @@
+{
+  "files": [
+    {
+      "file": "unknown.txt",
+      "errors": 1,
+      "allowed_categories": ["unclassified"],
+      "require_uncertainty": true,
+      "metadata": {"source_system": "ERP-UNKNOWN", "source_client": "010", "source_company_code": "0010", "target_system": "CFIN-UNKNOWN", "target_client": "100", "target_company_code": "0099", "document_number": "0000123701", "interface": "DEMO_CFIN_GL"},
+      "review_expectations": ["The opaque marker must not become a specific diagnosis.", "The result must retain missing evidence and avoid claiming checks, corrections, or reprocessing occurred."]
+    },
+    {
+      "file": "ambiguous.txt",
+      "errors": 1,
+      "allowed_categories": ["unclassified", "master_data", "mapping"],
+      "require_uncertainty": true,
+      "metadata": {"source_system": "ERP-AMBIGUOUS", "source_client": "020", "source_company_code": "0020", "target_system": "CFIN-AMBIGUOUS", "target_client": "200", "target_company_code": "0088", "document_number": "0000123702", "interface": "DEMO_CFIN_GL"},
+      "review_expectations": ["Both mapping and missing target account remain plausible; neither is a confirmed cause.", "A supported category choice alone does not pass semantic review: competing explanations and absent checks must remain visible."]
+    },
+    {
+      "file": "multiple-attempts.txt",
+      "errors": 2,
+      "allowed_categories": ["master_data", "mapping"],
+      "require_uncertainty": false,
+      "metadata": {"source_system": "ERP-ATTEMPTS", "source_client": "030", "source_company_code": "0030", "target_system": "CFIN-ATTEMPTS", "target_client": "300", "target_company_code": "0077", "document_number": "0000123703", "interface": "DEMO_CFIN_GL"},
+      "review_expectations": ["Attempt A1 failed on mapping; attempt A2 logged mapping but failed on target account existence. Preserve that chronology.", "Source company 0030/client030/account0000400001 must not be confused with target company0077/client300/account0041000010.", "Neither attempt posted successfully. A logged mapping result does not establish current SAP state."]
+    }
+  ]
+}

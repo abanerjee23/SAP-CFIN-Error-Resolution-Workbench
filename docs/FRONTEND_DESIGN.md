@@ -46,7 +46,7 @@ All normal text on solid surfaces must meet WCAG AA contrast. Status colour is a
 
 The page opens with: “AI structures the facts and proposes a route. People validate findings, approve governed changes and confirm CFIN posting. The original AIF log and decision history stay with every case.” Three substantial **Guiding principles** panels cover intact evidence, bounded automation and human-owned outcomes. A final success marker states that the target outcome is a document successfully posted and validated in CFIN.
 
-The Dashboard uses the same dark title panel as the other primary pages. It is titled **Key Performance Indicators**, and its description names average resolution time, case mix by error type, value of blocked documents and unclassified cases. The four metrics sit immediately below and remain the visual focus.
+The Dashboard uses the same dark title panel as the other primary pages. It is titled **Your work, in view**, greets the active persona, and introduces priorities and log upload. Three metrics sit immediately below. At desktop widths they share one row so the work area remains easy to reach.
 
 At the bottom, **[Person]'s Priorities** shows only explicitly person-assigned cases that meet a priority condition. The local demo maps each persona to a named person; role membership alone does not qualify a case. A blocked or past-due case appears for its explicit assignee. Approval belongs in the evidence-backed case chat and does not transfer case ownership. Due status uses the case's `dueAt` timestamp. Ordinary open cases and extra role-matched cases are excluded. Priority items sort by blocked status, case priority and due date, with case ID as the final tie-breaker. Selecting one opens that case on the Case Board.
 
@@ -54,16 +54,48 @@ The average resolution-time metric keeps its week-over-week comparison callout a
 
 ## Application structure
 
-The header contains the product name and signed-in user or clearly labelled local demo persona; a separate top tab strip holds the four primary pages. The header and tabs span the viewport, and page content sits directly on the workspace canvas rather than inside a single oversized shell tile.
+The header contains the product name and signed-in user or clearly labelled local demo persona; a separate top tab strip holds three primary pages. The header and tabs span the viewport, and page content sits directly on the workspace canvas rather than inside a single oversized shell tile.
 
 | Page | Job |
 | --- | --- |
 | About | Explain the workflow, what AI does and what remains human-controlled. |
-| Dashboard | Show the four agreed metrics with direct drill-down into work. |
-| Data | Receive flat-file AIF logs, show their state and open the created case. |
+| Dashboard | Show metrics and personalised priorities; receive logs and track analysis. |
 | Case Board | Search, filter, assign, investigate and progress cases. |
 
 Each page has a route in the production version. The design preview preserves page state in the current browser session while routing is introduced with the API integration.
+
+### Upload and analysis experience
+
+The desktop lower work area pairs a broad priorities panel on the left with an upload panel
+on the right. On narrower screens these stack. The existing Inter typography, navy `#283048`,
+teal `#0E6371`, mist `#EDF1F3`, paper `#FFFFFF` and ink `#182536` keep this change part of the
+workbench. Text is left aligned. The upload panel has a single teal edge and a document-shaped
+icon; one rotating ring answers the upload action. There are no invented progress percentages.
+The review pass moved the three KPI cards onto one desktop row to avoid unused space pushing
+the upload out of view.
+
+Choosing a file shows its name and size. **Upload and analyse** saves the original and remains
+on the dashboard. Pending files show **Waiting to start**, followed by **Reading your log**,
+**Investigating the errors**, and **Preparing your case**, derived from the current run's call
+ledger. **Retrying analysis** reflects a real second invocation. The original is safe if analysis
+fails; **Review original** and **Retry analysis** provide recovery. An available result with
+invalid/missing current citations is an attention state, never a successful result.
+
+**Ready for review** provides **Open case**, which opens that exact case on the board. The app
+never automatically redirects on completion. A compact notice follows active work across tabs.
+All active analyses refresh independently of the selected case; focus/visibility changes refresh
+saved progress after returning. Browser storage keeps only recent-case bookmarks; database
+state remains authoritative. The upload selection remains mounted while browsing other tabs.
+Reduced-motion settings stop the rotating ring, and status changes have polite live announcements.
+
+Operational states do not imply a business diagnosis: before publication, the board displays
+**Analysis in progress** or **Analysis incomplete**, not **Cause not established** or **Unclassified**.
+
+Two independent cases can be analysed at the same time. Each retains its own durable progress,
+retry state and completion link; a third waits for capacity. Progress comes from actual saved
+work and never implies a guaranteed completion time. The compact latency profiles change
+how the backend prepares validated content, not the user's upload or review controls. Exact
+original evidence, identifiers, governed routes and explicit uncertainty remain visible.
 
 ## Case Board
 
@@ -71,12 +103,11 @@ The default is a full-width table, because users need to compare documents, resp
 
 | Column | Purpose |
 | --- | --- |
-| Case number | Case reference and document number |
+| Case number | Stable `CFIN-YYYY-NNNNNN` reference and source document number; UUID remains internal |
 | Title | Factual case title |
-| Error type | Maintained category or `Unclassified` |
+| Error type | Published category or `Unclassified`; explicit analysis state before publication |
 | Assigned to | Named person and role |
 | Status | `Open`, `In progress`, `Blocked` or `Closed` |
-| Value | Amount and currency, when supplied |
 | Case Creation Date | Recorded creation timestamp, displayed as a date in the board |
 | Due Date | Case deadline, highlighted when overdue |
 
@@ -84,7 +115,7 @@ The **Assigned to** cells keep a fixed-size avatar beside a two-line name and ro
 
 The toolbar has exactly three controls: **All cases**, **Assigned to me** and **Date interval**, plus the retained search and status boxes. Date interval opens a two-month calendar for choosing the start and end date. It applies inclusively to Case Creation Date, combines with owner/search/status filters, highlights the selection and can be cleared. A reversed selection is normalised and a same-day interval is supported. Unknown creation dates are excluded when a range is active.
 
-**Download as CSV** sits beside search and status in the board toolbar. It exports only the rows matching the active owner, creation-date interval, search and status filters, in the board’s current order and with the same eight columns. The assignee cell includes the person and role. The download is disabled when no rows match. CSV uses UTF-8 with a BOM for Excel, quotes commas/quotes/newlines correctly, and treats formula-like cell values as literal text. The file is named `case-board-YYYY-MM-DD.csv`.
+**Download as CSV** sits beside search and status in the board toolbar. It exports only the rows matching the active owner, creation-date interval, search and status filters, in the board’s current order and with eight columns: the seven visible board columns plus Document, exported separately from Case number. Value is excluded. The assignee cell includes the person and role. The download is disabled when no rows match. CSV uses UTF-8 with a BOM for Excel, quotes commas/quotes/newlines correctly, and treats formula-like cell values as literal text. The file is named `case-board-YYYY-MM-DD.csv`.
 
 ## Case workspace
 
@@ -103,11 +134,18 @@ The persistent header contains the factual title, case ID, one named owner, stat
 1. Case summary, with cited facts and a separately identified proposed cause requiring human validation
 2. Document and processing context, showing only supplied facts
 3. Evidence from the original log, quoting actual source lines
-4. Defined resolution and escalation path for the selected error type (Investigation path for manual categories)
-5. Similar earlier cases, only when a reviewed match is available
-6. Closure record, when recorded
+4. Open questions, only when the current verified brief contains them, with their source citations
+5. Defined resolution and escalation path for the selected error type (Investigation path for manual categories)
+6. Similar earlier cases, only when a reviewed match is available
+7. Closure record, when recorded
 
-Remove the separate Error assessment, Escalation, and Open questions and blockers panels. A fixed “medium” confidence label is unsupported and must not be displayed. Any future confidence presentation requires a documented basis and evaluation evidence. Keep uncertainty in concise wording within the summary.
+Remove the separate Error assessment and Escalation panels. The authorised latency experiment
+retains a concise **Open questions** section when verified questions are present, so shorter
+model output does not hide missing evidence or conflicting facts. Each question shows its
+source filename and line range; do not add an empty placeholder or an invented blocker.
+A fixed “medium” confidence label is unsupported and must not be displayed. Any future
+confidence presentation requires a documented basis and evaluation evidence. Keep the cause
+hypothesis tentative and uncertainty explicit in the summary.
 
 The two pilot routes must explicitly name responsibilities, approval evidence, the change, reprocessing and successful CFIN posting confirmation. Master data: Maya requests Daniel’s approval, approval is logged with its email, Maya creates data and records evidence/go-ahead, Liam reprocesses and validates posting. Mapping: Maya confirms mapping with Daniel, maintains it and records evidence, Daniel reviews/approves with email evidence, Liam reprocesses and validates posting. Do not add an extra exception-path paragraph or a separate escalation warning panel.
 
@@ -161,3 +199,18 @@ Role, case assignment and route prerequisites determine availability. Controls c
 5. Case reassigned, blocked and reopened with prior history preserved.
 
 The test set additionally covers an unauthorised attempt, skipped prerequisite, incomplete resolution evidence and conflicting edits. All ten categories plus `unclassified` are checked for correct routing.
+
+## Connected metadata and references
+
+The board, search, CSV and case details use a shared projection of the current published
+extraction, verified against the saved original. Preserve leading zeroes and source/target
+scope. Conflicting supplied identifiers remain visibly conflicting. Unavailable values
+say “Not supplied”; do not manufacture values from a stale analysis or unrelated message.
+The details screen also renders the saved document-context statements with their citations.
+
+Case references are assigned by the database and remain stable after reload or case updates.
+The creation year uses UTC and the numeric suffix comes from a global sequence; gaps are
+allowed. Existing UUIDs continue to identify actions, evidence and related records.
+
+At the user's request, the dedicated Value/Amount field and sample document-value KPI are
+removed. Monetary text remains intact in original logs and cited source context.

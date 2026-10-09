@@ -72,25 +72,53 @@
     }
   ],
   "localChecks": {
-    "backendTests": 814,
-    "adapterAndMappingTests": 20,
+    "backendTests": 848,
+    "adapterAndMappingTests": 39,
     "exampleTests": 6,
-    "databaseMigrations": 14,
+    "databaseMigrations": 17,
     "lint": "passed",
     "typecheck": "passed",
     "productionBuild": "passed",
-    "railwayConfiguration": "passed"
+    "railwayConfiguration": "passed",
+    "backendAdditionalRegressionTests": 1,
+    "backendUniqueChecks": 849,
+    "benchmarkRunnerTests": 6
   },
   "designChecks": {
-    "css": "unchanged",
+    "css": "Dashboard upload and progress redesign explicitly authorized on 2026-10-09",
     "rootPage": "unchanged",
-    "layoutClassAttributeOrder": "unchanged",
-    "agentPrompts": "unchanged",
+    "layoutClassAttributeOrder": "Dashboard layout updated under explicit authorization",
+    "agentPrompts": "Versioned compact extraction and summary under explicit latency authorization; original diagnosis prompt unchanged",
     "routeRegistry": "unchanged"
   },
   "browserVerification": {
-    "status": "blocked",
-    "reason": "Browser tool could not verify its admin-enforced security policy"
+    "status": "partial_pass",
+    "date": "2026-10-09",
+    "browsers": [
+      "Chrome",
+      "Codex in-app browser"
+    ],
+    "savedCasesVisible": 6,
+    "chromeAssignedToMaya": 2,
+    "mappingCaseSummaryClosureAndOriginalLog": "passed in Chrome",
+    "fullWorkflow": "not_run",
+    "newModelCalls": 0
+  },
+  "dashboardUploadVerification": {
+    "date": "2026-10-09",
+    "browser": "Codex in-app browser",
+    "caseNumber": "CFIN-2026-000012",
+    "runId": "bbf7762d-5161-4697-9e50-1bc670a8fef8",
+    "uploadSaved": true,
+    "reloadPendingRecovery": true,
+    "browseWhileRunning": true,
+    "stageProgressVisible": true,
+    "readyNavigation": true,
+    "realModelCalls": 3,
+    "metadataLineContextRegression": "failed before correction; passed after",
+    "timeoutRetry": "injected tests; no real provider timeout encountered",
+    "benchmarkEvidence": "analysis-benchmark.json",
+    "fullApprovalToClosureBrowserWorkflow": "not_run"
   },
   "realSapConnection": false,
   "automaticWorkerCheck": {
@@ -111,7 +139,71 @@
   "loadingRecovery": {
     "parallelCaseReadback": 6,
     "loopbackCorsAndBootstrap": "passed for both hostnames",
-    "browserConfirmation": "pending",
-    "initialFailureCause": "not captured"
+    "browserConfirmation": "passed: six saved cases visible in Chrome and Codex in-app browser",
+    "initialFailureCause": "Native fetch called with WorkbenchConnection as receiver; fixed with globalThis.fetch wrapper",
+    "receiverRegression": "failed before fix; passed after fix"
+  },
+  "metadataRepair": {
+    "date": "2026-10-09",
+    "synthetic": true,
+    "savedCasesVerified": 6,
+    "databaseReferences": {
+      "migration": "202610090005_case_numbers.sql",
+      "existingRowsBackfilled": 8,
+      "otherRowFieldsUnchanged": true,
+      "internalUuidRetained": true
+    },
+    "projection": {
+      "currentPublishedExtractionOnly": true,
+      "originalSpanAndLiteralAssociationVerified": true,
+      "leadingZerosPreserved": true,
+      "sourceAndTargetCompanyDistinct": true,
+      "savedCitedContextVisible": true
+    },
+    "valueRemovedFrom": [
+      "case board",
+      "case details",
+      "CSV export",
+      "illustrative dashboard KPI"
+    ],
+    "browser": {
+      "browser": "Codex in-app browser",
+      "sixCasesVisible": true,
+      "caseNumberSearch": "passed",
+      "mappingCaseDetails": "passed",
+      "caseNumberReloadPersistence": "passed",
+      "boardColumns": 7
+    },
+    "downloadedCsv": {
+      "rows": 6,
+      "columns": 8,
+      "readableReferences": "passed",
+      "documentNumbersAndLeadingZeros": "passed",
+      "valueColumn": "absent"
+    },
+    "newModelCalls": 0,
+    "fullBrowserWorkflow": "not_run"
+  },
+  "latencyOptimization": {
+    "date": "2026-10-09",
+    "selectedLocalProfile": "compact",
+    "workerProcesses": 2,
+    "realModelCases": 13,
+    "publishedAndQualityReviewed": 13,
+    "arizeTracesVerified": 39,
+    "sameTenFilesMeanUploadToResultSeconds": 37.8742,
+    "baselineMeanUploadToResultSeconds": 82.855,
+    "evidence": "latency-optimization.json",
+    "semanticReview": "latency-semantic-review.json",
+    "frontendMetadataProjection": {
+      "publishedExperimentCases": 27,
+      "verifiedFields": 216,
+      "missingOrMismatched": 0
+    },
+    "browserVerified": [
+      "compact open questions and source citations",
+      "CFIN-2026-000022 document 0000123511 after attempt-context repair"
+    ],
+    "syntheticOnly": true
   }
 }

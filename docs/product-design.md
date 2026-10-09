@@ -208,7 +208,7 @@ The rendered case uses this format:
 >
 > ## Document and processing context
 >
-> Include document number, source system/client, target system/client, company, amount/currency, interface, affected object, timestamp, attempt and outcome where supplied. Absent values say “Not supplied”.
+> Include document number, source system/client, target system/client, company, interface, affected object, timestamp, attempt and outcome where supplied. Absent values say “Not supplied”. The dedicated Value/Amount field is removed; monetary facts remain intact when part of the original log or cited context.
 >
 > ## Evidence from the original log
 >

@@ -53,27 +53,30 @@ import {
   Upload,
   UserRoundCheck,
   UsersRound,
-  WalletCards,
   XCircle,
 } from "lucide-react";
 import "./workbench.css";
 import { serializeCaseBoardCsv } from "../lib/case-board-csv";
 import { WorkbenchConnection, WorkbenchRequestError, type WorkbenchSession, type SavedWorkbenchCase } from "../lib/workbench-connection";
 import { mapSavedCase, roleCode, closureReference } from "../lib/workbench-mapping";
+import { analysisView } from "../lib/analysis-progress";
+import { AnalysisInbox, AnalysisDock } from "./analysis-inbox";
 
-type Page = "about" | "dashboard" | "data" | "cases";
+type Page = "about" | "dashboard" | "cases";
 export type CaseStatus = "Open" | "In progress" | "Blocked" | "Closed";
 export type Role = "MDG Process Owner" | "RTR Process Owner" | "Data Operations" | "CFIN Exception Manager";
 export type CaseAttachment = { id: string; name: string; size: number; mimeType: string; uploader: string; uploadedAt: string };
 export type CaseRecord = {
   id: string;
+  caseNumber: string;
   title: string;
   category: string;
   source: string;
   company: string;
   createdAt: string;
   document: string;
-  amount: string;
+  target: string;
+  interface: string;
   priority: "P1" | "P2" | "P3";
   status: CaseStatus;
   assignee: string;
@@ -131,7 +134,7 @@ const originalMasterLog = `AIF processing log · original-log.txt · version 1
 
 const seededCases: CaseRecord[] = [
   {
-    id: "CFIN-2026-0148", createdAt: "2026-09-30T09:14:00.000Z", title: "Posting stopped: target G/L account issue", category: "Master data", source: "ERP-DEMO / 010", company: "0010", document: "0000123456", amount: "1,250.00 GBP", priority: "P2", status: "In progress", assignee: "Maya Shah", assigneeRole: "MDG Process Owner", updated: "12 min ago", dueAt: "2026-10-01T17:00:00.000Z", routeKind: "master_data", currentStep: 1, originalLog: originalMasterLog,
+    id: "CFIN-2026-0148", caseNumber: "CFIN-2026-0148", createdAt: "2026-09-30T09:14:00.000Z", title: "Posting stopped: target G/L account issue", category: "Master data", source: "ERP-DEMO / 010", company: "0010", document: "0000123456", priority: "P2", status: "In progress", assignee: "Maya Shah", assigneeRole: "MDG Process Owner", updated: "12 min ago", dueAt: "2026-10-01T17:00:00.000Z", routeKind: "master_data", currentStep: 1, originalLog: originalMasterLog, target: "CFIN-DEMO / 100", interface: "DEMO_CFIN_GL",
     activity: [
       { id: "a1", kind: "ai", actor: "Error Analysis workflow", role: "System", time: "09:14", title: "Case brief prepared", detail: "Master-data hypothesis published with cited source evidence. Human validation is required." },
       { id: "a2", kind: "assignment", actor: "Olivia Grant", role: "CFIN Exception Manager", time: "09:18", title: "Assigned to Maya Shah", detail: "MDG Process Owner assigned to progress the master-data route." },
@@ -139,19 +142,19 @@ const seededCases: CaseRecord[] = [
     ],
   },
   {
-    id: "CFIN-2026-0147", createdAt: "2026-10-03T08:31:00.000Z", title: "Source-to-target mapping needs review", category: "Mapping", source: "AIF / 010", company: "0010", document: "0000123452", amount: "820.00 GBP", priority: "P2", status: "In progress", assignee: "Maya Shah", assigneeRole: "MDG Process Owner", updated: "34 min ago", dueAt: "2026-10-03T17:00:00.000Z", routeKind: "mapping", currentStep: 1, originalLog: "AIF processing log\nMapping key 0087 could not be resolved for source account 41001000.\nTarget posting stopped; no target document was returned.",
+    id: "CFIN-2026-0147", caseNumber: "CFIN-2026-0147", createdAt: "2026-10-03T08:31:00.000Z", title: "Source-to-target mapping needs review", category: "Mapping", source: "AIF / 010", company: "0010", document: "0000123452", target: "Not supplied", interface: "Not supplied", priority: "P2", status: "In progress", assignee: "Maya Shah", assigneeRole: "MDG Process Owner", updated: "34 min ago", dueAt: "2026-10-03T17:00:00.000Z", routeKind: "mapping", currentStep: 1, originalLog: "AIF processing log\nMapping key 0087 could not be resolved for source account 41001000.\nTarget posting stopped; no target document was returned.",
     activity: [{ id: "b1", kind: "system", actor: "System", role: "Ingestion", time: "08:31", title: "Original log preserved", detail: "AIF source attached to the case." }, { id: "b2", kind: "comment", actor: "Maya Shah", role: "MDG Process Owner", time: "10:07", title: "Mapping scope confirmed", detail: "Confirmed mapping context with RTR Process Owner; change evidence is being prepared." }],
   },
   {
-    id: "CFIN-2026-0146", createdAt: "2026-10-01T10:00:00.000Z", title: "Posting period exception requires investigation", category: "Posting period", source: "S/4HANA / 030", company: "0030", document: "0000123441", amount: "76,400.00 EUR", priority: "P1", status: "In progress", assignee: "Olivia Grant", assigneeRole: "CFIN Exception Manager", updated: "1h ago", dueAt: "2026-10-01T17:00:00.000Z", routeKind: "manual", currentStep: 1, originalLog: "Posting period error: document date falls outside an open target period. No target document reference returned.",
+    id: "CFIN-2026-0146", caseNumber: "CFIN-2026-0146", createdAt: "2026-10-01T10:00:00.000Z", title: "Posting period exception requires investigation", category: "Posting period", source: "S/4HANA / 030", company: "0030", document: "0000123441", target: "Not supplied", interface: "Not supplied", priority: "P1", status: "In progress", assignee: "Olivia Grant", assigneeRole: "CFIN Exception Manager", updated: "1h ago", dueAt: "2026-10-01T17:00:00.000Z", routeKind: "manual", currentStep: 1, originalLog: "Posting period error: document date falls outside an open target period. No target document reference returned.",
     activity: [{ id: "c1", kind: "ai", actor: "Error Analysis workflow", role: "System", time: "Yesterday", title: "Manual route selected", detail: "Posting period is maintained as a known category but has no pilot remediation route." }, { id: "c2", kind: "assignment", actor: "Olivia Grant", role: "CFIN Exception Manager", time: "Yesterday", title: "Escalation accepted", detail: "Manual investigation is underway." }],
   },
   {
-    id: "CFIN-2026-0142", createdAt: "2026-09-29T09:00:00.000Z", title: "Tax determination mismatch", category: "Tax", source: "AIF / 020", company: "0020", document: "0000123389", amount: "4,900.00 GBP", priority: "P3", status: "Closed", assignee: "Liam Carter", assigneeRole: "Data Operations", updated: "Yesterday", dueAt: "2026-10-01T17:00:00.000Z", routeKind: "manual", currentStep: 3, originalLog: "Tax determination mismatch. Reprocessing later returned target document 1900000714.",
+    id: "CFIN-2026-0142", caseNumber: "CFIN-2026-0142", createdAt: "2026-09-29T09:00:00.000Z", title: "Tax determination mismatch", category: "Tax", source: "AIF / 020", company: "0020", document: "0000123389", target: "Not supplied", interface: "Not supplied", priority: "P3", status: "Closed", assignee: "Liam Carter", assigneeRole: "Data Operations", updated: "Yesterday", dueAt: "2026-10-01T17:00:00.000Z", routeKind: "manual", currentStep: 3, originalLog: "Tax determination mismatch. Reprocessing later returned target document 1900000714.",
     activity: [{ id: "d1", kind: "outcome", actor: "Liam Carter", role: "Data Operations", time: "Yesterday", title: "CFIN posting validated", detail: "Target document 1900000714 recorded with supporting validation evidence." }],
   },
   {
-    id: "CFIN-2026-0141", createdAt: "2026-10-03T10:22:00.000Z", title: "Document 0000123387 — processing failure", category: "Unclassified", source: "ERP-DEMO / 010", company: "0010", document: "0000123387", amount: "18,220.00 GBP", priority: "P2", status: "Blocked", assignee: "Olivia Grant", assigneeRole: "CFIN Exception Manager", updated: "24 min ago", dueAt: "2026-10-03T17:00:00.000Z", routeKind: "manual", currentStep: 0, originalLog: "The supplied message does not match a maintained category. Investigation owner required.",
+    id: "CFIN-2026-0141", caseNumber: "CFIN-2026-0141", createdAt: "2026-10-03T10:22:00.000Z", title: "Document 0000123387 — processing failure", category: "Unclassified", source: "ERP-DEMO / 010", company: "0010", document: "0000123387", target: "Not supplied", interface: "Not supplied", priority: "P2", status: "Blocked", assignee: "Olivia Grant", assigneeRole: "CFIN Exception Manager", updated: "24 min ago", dueAt: "2026-10-03T17:00:00.000Z", routeKind: "manual", currentStep: 0, originalLog: "The supplied message does not match a maintained category. Investigation owner required.",
     activity: [{ id: "e1", kind: "system", actor: "Error Analysis workflow", role: "System", time: "10:22", title: "Classified as unclassified", detail: "The extraction did not support one of the maintained categories. No remediation was proposed." }],
   },
 ];
@@ -199,6 +202,13 @@ export function WorkbenchApp() {
   const [selectedId, setSelectedId] = useState(seededCases[0].id);
   const [notice, setNotice] = useState("");
   const [hydrated, setHydrated] = useState(false);
+  const [openCaseId, setOpenCaseId] = useState<string | null>(null);
+  const [recentUploads, setRecentUploads] = useState<string[]>([]);
+  const [refreshError, setRefreshError] = useState(false);
+  const casesRef = useRef(cases);
+  casesRef.current = cases;
+
+  function openCase(id: string) { setSelectedId(id); setOpenCaseId(id); setPage("cases"); }
 
   useEffect(() => {
     if (connected) {
@@ -217,6 +227,11 @@ export function WorkbenchApp() {
           }
           if (!controller.signal.aborted) {
             session.current = activeSession; loaded = true;
+            let previous: string[] = [];
+            try { const saved = JSON.parse(localStorage.getItem(`cfin-uploads-${activeSession.workspace.id}`) || '[]'); previous = Array.isArray(saved) ? saved.filter(id => typeof id === 'string') : []; } catch { /* Recover progress from the saved cases. */ }
+            const tracked = [...new Set([...records.filter(item => analysisView(item.remote).active).map(item => item.id), ...previous])].slice(0, 20);
+            setRecentUploads(tracked);
+            try { localStorage.setItem(`cfin-uploads-${activeSession.workspace.id}`, JSON.stringify(tracked)); } catch { /* Bookmarks are optional; saved cases remain authoritative. */ }
             setCases(records); setSelectedId(records[0]?.id || ""); setHydrated(true);
             setNoticeError(false); setNotice("");
           }
@@ -240,7 +255,7 @@ export function WorkbenchApp() {
         const parsed = JSON.parse(saved) as CaseRecord[];
         if (Array.isArray(parsed) && parsed.length) {
           const fallbackDueAt = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
-          setCases(parsed.map((savedCase) => ({ ...savedCase, title: savedCase.title === "Exception requires classification" ? `Document ${savedCase.document} — processing failure` : savedCase.title, createdAt: savedCase.id === "CFIN-2026-0148" && savedCase.createdAt === "2026-10-02T09:14:00.000Z" ? "2026-09-30T09:14:00.000Z" : savedCase.createdAt || seededCases.find((seed) => seed.id === savedCase.id)?.createdAt || "", dueAt: savedCase.dueAt || fallbackDueAt })));
+          setCases(parsed.map((savedCase) => ({ ...savedCase, caseNumber: savedCase.caseNumber || savedCase.id, target: savedCase.target || "Not supplied", interface: savedCase.interface || "Not supplied", title: savedCase.title === "Exception requires classification" ? `Document ${savedCase.document} — processing failure` : savedCase.title, createdAt: savedCase.id === "CFIN-2026-0148" && savedCase.createdAt === "2026-10-02T09:14:00.000Z" ? "2026-09-30T09:14:00.000Z" : savedCase.createdAt || seededCases.find((seed) => seed.id === savedCase.id)?.createdAt || "", dueAt: savedCase.dueAt || fallbackDueAt })));
         }
       } catch { /* Local demo data is optional. */ }
     }
@@ -248,21 +263,30 @@ export function WorkbenchApp() {
   }, [connected, connection]);
   useEffect(() => { if (hydrated && !connected) window.localStorage.setItem("cfin-workbench-demo-v3", JSON.stringify(cases)); }, [cases, hydrated, connected]);
   useEffect(() => {
-    if (!connected || !hydrated || !session.current || !selectedId) return;
+    if (!connected || !hydrated || !session.current) return;
     const controller = new AbortController();
     let reading = false;
     const refresh = async () => {
       if (reading || saving.current || document.visibilityState === "hidden") return;
       reading = true;
       try {
-        const loaded = mapSavedCase(await connection.readCase(session.current!, selectedId, controller.signal));
-        if (!controller.signal.aborted && !saving.current) setCases(previous => previous.map(item => item.id === loaded.id ? loaded : item));
-      } catch (error) { if (!controller.signal.aborted) { setNoticeError(true); setNotice(error instanceof Error ? error.message : "The case could not be refreshed."); } }
+        const ids = [...new Set([selectedId, ...casesRef.current.filter(item => analysisView(item.remote).active).map(item => item.id)])].filter(Boolean);
+        const updated = new Map<string, CaseRecord>();
+        let failed = false;
+        for (let offset = 0; offset < ids.length; offset += 4) {
+          const results = await Promise.allSettled(ids.slice(offset, offset + 4).map(async id => mapSavedCase(await connection.readCase(session.current!, id, controller.signal))));
+          for (const result of results) { if (result.status === 'fulfilled') updated.set(result.value.id, result.value); else failed = true; }
+        }
+        if (!controller.signal.aborted && !saving.current) {
+          setCases(previous => previous.map(item => updated.get(item.id) || item)); setRefreshError(failed);
+        }
+      } catch { if (!controller.signal.aborted) setRefreshError(true); }
       finally { reading = false; }
     };
-    const interval = window.setInterval(() => void refresh(), 10000);
+    const interval = window.setInterval(() => void refresh(), 4000);
     window.addEventListener("focus", refresh);
-    return () => { controller.abort(); window.clearInterval(interval); window.removeEventListener("focus", refresh); };
+    document.addEventListener("visibilitychange", refresh);
+    return () => { controller.abort(); window.clearInterval(interval); window.removeEventListener("focus", refresh); document.removeEventListener("visibilitychange", refresh); };
   }, [connected, hydrated, connection, selectedId]);
 
   const currentUser = avatarFor(persona);
@@ -324,7 +348,22 @@ export function WorkbenchApp() {
       item = mapSavedCase(await connection.readCase(session.current, receipt.caseId, signal));
       setNotice(receipt.paidDispatchEnabled ? "Original saved. Analysis is queued; its published results will appear in this case." : "Original saved. Analysis is queued but model dispatch is disabled.");
     } else setNotice("Original file staged as a local case. Live analysis is not enabled in this preview.");
-    setNoticeError(false); setCases(previous => [item, ...previous.filter(row => row.id !== item.id)]); setSelectedId(item.id); setPage("cases");
+    setNoticeError(false); setNotice(""); setCases(previous => [item, ...previous.filter(row => row.id !== item.id)]); setSelectedId(item.id);
+    setRecentUploads(previous => {
+      const next = [item.id, ...previous.filter(id => id !== item.id)].slice(0, 10);
+      try { if (session.current) localStorage.setItem(`cfin-uploads-${session.current.workspace.id}`, JSON.stringify(next)); } catch { /* A full browser store must not turn a saved upload into an error. */ }
+      return next;
+    });
+  }
+
+  const analyses = cases.filter(item => (item.remote && analysisView(item.remote).state !== 'ready') || recentUploads.includes(item.id));
+  async function retryAnalysis(item: CaseRecord) {
+    if (!session.current || !item.remote || analysisView(item.remote).active) return;
+    try {
+      await connection.action(session.current, item.id, Number(item.remote.case.version), roleCode(persona), "analyse", { note: "Retry requested after the previous analysis could not be completed." }, new AbortController().signal);
+      const updated = mapSavedCase(await connection.readCase(session.current, item.id, new AbortController().signal));
+      setCases(previous => previous.map(row => row.id === item.id ? updated : row));
+    } catch (error) { setNoticeError(true); setNotice(error instanceof Error ? error.message : "The retry could not be started."); throw error; }
   }
 
   return <div className="workbench-canvas">
@@ -334,12 +373,12 @@ export function WorkbenchApp() {
         <div className="workbench-user"><span className="demo-label">{connected ? "Connected demo" : "Local demo"}</span><Avatar color="teal" radius="xl" size={30}>{currentUser.initials}</Avatar><Select aria-label="Select local demo persona" value={persona} onChange={(value) => setPersona((value as Role) || "MDG Process Owner")} data={roles.map((item) => ({ value: item.value, label: `${item.person} · ${item.value}` }))} className="persona-select" allowDeselect={false} /></div>
       </header>
       <Tabs value={page} onChange={(value) => setPage((value as Page) || "dashboard")} className="workbench-tabs" keepMounted={false}>
-        <Tabs.List><Tabs.Tab value="about">About</Tabs.Tab><Tabs.Tab value="dashboard">Dashboard</Tabs.Tab><Tabs.Tab value="data">Data</Tabs.Tab><Tabs.Tab value="cases">Case Board</Tabs.Tab></Tabs.List>
+        <Tabs.List><Tabs.Tab value="about">About</Tabs.Tab><Tabs.Tab value="dashboard">Dashboard</Tabs.Tab><Tabs.Tab value="cases">Case Board</Tabs.Tab></Tabs.List>
         <Tabs.Panel value="about"><AboutPage onOpenCases={() => setPage("cases")} /></Tabs.Panel>
-        <Tabs.Panel value="dashboard"><DashboardPage cases={cases} persona={persona} onOpenCases={() => setPage("cases")} onOpenCase={(id) => { setSelectedId(id); setPage("cases"); }} onUpload={() => setPage("data")} /></Tabs.Panel>
-        <Tabs.Panel value="data"><DataPage onAddCase={addCase} connected={connected} /></Tabs.Panel>
-        <Tabs.Panel value="cases"><CasesPage cases={cases} selected={selected} selectedId={selectedId} onSelect={setSelectedId} persona={persona} onUpdate={updateCase} onDownload={downloadAttachment} loading={connected && !hydrated && !noticeError} loadError={connected && !hydrated && noticeError} /></Tabs.Panel>
+        <Tabs.Panel value="dashboard" keepMounted><DashboardPage cases={cases} persona={persona} onOpenCases={() => setPage("cases")} onOpenCase={openCase} intake={<><UploadCard onAddCase={addCase} connected={connected} disabled={connected && !hydrated} /><AnalysisInbox cases={analyses} refreshError={refreshError} onOpenCase={openCase} onRetry={retryAnalysis} /></>} /></Tabs.Panel>
+        <Tabs.Panel value="cases"><CasesPage cases={cases} selected={selected} selectedId={selectedId} onSelect={setSelectedId} persona={persona} onUpdate={updateCase} onDownload={downloadAttachment} loading={connected && !hydrated && !noticeError} loadError={connected && !hydrated && noticeError} openCaseId={openCaseId} onCloseDetail={() => setOpenCaseId(null)} /></Tabs.Panel>
       </Tabs>
+      {page !== 'dashboard' && <AnalysisDock cases={analyses} refreshError={refreshError} onOpen={() => setPage('dashboard')} onOpenCase={openCase} />}
       {notice && <div className="save-notice" role={noticeError ? "alert" : "status"}>{noticeError ? <AlertTriangle size={16} /> : <CheckCircle2 size={16} />}{notice}<button onClick={() => setNotice("")} aria-label="Dismiss saved notice">×</button></div>}
     </div>
   </div>;
@@ -364,7 +403,7 @@ function AboutPage({ onOpenCases }: { onOpenCases: () => void }) {
   </main>;
 }
 
-function DashboardPage({ cases, persona, onOpenCases, onOpenCase, onUpload }: { cases: CaseRecord[]; persona: Role; onOpenCases: () => void; onOpenCase: (id: string) => void; onUpload: () => void }) {
+function DashboardPage({ cases, persona, onOpenCases, onOpenCase, intake }: { cases: CaseRecord[]; persona: Role; onOpenCases: () => void; onOpenCase: (id: string) => void; intake: React.ReactNode }) {
   const open = cases.filter((item) => item.status !== "Closed");
   const unclassified = cases.filter((item) => item.category === "Unclassified").length;
   const bars = [["Master data", 40, "teal"], ["Mapping", 28, "violet"], ["Other maintained categories", 20, "gray"], ["Unclassified", 12, "red"]] as const;
@@ -388,18 +427,17 @@ function DashboardPage({ cases, persona, onOpenCases, onOpenCase, onUpload }: { 
     setIdealDays(idealInput);
     setTargetOpen(false);
   }
-  return <main className="page-content"><PageHeading title="Key Performance Indicators" description="Operational metrics covering average resolution time, case mix by error type, value of blocked documents and unclassified cases." action={<Button color="teal" leftSection={<FolderUp size={16} />} onClick={onUpload}>Add case data</Button>} />
+  return <main className="page-content"><PageHeading title="Your work, in view" description={`Welcome, ${personForRole(persona).split(' ')[0]}. Review your priorities or upload a log to start a new analysis.`} />
     <Text className="illustrative-note" size="sm"><span />Illustrative metrics for the local preview</Text>
-    <SimpleGrid cols={{ base: 1, sm: 2, xl: 4 }} spacing="md" mt="md">
+    <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md" mt="md">
       <ResolutionTimeCard currentDays={1.8} idealDays={idealDays} canSetIdeal={persona === "CFIN Exception Manager"} onSetIdeal={openTargetSettings} />
       <Card className="metric-card metric-violet" radius="lg" padding="lg"><Group justify="space-between" align="start"><Text fw={600}>Cases by error type</Text><ThemeIcon variant="light" color="violet" radius="md"><BriefcaseBusiness size={18} /></ThemeIcon></Group><Stack gap={9} mt="md">{bars.map(([label, value, color]) => <div key={label}><Group justify="space-between" mb={4}><Text size="xs" c="dimmed">{label}</Text><Text size="xs" fw={700}>{value}%</Text></Group><Progress value={value} color={color} size="sm" radius="xl" /></div>)}</Stack></Card>
-      <MetricCard title="Document value held up" value="£146k" copy={`${open.length} open cases · GBP sample`} icon={<WalletCards size={19} />} tone="amber" />
       <MetricCard title="Unclassified cases" value={String(unclassified)} copy="Requires manual investigation" icon={<CircleAlert size={19} />} tone="red" />
     </SimpleGrid>
-    <Paper className="dashboard-work" radius="lg" p="lg" mt="lg"><Group justify="space-between" align="start"><div><Title order={2}>{personForRole(persona)}'s Priorities</Title><Text c="dimmed" mt={4}>Only cases explicitly assigned to you that are blocked or past due.</Text></div><Button variant="subtle" color="teal" rightSection={<ChevronRight size={16} />} onClick={onOpenCases}>View all cases</Button></Group><div className="attention-list">{priorityCases.map((item) => {
+    <div className="dashboard-bottom"><Paper className="dashboard-work" radius="lg" p="lg"><Group justify="space-between" align="start"><div><Title order={2}>{personForRole(persona)}'s Priorities</Title><Text c="dimmed" mt={4}>Only cases explicitly assigned to you that are blocked or past due.</Text></div><Button variant="subtle" color="teal" rightSection={<ChevronRight size={16} />} onClick={onOpenCases}>View all cases</Button></Group><div className="attention-list">{priorityCases.map((item) => {
       const label = item.status === "Blocked" ? "Blocked" : "Past due";
-      return <button key={item.id} onClick={() => onOpenCase(item.id)}><span className={`priority-dot ${item.priority.toLowerCase()}`} /><div><strong>{item.title}</strong><Text size="sm" c="dimmed">{item.id} · Assigned to {item.assignee}</Text></div><Group gap={6} wrap="nowrap"><Badge color={item.status === "Blocked" ? "red" : "amber"} variant="light">{label}</Badge><StatusBadge status={item.status} /></Group></button>;
-    })}{priorityCases.length === 0 && <div className="empty-row"><CheckCircle2 size={22} /><Text>No urgent cases or open actions for this persona.</Text></div>}</div></Paper>
+      return <button key={item.id} onClick={() => onOpenCase(item.id)}><span className={`priority-dot ${item.priority.toLowerCase()}`} /><div><strong>{item.title}</strong><Text size="sm" c="dimmed">{item.caseNumber} · Assigned to {item.assignee}</Text></div><Group gap={6} wrap="nowrap"><Badge color={item.status === "Blocked" ? "red" : "amber"} variant="light">{label}</Badge><StatusBadge status={item.status} /></Group></button>;
+    })}{priorityCases.length === 0 && <div className="empty-row"><CheckCircle2 size={22} /><Text>No urgent cases or open actions for this persona.</Text></div>}</div></Paper><section className="dashboard-intake" aria-label="Upload and analysis">{intake}</section></div>
     <Modal opened={targetOpen} onClose={() => setTargetOpen(false)} title="Set ideal resolution time" centered size="sm">
       <Stack gap="md"><Text size="sm" c="dimmed">The current average is compared with this target. Set the ideal average resolution time in days.</Text><NumberInput label="Ideal resolution time" description="Used to show whether current performance is ahead of or over target." value={idealInput} onChange={setIdealInput} min={0.1} max={365} decimalScale={1} step={0.1} suffix=" days" allowDecimal /><Group justify="flex-end"><Button variant="default" onClick={() => setTargetOpen(false)}>Cancel</Button><Button color="teal" disabled={typeof idealInput !== "number" || !Number.isFinite(idealInput) || idealInput <= 0} onClick={saveTarget}>Save target</Button></Group></Stack>
     </Modal>
@@ -418,29 +456,38 @@ function MetricCard({ title, value, suffix, copy, icon, tone }: { title: string;
   return <Card className={`metric-card metric-${tone}`} radius="lg" padding="lg"><Group justify="space-between" align="start"><Text fw={600}>{title}</Text><ThemeIcon variant="light" color={tone} radius="md">{icon}</ThemeIcon></Group><Group gap={6} align="baseline" mt={26}><Text className="metric-value">{value}</Text>{suffix && <Text c="dimmed" size="sm">{suffix}</Text>}</Group><Text size="sm" c="dimmed" mt={8}>{copy}</Text><div className="metric-rule" /></Card>;
 }
 
-function DataPage({ onAddCase, connected }: { onAddCase: (item: CaseRecord, file: File, deliveryKey: string) => Promise<void>; connected: boolean }) {
+function UploadCard({ onAddCase, connected, disabled }: { onAddCase: (item: CaseRecord, file: File, deliveryKey: string) => Promise<void>; connected: boolean; disabled: boolean }) {
   const [file, setFile] = useState<File | null>(null);
   const [raw, setRaw] = useState("");
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
   const receipt = useRef("");
-  async function choose(next: File | null) { receipt.current = crypto.randomUUID(); setFile(next); setError(""); if (!next) { setRaw(""); return; } try { setRaw(await next.text()); } catch { setError("The selected file could not be read as text."); } }
+  const resetFile = useRef<() => void>(null);
+  async function choose(next: File | null) {
+    if (pending) return;
+    receipt.current = crypto.randomUUID(); setFile(next); setError(""); setRaw("");
+    if (!next) return;
+    if (!/\.(txt|log|csv|tsv)$/i.test(next.name) || !next.size || next.size > 8192) { setError("Choose a non-empty .txt, .log, .csv or .tsv file up to 8 KB."); return; }
+    const selectedReceipt = receipt.current;
+    try { const text = new TextDecoder('utf-8', { fatal: true }).decode(await next.arrayBuffer()); if (receipt.current === selectedReceipt) setRaw(text); } catch { if (receipt.current === selectedReceipt) setError("Save this file as UTF-8 text, then select it again."); }
+  }
   async function create() {
     if (!file || !raw || pending) return;
     setPending(true); setError("");
     try {
     const document = raw.match(/\b\d{6,}\b/)?.[0] || "Not found";
-    await onAddCase({ id: `CFIN-LOCAL-${String(Date.now()).slice(-5)}`, title: document === "Not found" ? "Uploaded document error log" : `Document ${document} — error log`, category: "Unclassified", source: "Flat file", company: "Not found", createdAt: new Date().toISOString(), document, amount: "Not supplied", priority: "P2", status: "In progress", assignee: "Olivia Grant", assigneeRole: "CFIN Exception Manager", updated: "Now", dueAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(), routeKind: "manual", currentStep: 0, originalLog: raw, originalFilename: file.name, activity: [{ id: "local-intake", kind: "system", actor: "Local demo", role: "Ingestion", time: "Now", title: "Original file preserved", detail: `${file.name} was added as an immutable local source. Analysis has not run in this preview.` }] }, file, receipt.current); setFile(null); setRaw("");
+    const localReference = `CFIN-LOCAL-${Date.now()}`;
+    await onAddCase({ id: localReference, caseNumber: localReference, title: document === "Not found" ? "Uploaded document error log" : `Document ${document} — error log`, category: "Unclassified", source: "Flat file", company: "Not found", createdAt: new Date().toISOString(), document, target: "Not supplied", interface: "Not supplied", priority: "P2", status: "In progress", assignee: "Olivia Grant", assigneeRole: "CFIN Exception Manager", updated: "Now", dueAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(), routeKind: "manual", currentStep: 0, originalLog: raw, originalFilename: file.name, activity: [{ id: "local-intake", kind: "system", actor: "Local demo", role: "Ingestion", time: "Now", title: "Original file preserved", detail: `${file.name} was added as an immutable local source. Analysis has not run in this preview.` }] }, file, receipt.current); setFile(null); setRaw("");
+    resetFile.current?.();
     } catch (error) { setError(error instanceof Error ? error.message : "The upload could not be confirmed. Retry the same file."); } finally { setPending(false); }
   }
-  return <main className="page-content"><PageHeading title="Add case data" description="Upload and review document error logs." />
-    <Paper className="upload-panel" radius="lg" p="xl">
-      <div className="upload-panel-copy"><Title order={2}>Upload error logs</Title><Text c="dimmed">Upload data using the following supported file types: .txt, .log, .csv and .tsv.</Text></div>
-      <div className="upload-panel-picker"><FileButton accept=".txt,.log,.csv,.tsv,text/plain,text/csv" onChange={choose}>{(props) => <Button {...props} color="teal" variant="filled" size="md" leftSection={<Upload size={17} />}>Browse your computer</Button>}</FileButton><Group gap="xs" mt="sm" wrap="nowrap"><Text size="sm" c={file ? "dark" : "dimmed"} className="selected-file-name">{file?.name || "No file selected"}</Text>{file && <Button variant="subtle" color="gray" size="compact-sm" onClick={() => void choose(null)}>Clear</Button>}</Group></div>
-      {error && <Alert className="upload-panel-error" color="red">{error}</Alert>}
-      {file && <div className="file-facts"><Fact label="File" value={file.name} /><Fact label="Size" value={`${file.size.toLocaleString()} bytes`} /><Fact label="Lines" value={String(raw.split(/\r?\n/).filter(Boolean).length)} /><Fact label="Detected document" value={raw.match(/\b\d{6,}\b/)?.[0] || "Not found"} /></div>}
-      <Group className="upload-panel-footer" justify="space-between"><Text size="sm" c="dimmed">{connected ? "Synthetic demo files are saved privately to this workspace." : "The selected file is retained in this browser demo."}</Text><Button color="teal" size="md" disabled={!raw || pending} loading={pending} onClick={() => void create()}>{connected ? "Create case" : "Create local case"} <ChevronRight size={16} /></Button></Group>
-    </Paper></main>;
+  return <div className="intake-card">
+    <div className="intake-heading"><span className="intake-icon"><FolderUp size={24} /></span><div><Title order={2}>Start with an error log</Title><Text size="sm" c="dimmed">Turn the original evidence into a case you can review.</Text></div></div>
+    <FileButton resetRef={resetFile} accept=".txt,.log,.csv,.tsv,text/plain,text/csv" onChange={choose}>{(props) => <button {...props} className="intake-picker" disabled={pending || disabled}><FileText size={22} /><span><strong>{file?.name || 'Choose an error log'}</strong><small>{file ? `${formatFileSize(file.size)} · Original will be preserved` : '.txt, .log, .csv or .tsv · Up to 8 KB'}</small></span><Upload size={18} /></button>}</FileButton>
+    {error && <Alert color="red" mt="sm">{error}</Alert>}
+    <Button fullWidth color="teal" mt="md" size="md" disabled={!raw || pending || disabled} loading={pending} onClick={() => void create()} rightSection={!pending && <ArrowRight size={16} />}>{pending ? 'Saving your original…' : connected ? 'Upload and analyse' : 'Save local preview'}</Button>
+    <Text className="intake-footnote" size="xs" c="dimmed">{connected ? 'Analysis continues while you work. Your original stays private to this workspace.' : 'Local preview only. AI analysis is not connected.'}</Text>
+  </div>;
 }
 
 function DateIntervalCalendar({ opened, onClose, value, onApply }: { opened: boolean; onClose: () => void; value: { start: string; end: string }; onApply: (value: { start: string; end: string }) => void }) {
@@ -478,14 +525,14 @@ function DateIntervalCalendar({ opened, onClose, value, onApply }: { opened: boo
   </Stack></Modal>;
 }
 
-function CasesPage({ cases, selected, selectedId, onSelect, persona, onUpdate, onDownload, loading, loadError }: { cases: CaseRecord[]; selected: CaseRecord | undefined; selectedId: string; onSelect: (id: string) => void; persona: Role; onUpdate: (item: CaseRecord, files?: File[]) => Promise<void>; onDownload: (file: CaseAttachment) => Promise<void>; loading: boolean; loadError: boolean }) {
+function CasesPage({ cases, selected, selectedId, onSelect, persona, onUpdate, onDownload, loading, loadError, openCaseId, onCloseDetail }: { cases: CaseRecord[]; selected: CaseRecord | undefined; selectedId: string; onSelect: (id: string) => void; persona: Role; onUpdate: (item: CaseRecord, files?: File[]) => Promise<void>; onDownload: (file: CaseAttachment) => Promise<void>; loading: boolean; loadError: boolean; openCaseId: string | null; onCloseDetail: () => void }) {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<string | null>(null);
   const [quickView, setQuickView] = useState("All cases");
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
   const [calendarOpen, setCalendarOpen] = useState(false);
   const filtered = useMemo(() => cases.filter((item) => {
-    const text = `${item.id} ${item.title} ${item.document} ${item.category} ${item.assignee}`.toLowerCase();
+    const text = `${item.caseNumber} ${item.id} ${item.title} ${item.document} ${item.source} ${item.company} ${item.category} ${item.assignee}`.toLowerCase();
     const queue = quickView !== "Assigned to me" || item.assignee === personForRole(persona);
     const created = dateKey(item.createdAt);
     const inInterval = (!dateRange.start || (created !== "" && created >= dateRange.start)) && (!dateRange.end || (created !== "" && created <= dateRange.end));
@@ -494,8 +541,8 @@ function CasesPage({ cases, selected, selectedId, onSelect, persona, onUpdate, o
   function downloadCsv() {
     if (!filtered.length) return;
     const rows = [
-      ["Case number", "Title", "Error type", "Assigned to", "Status", "Value", "Case Creation Date", "Due Date"],
-      ...filtered.map((item) => [item.id, item.title, item.category, `${item.assignee} (${item.assigneeRole})`, item.status, item.amount, formatCaseDate(item.createdAt), formatCaseDate(item.dueAt)]),
+      ["Case number", "Document", "Title", "Error type", "Assigned to", "Status", "Case Creation Date", "Due Date"],
+      ...filtered.map((item) => [item.caseNumber, item.document, item.title, item.category, `${item.assignee} (${item.assigneeRole})`, item.status, formatCaseDate(item.createdAt), formatCaseDate(item.dueAt)]),
     ];
     const url = URL.createObjectURL(new Blob([serializeCaseBoardCsv(rows)], { type: "text/csv;charset=utf-8" }));
     const link = document.createElement("a");
@@ -507,11 +554,13 @@ function CasesPage({ cases, selected, selectedId, onSelect, persona, onUpdate, o
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
   const [openDetail, setOpenDetail] = useState(false);
+  useEffect(() => { if (openCaseId) setOpenDetail(true); }, [openCaseId]);
+  function closeDetail() { setOpenDetail(false); onCloseDetail(); }
   return <main className="page-content"><PageHeading title="Case Board" description="Track ownership, open the case conversation and preserve every decision with its evidence." context={<div className="case-count-context"><strong>{cases.length}</strong><span>{cases.length === 1 ? "case" : "cases"}</span></div>} />
-    <div className="board-layout"><section className="case-table-panel"><Paper radius="lg" p={0} className="case-table-paper"><div className="case-table-tools"><div className="quick-views">{["All cases", "Assigned to me"].map((view) => <button key={view} className={quickView === view ? "active" : ""} onClick={() => setQuickView(view)}>{view}</button>)}<button className={dateRange.start ? "active date-filter-button" : "date-filter-button"} onClick={() => setCalendarOpen(true)}><CalendarDays size={15} />Date interval{dateRange.start && <span className="date-filter-dot" />}</button></div><Group gap="sm"><TextInput aria-label="Search cases" placeholder="Search case, document or owner" leftSection={<Search size={16} />} value={query} onChange={(event) => setQuery(event.currentTarget.value)} /><Select aria-label="Filter by status" placeholder="Status" clearable value={status} onChange={setStatus} data={["Open", "In progress", "Blocked", "Closed"]} w={170} /><Button variant="default" leftSection={<Download size={16} />} onClick={downloadCsv} disabled={!filtered.length}>Download as CSV</Button></Group></div>{dateRange.start && <div className="date-interval-summary"><Text size="sm">Created between {formatCaseDate(`${dateRange.start}T00:00:00`)} and {formatCaseDate(`${dateRange.end}T00:00:00`)}</Text><Button variant="subtle" size="compact-sm" color="gray" onClick={() => setDateRange({ start: "", end: "" })}>Clear interval</Button></div>}<ScrollArea><Table className="case-table" highlightOnHover><Table.Thead><Table.Tr><Table.Th>Case number</Table.Th><Table.Th>Title</Table.Th><Table.Th>Error type</Table.Th><Table.Th>Assigned to</Table.Th><Table.Th>Status</Table.Th><Table.Th>Value</Table.Th><Table.Th>Case Creation Date</Table.Th><Table.Th>Due Date</Table.Th></Table.Tr></Table.Thead><Table.Tbody>{filtered.map((item) => <Table.Tr key={item.id} className={item.id === selectedId ? "selected-row" : ""} onClick={() => { onSelect(item.id); setOpenDetail(true); }}><Table.Td><Text fw={700} size="sm">{item.id}</Text><Text size="xs" c="dimmed">Document {item.document}</Text></Table.Td><Table.Td><Text fw={700} size="sm">{item.title}</Text></Table.Td><Table.Td><CategoryBadge value={item.category} /></Table.Td><Table.Td><OwnerChip compact role={item.assigneeRole} name={item.assignee} /></Table.Td><Table.Td><StatusBadge status={item.status} /></Table.Td><Table.Td><Text size="sm" fw={600}>{item.amount}</Text></Table.Td><Table.Td><Text size="sm" className="table-date">{formatCaseDate(item.createdAt)}</Text></Table.Td><Table.Td><Text size="sm" className="table-date" c={isPastDue(item) ? "red" : undefined}>{formatCaseDate(item.dueAt)}</Text></Table.Td></Table.Tr>)}</Table.Tbody></Table></ScrollArea>{!filtered.length && <div className="empty-row"><Search size={22} /><Text>{loadError ? "Cases could not be loaded. Reload the page to reconnect." : loading ? "Loading saved cases…" : "No cases match these filters."}</Text></div>}</Paper></section>
+    <div className="board-layout"><section className="case-table-panel"><Paper radius="lg" p={0} className="case-table-paper"><div className="case-table-tools"><div className="quick-views">{["All cases", "Assigned to me"].map((view) => <button key={view} className={quickView === view ? "active" : ""} onClick={() => setQuickView(view)}>{view}</button>)}<button className={dateRange.start ? "active date-filter-button" : "date-filter-button"} onClick={() => setCalendarOpen(true)}><CalendarDays size={15} />Date interval{dateRange.start && <span className="date-filter-dot" />}</button></div><Group gap="sm"><TextInput aria-label="Search cases" placeholder="Search case, document or owner" leftSection={<Search size={16} />} value={query} onChange={(event) => setQuery(event.currentTarget.value)} /><Select aria-label="Filter by status" placeholder="Status" clearable value={status} onChange={setStatus} data={["Open", "In progress", "Blocked", "Closed"]} w={170} /><Button variant="default" leftSection={<Download size={16} />} onClick={downloadCsv} disabled={!filtered.length}>Download as CSV</Button></Group></div>{dateRange.start && <div className="date-interval-summary"><Text size="sm">Created between {formatCaseDate(`${dateRange.start}T00:00:00`)} and {formatCaseDate(`${dateRange.end}T00:00:00`)}</Text><Button variant="subtle" size="compact-sm" color="gray" onClick={() => setDateRange({ start: "", end: "" })}>Clear interval</Button></div>}<ScrollArea><Table className="case-table" highlightOnHover><Table.Thead><Table.Tr><Table.Th>Case number</Table.Th><Table.Th>Title</Table.Th><Table.Th>Error type</Table.Th><Table.Th>Assigned to</Table.Th><Table.Th>Status</Table.Th><Table.Th>Case Creation Date</Table.Th><Table.Th>Due Date</Table.Th></Table.Tr></Table.Thead><Table.Tbody>{filtered.map((item) => <Table.Tr key={item.id} className={item.id === selectedId ? "selected-row" : ""} onClick={() => { onSelect(item.id); setOpenDetail(true); }}><Table.Td><Text fw={700} size="sm">{item.caseNumber}</Text><Text size="xs" c="dimmed">Document {item.document}</Text></Table.Td><Table.Td><Text fw={700} size="sm">{item.title}</Text></Table.Td><Table.Td><CategoryBadge value={item.category} /></Table.Td><Table.Td><OwnerChip compact role={item.assigneeRole} name={item.assignee} /></Table.Td><Table.Td><StatusBadge status={item.status} /></Table.Td><Table.Td><Text size="sm" className="table-date">{formatCaseDate(item.createdAt)}</Text></Table.Td><Table.Td><Text size="sm" className="table-date" c={isPastDue(item) ? "red" : undefined}>{formatCaseDate(item.dueAt)}</Text></Table.Td></Table.Tr>)}</Table.Tbody></Table></ScrollArea>{!filtered.length && <div className="empty-row"><Search size={22} /><Text>{loadError ? "Cases could not be loaded. Reload the page to reconnect." : loading ? "Loading saved cases…" : "No cases match these filters."}</Text></div>}</Paper></section>
     </div>
     <DateIntervalCalendar opened={calendarOpen} onClose={() => setCalendarOpen(false)} value={dateRange} onApply={(range) => { setDateRange(range); setCalendarOpen(false); }} />
-    <Modal opened={openDetail} onClose={() => setOpenDetail(false)} size="calc(100vw - 48px)" classNames={{ content: "case-modal", body: "case-modal-body" }} withCloseButton={false}>{selected && <CaseWorkspace key={selected.id} item={selected} persona={persona} onUpdate={onUpdate} onDownload={onDownload} onClose={() => setOpenDetail(false)} />}</Modal>
+    <Modal opened={openDetail} onClose={closeDetail} size="calc(100vw - 48px)" classNames={{ content: "case-modal", body: "case-modal-body" }} withCloseButton={false}>{selected && <CaseWorkspace key={selected.id} item={selected} persona={persona} onUpdate={onUpdate} onDownload={onDownload} onClose={closeDetail} />}</Modal>
   </main>;
 }
 
@@ -547,7 +596,7 @@ function CaseWorkspace({ item, persona, onUpdate, onClose, onDownload }: { item:
     setClosureDetail(""); setClosureFiles([]); setClosureOpen(false);
   }
   return <div className="case-workspace"><header className="case-workspace-header">
-    <div className="case-header-top"><button className="back-button" onClick={onClose}>← Back to Case Board</button><Text size="sm" c="dimmed">{item.id}</Text></div>
+    <div className="case-header-top"><button className="back-button" onClick={onClose}>← Back to Case Board</button><Text size="sm" c="dimmed">{item.caseNumber}</Text></div>
     <Title order={1}>{item.title}</Title>
     <div className="case-header-controls">
       <div className="header-control"><Text size="xs" c="dimmed">Assigned to</Text><OwnerChip compact role={item.assigneeRole} name={item.assignee} /></div>
@@ -571,18 +620,22 @@ function CaseWorkspace({ item, persona, onUpdate, onClose, onDownload }: { item:
 }
 
 function SummaryContent({ item, onDownload }: { item: CaseRecord; onDownload: (file: CaseAttachment) => Promise<void> }) {
+  if (item.remote && !item.remote.brief) {
+    const view = analysisView(item.remote);
+    return <Stack gap="md" className="summary-content"><Section title={view.label}><Text>{view.detail}</Text><Text size="sm" c="dimmed" mt="sm">The error category and cause will appear after analysis is complete. You can inspect the saved file in Original log.</Text></Section></Stack>;
+  }
   const lines = item.originalLog.split("\n");
   const evidence = item.remote
     ? [...new Map((item.remote.brief?.evidence || []).flatMap(statement => statement.citations.map(citation => ({ text: lines.slice(citation.lineStart - 1, citation.lineEnd).join("\n"), line: citation.lineStart }))).map(entry => [entry.line, entry])).values()]
     : lines.map((text, index) => ({ text, line: index + 1 })).filter(({ text }) => /error|stopped|mapping|could not|returned|reference|period|tax|does not match/i.test(text));
-  const supplied = (pattern: RegExp) => item.originalLog.match(pattern)?.[1]?.trim() || "Not supplied";
   const report = item.remote ? item.remote.brief?.facts.map(fact => fact.text).join(" ") || item.remote.analysisFailure || `Analysis is ${item.remote.analysisState.replaceAll("_", " ")}. The original remains available for review.` : evidence[0]?.text.replace(/^\d{2}:\d{2}:\d{2}\s+/, "") || "The supplied log requires human review before a specific cause can be established.";
   const hypothesis = item.remote ? item.remote.brief?.hypothesis.text || "No current published cause hypothesis is available." : item.routeKind === "master_data" ? "The reported target-account lookup failure may indicate missing target master data. A reviewer must check the target system to establish the cause." : item.routeKind === "mapping" ? "The unresolved mapping key may indicate an absent or incorrect source-to-target mapping. A reviewer must confirm the correct mapping with the RTR Process Owner." : "The supplied evidence has not established a confirmed root cause. Record the investigation findings in Case chat.";
   const closure = item.activity.findLast((event) => event.title === "Case closed");
   return <Stack gap="md" className="summary-content">
     <Section title="Case summary"><Text>Document <mark>{item.document}</mark> · {item.source}</Text><Text mt="sm">{report}</Text><FactMarker>{item.remote?.brief ? [...new Set(item.remote.brief.facts.flatMap(fact => fact.citations.map(citation => `${citation.filename} · lines ${citation.lineStart}–${citation.lineEnd}`)))].join("; ") : `Original log · ${evidence[0] ? `line ${evidence[0].line}` : "human review required"}`}</FactMarker><Text size="sm" mt="md"><strong>Proposed cause — requires human validation:</strong> {hypothesis}</Text></Section>
-    <Section title="Document and processing context"><div className="context-grid"><Fact label="Source document" value={item.document} /><Fact label="Source system" value={item.source} /><Fact label="Company code" value={item.company} /><Fact label="Amount" value={item.amount} /><Fact label="Target system" value={supplied(/Target system:\s*([^\n]+)/i)} /><Fact label="Interface" value={supplied(/Interface:\s*([^\n]+)/i)} /></div></Section>
+    <Section title="Document and processing context"><div className="context-grid"><Fact label="Source document" value={item.document} /><Fact label="Source system" value={item.source} /><Fact label="Company code" value={item.company} /><Fact label="Target system" value={item.target} /><Fact label="Interface" value={item.interface} /></div>{item.remote?.brief?.context.map((statement, index) => <div key={index}><Text size="sm" mt="md">{statement.text}</Text><FactMarker>{statement.citations.map(citation => `${citation.filename} · lines ${citation.lineStart}–${citation.lineEnd}`).join("; ")}</FactMarker></div>)}</Section>
     <Section title="Evidence from the original log">{evidence.length ? evidence.map(({ text, line }) => <EvidenceQuote key={line} line={`Original log · line ${line}`} text={text} />) : <Text size="sm">No specific error statement has been isolated. Review the complete Original log.</Text>}</Section>
+    {!!item.remote?.brief?.questions.length && <Section title="Open questions"><Stack gap="md">{item.remote.brief.questions.map((question, index) => <div key={index}><Text size="sm">{question.text}</Text><FactMarker>{question.citations.map(citation => `${citation.filename} · lines ${citation.lineStart}–${citation.lineEnd}`).join("; ")}</FactMarker></div>)}</Stack></Section>}
     <Section title={item.routeKind === "manual" ? "Investigation path" : "Defined resolution and escalation path"}>
       <Text size="sm" c="dimmed" mb="md">{item.routeKind === "manual" ? "This error type has no pilot remediation route. The CFIN Exception Manager coordinates human investigation." : `The maintained ${item.category.toLowerCase()} route defines responsibilities and approval requirements. Case ownership changes only through an explicit handover.`}</Text>
       <ol className="route-list">{routeFor(item).map((step, index) => <li key={step}><span>{index + 1}</span><div><strong>{step}</strong><Text size="sm" c="dimmed">{stepCopy(item.routeKind, index)}</Text></div></li>)}</ol>
@@ -641,5 +694,5 @@ function FactMarker({ children }: { children: React.ReactNode }) { return <Text 
 function EvidenceQuote({ line, text }: { line: string; text: string }) { return <div className="evidence-quote"><Text size="xs" c="dimmed">{line}</Text><Text size="sm">“{text}”</Text></div>; }
 function OwnerChip({ role, name, compact = false }: { role: Role; name: string; compact?: boolean }) { const owner = avatarFor(role); return <Group gap={8} mt={compact ? 0 : "md"} wrap="nowrap" className="owner-chip"><Avatar color={role === "RTR Process Owner" ? "violet" : role === "CFIN Exception Manager" ? "red" : "teal"} radius="xl" size={27}>{owner.initials}</Avatar><div><Text size="sm" fw={700}>{name}</Text><Text size="xs" c="dimmed">{role}</Text></div></Group>; }
 function StatusBadge({ status }: { status: CaseStatus }) { return <Badge color={statusColor[status]} variant="light" radius="sm">{status}</Badge>; }
-function CategoryBadge({ value }: { value: string }) { return <Badge color={value === "Unclassified" ? "red" : value === "Mapping" ? "violet" : "teal"} variant="light" radius="sm">{value}</Badge>; }
+function CategoryBadge({ value }: { value: string }) { return <Badge title={value} color={value.startsWith("Analysis") ? "gray" : value === "Unclassified" ? "red" : value === "Mapping" ? "violet" : "teal"} variant="light" radius="sm">{value}</Badge>; }
 function stepCopy(kind: CaseRecord["routeKind"], index: number) { const copy = kind === "master_data" ? ["Maya Shah, MDG Process Owner, requests approval from Daniel Ross, RTR Process Owner. The request and supporting files stay in Case chat.", "Daniel Ross approves or rejects the request. If approval is received by email, attach that email to the message recording the decision.", "After approval, Maya Shah creates the data, attaches implementation evidence in Case chat and gives the go-ahead for document reprocessing.", "Liam Carter, Data Operations, reprocesses the document and records the returned CFIN posting result.", "Liam Carter confirms successful posting in CFIN, records the target document reference and attaches validation evidence."] : kind === "mapping" ? ["Maya Shah, MDG Process Owner, confirms the intended mapping with Daniel Ross, RTR Process Owner.", "Maya Shah maintains the agreed mapping and attaches the changed scope and supporting evidence in Case chat.", "Daniel Ross reviews and approves the mapping change. Attach the approval email to the message recording the decision.", "Liam Carter, Data Operations, reprocesses the document and records the returned CFIN posting result.", "Liam Carter confirms successful posting in CFIN, records the target document reference and attaches validation evidence."] : ["CFIN Exception Manager assigns a human investigation owner.", "Record factual findings and their supporting evidence.", "Agree and record a controlled next action.", "Record the outcome, evidence and any remaining gaps."]; return copy[index] || "Review the case journey."; }

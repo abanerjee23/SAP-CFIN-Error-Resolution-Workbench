@@ -1,0 +1,458 @@
+{
+  "schema_version": "latency-semantic-review-v1",
+  "review_date": "2026-10-09",
+  "reviewer": "Codex independent source-grounded review",
+  "method": "Reviewed each completed result's hypothesis, narrative, document context, source citations and uncertainty against the original synthetic fixture and cited spans. Separately compared route step kinds, order, roles, approval requirements and evidence requirements with maintained registry definitions. No additional model API calls were used.",
+  "criteria": [
+    "Preserve all distinct logged errors and exact relevant identifiers, including leading zeroes.",
+    "Keep source and target contexts, attempts, chronology and processing outcomes distinct.",
+    "Use citations whose source meaning supports the attached factual statement.",
+    "Separate tentative causes and competing explanations from observed log facts and verified SAP state.",
+    "Do not claim that proposed corrections, approvals, checks, reprocessing or successful posting occurred.",
+    "Preserve maintained category-specific routing and human approval/evidence controls."
+  ],
+  "limitations": [
+    "These are semantic review verdicts for the specific saved outputs, not a general accuracy guarantee or a production readiness certification.",
+    "The 13 unique fixtures are synthetic, short, English-language logs; ten focus on explicit master-data or mapping failures.",
+    "No independent SAP-domain human reviewer, real customer log evaluation, adversarial evaluation or production load test was performed.",
+    "A confidence label is not a calibrated probability; tentative wording and explicit uncertainty remain necessary.",
+    "Structural and citation integrity checks alone do not establish semantic correctness. Latency and cost evidence is recorded separately."
+  ],
+  "decision_evidence": {
+    "compact_full": "All 13 completed outputs pass this fixture-specific semantic review and automated gates. No material factual or uncertainty regression was found.",
+    "compact_smoke": "Both completed outputs pass this fixture-specific semantic review and automated gates.",
+    "fast_full": "Twelve published outputs pass semantic review; one file failed extraction twice and produced no published result. The faster profile therefore did not meet the full-suite completion gate."
+  },
+  "reports": {
+    "compact_full": {
+      "source_report": ".local-runtime/latency-benchmark/latency-compact-20261009-compact-c2/report.json",
+      "profile": "compact",
+      "requested_concurrency": 2,
+      "runs": [
+        {
+          "file": "batch-01-master_data.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-01-master_data.txt",
+          "fixture_sha256": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+          "run_id": "14d79197-b882-40e6-93d2-add31b70828b",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "master_data",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 1 distinct logged target-account lookup error, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-01-mapping.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-01-mapping.txt",
+          "fixture_sha256": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+          "run_id": "2ef6232d-b46e-451d-b464-429b141ba46f",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 1 distinct logged source-to-target mapping error, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-02-master_data.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-02-master_data.txt",
+          "fixture_sha256": "b873b5ecb082f0787db8907e7cfdc9f46db3c87b2bbdcd7b99df026e008f7c79",
+          "run_id": "664c264b-d4f9-4ec0-bbec-5de76a17bdd5",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "master_data",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 2 distinct logged target-account lookup errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-02-mapping.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-02-mapping.txt",
+          "fixture_sha256": "13239b6114ec0fef3d49814d3ed0c6fefe4dd43f42fe3f3df0e79c7e984d4bc6",
+          "run_id": "0cdbbe00-4203-494c-bb90-d9610e148bec",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 2 distinct logged source-to-target mapping errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-03-master_data.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-03-master_data.txt",
+          "fixture_sha256": "6614240d8728b1b330994782f6b4dcbf034e0a429a1b28d9a7c4a66d9aac7dfb",
+          "run_id": "405e2d9d-0e18-4c65-9e35-3dfe05a7076c",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "master_data",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 3 distinct logged target-account lookup errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-03-mapping.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-03-mapping.txt",
+          "fixture_sha256": "df68f88cd5162c6fff9af33835f142a0a2c4418b4480bcacaee250d153a5c208",
+          "run_id": "4e74edb3-af07-487c-b792-60555fc1137e",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 3 distinct logged source-to-target mapping errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-04-master_data.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-04-master_data.txt",
+          "fixture_sha256": "9196bd2aab3888f4994d3b78ceae3fb8938176901618195972cf7a532ac419c4",
+          "run_id": "b6207523-718b-40a2-8eb1-c382c1769199",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "master_data",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 4 distinct logged target-account lookup errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-04-mapping.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-04-mapping.txt",
+          "fixture_sha256": "c984fdff26a6ec9d4d37e4347f8e42ad672515ee764634f3541f92072c7d2240",
+          "run_id": "e74e4551-faba-40ad-84d2-f40db9832753",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 4 distinct logged source-to-target mapping errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-05-master_data.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-05-master_data.txt",
+          "fixture_sha256": "cb1fd79d0bc1727727f0cca1793466fd7e449b6137d13b0d211d716861fa83af",
+          "run_id": "b8991dc1-96c4-4afc-901f-c1f84ca26320",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "master_data",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 5 distinct logged target-account lookup errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-05-mapping.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-05-mapping.txt",
+          "fixture_sha256": "63f21e757d4c737c4ae95fd8f061fa248dc3eb628eaf34c5257c32d217169af6",
+          "run_id": "11ba4bbc-fcae-46c7-a62a-bab815ec1d28",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 5 distinct logged source-to-target mapping errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "unknown.txt",
+          "fixture_path": "fixtures/latency-regression/unknown.txt",
+          "fixture_sha256": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+          "run_id": "03e9c756-c516-4288-a4d0-0363cef29cd8",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "unclassified",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "The opaque ZQ-17 marker remains unclassified with low confidence; no cause or completed diagnostic check is invented."
+          ]
+        },
+        {
+          "file": "ambiguous.txt",
+          "fixture_path": "fixtures/latency-regression/ambiguous.txt",
+          "fixture_sha256": "4e1ec3cefdf62d8996de58bee8674126b8d936699655487b053e9c2fea3df43f",
+          "run_id": "d8a0f453-0463-468f-a2e2-bc35f2e61ebf",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "The mapping category remains tentative with low confidence; missing target-account master data remains a competing explanation, and the missing diagnostic checks remain explicit."
+          ]
+        },
+        {
+          "file": "multiple-attempts.txt",
+          "fixture_path": "fixtures/latency-regression/multiple-attempts.txt",
+          "fixture_sha256": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f",
+          "run_id": "024a6981-8820-4123-b538-7f53c8bc21a5",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "master_data",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves MULTI-A1 mapping failure and later MULTI-A2 logged mapping followed by target-account lookup failure. Source company/client 0030/030 and target 0077/300 remain distinct; neither attempt is portrayed as successful or as proof that the first issue was corrected."
+          ]
+        }
+      ],
+      "summary": {
+        "observed_results": 13,
+        "semantic_passes": 13,
+        "failed_without_result": 0
+      }
+    },
+    "compact_smoke": {
+      "source_report": ".local-runtime/latency-benchmark/latency-compact-smoke-20261009-compact-c1/report.json",
+      "profile": "compact",
+      "requested_concurrency": 1,
+      "runs": [
+        {
+          "file": "batch-01-master_data.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-01-master_data.txt",
+          "fixture_sha256": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+          "run_id": "cb111297-f13c-446f-8f4c-ed587c5ef845",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "master_data",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 1 distinct logged target-account lookup error, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-01-mapping.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-01-mapping.txt",
+          "fixture_sha256": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+          "run_id": "93072849-2cda-4721-8b6d-4b9b3ed8a138",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 1 distinct logged source-to-target mapping error, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        }
+      ],
+      "summary": {
+        "observed_results": 2,
+        "semantic_passes": 2,
+        "failed_without_result": 0
+      }
+    },
+    "fast_full": {
+      "source_report": ".local-runtime/latency-benchmark/latency-fast-20261009-fast-c2/report.json",
+      "profile": "fast",
+      "requested_concurrency": 2,
+      "runs": [
+        {
+          "file": "batch-01-master_data.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-01-master_data.txt",
+          "fixture_sha256": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+          "run_id": "6fb708c8-6a9f-47aa-a5cf-bab91624ed6d",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "master_data",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 1 distinct logged target-account lookup error, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-01-mapping.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-01-mapping.txt",
+          "fixture_sha256": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+          "run_id": "c2e0b544-ab5b-45b4-9462-2083ca03d7b7",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 1 distinct logged source-to-target mapping error, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-02-master_data.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-02-master_data.txt",
+          "fixture_sha256": "b873b5ecb082f0787db8907e7cfdc9f46db3c87b2bbdcd7b99df026e008f7c79",
+          "run_id": "65c54219-ca80-49b8-aa2e-24b111ebc04f",
+          "published": false,
+          "automated_gates_passed": false,
+          "category": null,
+          "maintained_route_controls_match": null,
+          "failure_reason": "agent1: invalid_output; no new Error Analysis case was published.",
+          "verdict": "failed_no_published_result",
+          "notes": [
+            "No case content was published. Both extraction invocations failed validation; this is a workflow completion failure, not a reviewed successful semantic output."
+          ]
+        },
+        {
+          "file": "batch-02-mapping.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-02-mapping.txt",
+          "fixture_sha256": "13239b6114ec0fef3d49814d3ed0c6fefe4dd43f42fe3f3df0e79c7e984d4bc6",
+          "run_id": "a37351e4-5428-42d1-919e-f619e4120b6b",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 2 distinct logged source-to-target mapping errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-03-master_data.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-03-master_data.txt",
+          "fixture_sha256": "6614240d8728b1b330994782f6b4dcbf034e0a429a1b28d9a7c4a66d9aac7dfb",
+          "run_id": "8e238991-4088-4000-812d-46ace2d6c12b",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "master_data",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 3 distinct logged target-account lookup errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-03-mapping.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-03-mapping.txt",
+          "fixture_sha256": "df68f88cd5162c6fff9af33835f142a0a2c4418b4480bcacaee250d153a5c208",
+          "run_id": "2e482f05-4129-4f93-adcb-e1cbdaef3d39",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 3 distinct logged source-to-target mapping errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-04-master_data.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-04-master_data.txt",
+          "fixture_sha256": "9196bd2aab3888f4994d3b78ceae3fb8938176901618195972cf7a532ac419c4",
+          "run_id": "d2cddfdb-b6ab-412f-8d2e-51676867ebab",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "master_data",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 4 distinct logged target-account lookup errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-04-mapping.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-04-mapping.txt",
+          "fixture_sha256": "c984fdff26a6ec9d4d37e4347f8e42ad672515ee764634f3541f92072c7d2240",
+          "run_id": "40a25db4-1c19-45ba-baa2-63146fb029ff",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 4 distinct logged source-to-target mapping errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented.",
+            "Nonblocking presentation issue: document_context repeats complete disclaimer sentences as label:value pairs; the text is source-supported but cluttered."
+          ]
+        },
+        {
+          "file": "batch-05-master_data.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-05-master_data.txt",
+          "fixture_sha256": "cb1fd79d0bc1727727f0cca1793466fd7e449b6137d13b0d211d716861fa83af",
+          "run_id": "6dc68132-a80d-46e6-bd1b-429632a050a2",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "master_data",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 5 distinct logged target-account lookup errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "batch-05-mapping.txt",
+          "fixture_path": "fixtures/analysis-batches/batch-05-mapping.txt",
+          "fixture_sha256": "63f21e757d4c737c4ae95fd8f061fa248dc3eb628eaf34c5257c32d217169af6",
+          "run_id": "234bead2-2f73-4290-bc08-ec9b76daa225",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves 5 distinct logged source-to-target mapping errors, exact account/target-line identifiers, the failed posting outcome and explicit uncertainty. No completed remediation is invented."
+          ]
+        },
+        {
+          "file": "unknown.txt",
+          "fixture_path": "fixtures/latency-regression/unknown.txt",
+          "fixture_sha256": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+          "run_id": "a2ba3405-fccc-4089-b416-66638c358622",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "unclassified",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "The opaque ZQ-17 marker remains unclassified with low confidence; no cause or completed diagnostic check is invented."
+          ]
+        },
+        {
+          "file": "ambiguous.txt",
+          "fixture_path": "fixtures/latency-regression/ambiguous.txt",
+          "fixture_sha256": "4e1ec3cefdf62d8996de58bee8674126b8d936699655487b053e9c2fea3df43f",
+          "run_id": "bb81842d-0efa-46bb-a9b5-e53be24399e0",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "mapping",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "The mapping category remains tentative with low confidence; missing target-account master data remains a competing explanation, and the missing diagnostic checks remain explicit."
+          ]
+        },
+        {
+          "file": "multiple-attempts.txt",
+          "fixture_path": "fixtures/latency-regression/multiple-attempts.txt",
+          "fixture_sha256": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f",
+          "run_id": "737f71a6-b224-4834-a60f-3b05e2274e47",
+          "published": true,
+          "automated_gates_passed": true,
+          "category": "master_data",
+          "maintained_route_controls_match": true,
+          "verdict": "pass_for_this_fixture",
+          "notes": [
+            "Preserves MULTI-A1 mapping failure and later MULTI-A2 logged mapping followed by target-account lookup failure. Source company/client 0030/030 and target 0077/300 remain distinct; neither attempt is portrayed as successful or as proof that the first issue was corrected."
+          ]
+        }
+      ],
+      "summary": {
+        "observed_results": 13,
+        "semantic_passes": 12,
+        "failed_without_result": 1
+      }
+    }
+  }
+}

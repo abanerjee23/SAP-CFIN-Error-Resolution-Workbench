@@ -12,7 +12,7 @@ from fastapi import HTTPException
 from pydantic import BaseModel, ConfigDict, Field
 
 from cfin.config import Settings
-from cfin.error_analysis_prompts import ERROR_ANALYSIS_PROMPT_VERSIONS
+from cfin.error_analysis_prompts import COMPACT_PROMPT_VERSIONS, ERROR_ANALYSIS_PROMPT_VERSIONS
 from cfin.gateway import ServiceGateway, UserGateway
 from cfin.log_only_contracts import ModelConfiguration, Provenance
 from cfin.log_only_inputs import OriginalUpload, prepare_log_inputs
@@ -107,6 +107,20 @@ async def commit_log_intake(
         agent3=settings.model_agent_3,
         reasoning_effort=settings.model_reasoning_effort,
     )
+    model_configuration = configuration.model_dump(mode="json")
+    if workflow_version == "error-analysis-v1" and settings.error_analysis_profile != "baseline":
+        effort = "low" if settings.error_analysis_profile == "fast" else "medium"
+        model_configuration.update({
+            "agent1_reasoning_effort": effort,
+            "agent2_reasoning_effort": "medium",
+            "agent3_reasoning_effort": effort,
+        })
+        if settings.error_analysis_profile in {"writer_luna", "all_luna"}:
+            model_configuration["agent3"] = "gpt-6-luna"
+        if settings.error_analysis_profile == "all_luna":
+            model_configuration["agent2"] = "gpt-6-luna"
+        if settings.error_analysis_profile == "writer_low":
+            model_configuration["agent3_reasoning_effort"] = "low"
     result = await service.rpc(
         rpc_name,
         {
@@ -130,7 +144,7 @@ async def commit_log_intake(
             ).hexdigest(),
             "input_sources": saved,
             "prompt_versions": dict(prompt_versions or LOG_PROMPT_VERSIONS),
-            "model_configuration": configuration.model_dump(mode="json"),
+            "model_configuration": model_configuration,
             "routing_context": body.routing_context.model_dump(exclude_none=True),
         },
     )
@@ -161,5 +175,8 @@ async def commit_error_analysis_intake(
         body,
         workflow_version=body.workflow_version,
         rpc_name="cfin_commit_error_analysis_intake",
-        prompt_versions=ERROR_ANALYSIS_PROMPT_VERSIONS,
+        prompt_versions=(
+            ERROR_ANALYSIS_PROMPT_VERSIONS if settings.error_analysis_profile == "baseline"
+            else COMPACT_PROMPT_VERSIONS
+        ),
     )

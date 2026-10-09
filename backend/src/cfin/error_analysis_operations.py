@@ -5,6 +5,7 @@ from uuid import UUID
 
 from fastapi import HTTPException
 
+from cfin.analysis_progress import analysis_progress
 from cfin.factual_operations import required_text, validate_proofs
 from cfin.gateway import UserGateway
 
@@ -30,7 +31,13 @@ async def error_analysis_detail(
     route_milestones = await user.rows(
         "error_route_milestones", token, workspace_id, {"case_id": f"eq.{case['id']}"}
     )
+    calls = await user.rows(
+        "stage_calls", token, workspace_id,
+        {"run_id": f"eq.{case['requested_run_id']}",
+         "select": "run_id,stage,invocation,state,created_at", "order": "created_at.asc"},
+    ) if case.get("requested_run_id") else []
     return {
+        "analysis_progress": analysis_progress(case, data["analysis_runs"], calls),
         "case": {**case, "error_analysis_result": result},
         "evidence": data["evidence_versions"],
         "runs": sorted(data["analysis_runs"], key=lambda row: row["created_at"], reverse=True),

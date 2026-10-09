@@ -1,0 +1,1039 @@
+{
+  "date": "2026-10-09",
+  "kind": "real_model_synthetic_latency_comparison",
+  "selected_local_profile": "compact",
+  "worker_processes": 2,
+  "reasoning_efforts": {
+    "extraction": "medium",
+    "diagnosis": "medium",
+    "summary": "medium"
+  },
+  "models": {
+    "extraction": "gpt-6-luna",
+    "diagnosis": "gpt-6.1-sol",
+    "summary": "gpt-6.1-sol"
+  },
+  "semantic_review": "latency-semantic-review.json",
+  "profiles": {
+    "compact": {
+      "suite": "latency-compact-20261009",
+      "concurrency": 2,
+      "configuration": {
+        "agent1": "gpt-6-luna",
+        "agent2": "gpt-6.1-sol",
+        "agent3": "gpt-6.1-sol",
+        "reasoning_effort": "medium",
+        "agent1_reasoning_effort": "medium",
+        "agent2_reasoning_effort": "medium",
+        "agent3_reasoning_effort": "medium"
+      },
+      "prompt_versions": {
+        "agent1": "error-analysis-extraction-compact-v2",
+        "agent2": "error-analysis-v1",
+        "agent3": "error-analysis-summary-compact-v2"
+      },
+      "summary": {
+        "recorded_cases": 13,
+        "completed_observations": 13,
+        "published": 13,
+        "automated_quality_passes": 13,
+        "semantic_review": "Completed; per-file verdicts in latency-semantic-review.json",
+        "model_calls": 39,
+        "tokens": {
+          "input_tokens": 102491,
+          "output_tokens": 37443
+        },
+        "known_cost_usd": "0.341809",
+        "unresolved_reserved_usd": "0",
+        "workflow_latency": {
+          "mean_seconds": 32.625,
+          "median_seconds": 31.915,
+          "p95_seconds": 40.149,
+          "max_seconds": 40.149
+        },
+        "upload_to_result_latency": {
+          "mean_seconds": 37.909,
+          "median_seconds": 37.688,
+          "p95_seconds": 47.15,
+          "max_seconds": 47.15
+        },
+        "queue_and_startup_latency": {
+          "mean_seconds": 3.047,
+          "median_seconds": 3.243,
+          "p95_seconds": 4.171,
+          "max_seconds": 4.171
+        },
+        "stage_latency": {
+          "agent_1": {
+            "mean_seconds": 14.589,
+            "median_seconds": 14.631,
+            "p95_seconds": 18.291,
+            "max_seconds": 18.291
+          },
+          "agent_2": {
+            "mean_seconds": 6.964,
+            "median_seconds": 6.832,
+            "p95_seconds": 8.835,
+            "max_seconds": 8.835
+          },
+          "agent_3": {
+            "mean_seconds": 10.161,
+            "median_seconds": 9.369,
+            "p95_seconds": 13.924,
+            "max_seconds": 13.924
+          }
+        },
+        "observed_peak_case_execution_overlap": 2,
+        "trace_exports_acknowledged": 13,
+        "caveat": "Small synthetic experiment, not a production SLA or load test. Stage timestamps include reservation/reconciliation overhead. Upload-to-result includes queue, worker/export, and API readback. Resumed runs are marked separately."
+      },
+      "matched_baseline_comparison": {
+        "workflow_seconds": {
+          "baseline_mean": 51.9078,
+          "candidate_mean": 33.1063,
+          "reduction_percent": 36.22
+        },
+        "end_to_end_seconds": {
+          "baseline_mean": 82.855,
+          "candidate_mean": 37.8742,
+          "reduction_percent": 54.29
+        },
+        "queue_and_startup_seconds": {
+          "baseline_mean": 29.0142,
+          "candidate_mean": 2.9791,
+          "reduction_percent": 89.73
+        },
+        "matched_files": 10,
+        "published": 10,
+        "recorded_model_cost_usd": {
+          "baseline": "0.446880",
+          "candidate": "0.272207",
+          "reduction_percent": 39.09
+        }
+      },
+      "arize": {
+        "project_name": "cfin-document-error-analysis",
+        "expected_traces": 39,
+        "found_traces": 39,
+        "readback_verified": true
+      },
+      "runs": [
+        {
+          "file": "batch-01-master_data.txt",
+          "sha256": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+          "case_id": "26dd2044-e8dd-4ca2-942a-a73299af10a5",
+          "run_id": "14d79197-b882-40e6-93d2-add31b70828b",
+          "case_number": "CFIN-2026-000036",
+          "published": true,
+          "category": "master_data",
+          "workflow_seconds": 31.192,
+          "end_to_end_seconds": 36.791,
+          "queue_and_startup_seconds": 3.701,
+          "known_cost_usd": "0.022268",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 6854,
+            "output_tokens": 2846
+          },
+          "trace_ids": [
+            "0e2e4b6daff04c8c897e5ebdcba7812d",
+            "83ccaf9a74922f5c7e958f64d72b7294",
+            "94861081df56fc150525d53d4399dbd6"
+          ]
+        },
+        {
+          "file": "batch-01-mapping.txt",
+          "sha256": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+          "case_id": "67c9b938-dfef-4bd9-890e-0aa9f813209a",
+          "run_id": "2ef6232d-b46e-451d-b464-429b141ba46f",
+          "case_number": "CFIN-2026-000037",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 28.887,
+          "end_to_end_seconds": 32.86,
+          "queue_and_startup_seconds": 2.241,
+          "known_cost_usd": "0.021711",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 6587,
+            "output_tokens": 2501
+          },
+          "trace_ids": [
+            "4bfd0e0b5c00252af09ea038be3b150c",
+            "96f38d41ee5bf3192a63361412e93058",
+            "a6631d69791811b45c946611bb8bf6d5"
+          ]
+        },
+        {
+          "file": "batch-02-master_data.txt",
+          "sha256": "b873b5ecb082f0787db8907e7cfdc9f46db3c87b2bbdcd7b99df026e008f7c79",
+          "case_id": "1feaa508-f836-4ab2-ac1b-5a957bb3f3b4",
+          "run_id": "664c264b-d4f9-4ec0-bbec-5de76a17bdd5",
+          "case_number": "CFIN-2026-000038",
+          "published": true,
+          "category": "master_data",
+          "workflow_seconds": 33.383,
+          "end_to_end_seconds": 38.147,
+          "queue_and_startup_seconds": 3.311,
+          "known_cost_usd": "0.026420",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 7937,
+            "output_tokens": 2851
+          },
+          "trace_ids": [
+            "13e06721ad4d8f33e4704e5056c11aec",
+            "18d0d164502464b6b6e06f29951e32b9",
+            "fa738774a873354d71987a3877a27c71"
+          ]
+        },
+        {
+          "file": "batch-02-mapping.txt",
+          "sha256": "13239b6114ec0fef3d49814d3ed0c6fefe4dd43f42fe3f3df0e79c7e984d4bc6",
+          "case_id": "0fb9f950-cf8a-4bb9-927e-5b85969754ec",
+          "run_id": "0cdbbe00-4203-494c-bb90-d9610e148bec",
+          "case_number": "CFIN-2026-000039",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 29.282,
+          "end_to_end_seconds": 33.239,
+          "queue_and_startup_seconds": 2.274,
+          "known_cost_usd": "0.023974",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 7506,
+            "output_tokens": 2592
+          },
+          "trace_ids": [
+            "1a1354c2faa56184ce8a0e92dd761c19",
+            "5ea48336436d25b6024740beff063889",
+            "b8172864a6a7d26d945f12e142fdad8b"
+          ]
+        },
+        {
+          "file": "batch-03-master_data.txt",
+          "sha256": "6614240d8728b1b330994782f6b4dcbf034e0a429a1b28d9a7c4a66d9aac7dfb",
+          "case_id": "78efbfaa-7022-412f-8e09-51c86428b089",
+          "run_id": "405e2d9d-0e18-4c65-9e35-3dfe05a7076c",
+          "case_number": "CFIN-2026-000040",
+          "published": true,
+          "category": "master_data",
+          "workflow_seconds": 31.915,
+          "end_to_end_seconds": 37.688,
+          "queue_and_startup_seconds": 4.171,
+          "known_cost_usd": "0.027958",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 8521,
+            "output_tokens": 2707
+          },
+          "trace_ids": [
+            "a261e5cd06340a6575dc360e5b7036d1",
+            "b167cd3db768c16c7c22dfb38434a624",
+            "d7cbbc8279286b7543ab0be65abd4082"
+          ]
+        },
+        {
+          "file": "batch-03-mapping.txt",
+          "sha256": "df68f88cd5162c6fff9af33835f142a0a2c4418b4480bcacaee250d153a5c208",
+          "case_id": "a4577301-1672-4523-bb29-689eb8b7fee6",
+          "run_id": "4e74edb3-af07-487c-b792-60555fc1137e",
+          "case_number": "CFIN-2026-000041",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 29.146,
+          "end_to_end_seconds": 33.601,
+          "queue_and_startup_seconds": 2.664,
+          "known_cost_usd": "0.025189",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 7861,
+            "output_tokens": 2686
+          },
+          "trace_ids": [
+            "053cfbe91c6bad8280c391b04adce752",
+            "18030779a2f9a9c5269500dbaf72fbe9",
+            "b5407eae9e6a8786541895a0a98c62f4"
+          ]
+        },
+        {
+          "file": "batch-04-master_data.txt",
+          "sha256": "9196bd2aab3888f4994d3b78ceae3fb8938176901618195972cf7a532ac419c4",
+          "case_id": "6fdd4e18-509e-4513-9246-97c471e2f900",
+          "run_id": "b6207523-718b-40a2-8eb1-c382c1769199",
+          "case_number": "CFIN-2026-000042",
+          "published": true,
+          "category": "master_data",
+          "workflow_seconds": 38.389,
+          "end_to_end_seconds": 43.695,
+          "queue_and_startup_seconds": 3.701,
+          "known_cost_usd": "0.030681",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 8856,
+            "output_tokens": 3518
+          },
+          "trace_ids": [
+            "1f46d98895100daf687705a72d182a06",
+            "2336d56ea8c398c0f94d75a9dba82f5a",
+            "b18c9782b21a803b73fda7ef4fd8cd30"
+          ]
+        },
+        {
+          "file": "batch-04-mapping.txt",
+          "sha256": "c984fdff26a6ec9d4d37e4347f8e42ad672515ee764634f3541f92072c7d2240",
+          "case_id": "c3ff2aa4-adda-400c-a353-5f5f8fd371a1",
+          "run_id": "e74e4551-faba-40ad-84d2-f40db9832753",
+          "case_number": "CFIN-2026-000043",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 34.445,
+          "end_to_end_seconds": 38.29,
+          "queue_and_startup_seconds": 2.183,
+          "known_cost_usd": "0.030051",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 8795,
+            "output_tokens": 3170
+          },
+          "trace_ids": [
+            "08344cfc149f95cbf53a91c2dd5f031c",
+            "c75d527571d7afeab030aa0c0d761258",
+            "d710bea92d15e2105d4cd85ecf0d3d2a"
+          ]
+        },
+        {
+          "file": "batch-05-master_data.txt",
+          "sha256": "cb1fd79d0bc1727727f0cca1793466fd7e449b6137d13b0d211d716861fa83af",
+          "case_id": "fb19568f-4483-48bc-81cf-56298827caf6",
+          "run_id": "b8991dc1-96c4-4afc-901f-c1f84ca26320",
+          "case_number": "CFIN-2026-000044",
+          "published": true,
+          "category": "master_data",
+          "workflow_seconds": 37.672,
+          "end_to_end_seconds": 42.838,
+          "queue_and_startup_seconds": 3.243,
+          "known_cost_usd": "0.032663",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 9598,
+            "output_tokens": 3510
+          },
+          "trace_ids": [
+            "81ddeb212425cfa8fb1b4b0f2f399bb3",
+            "c11c5766f518ba381228c4f48368d254",
+            "da863149ce7f11001161bd6aa37675b8"
+          ]
+        },
+        {
+          "file": "batch-05-mapping.txt",
+          "sha256": "63f21e757d4c737c4ae95fd8f061fa248dc3eb628eaf34c5257c32d217169af6",
+          "case_id": "dc4d8e31-9955-46c5-9d38-3ca1cd2db97f",
+          "run_id": "11ba4bbc-fcae-46c7-a62a-bab815ec1d28",
+          "case_number": "CFIN-2026-000045",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 36.752,
+          "end_to_end_seconds": 41.593,
+          "queue_and_startup_seconds": 2.302,
+          "known_cost_usd": "0.031292",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 9196,
+            "output_tokens": 3487
+          },
+          "trace_ids": [
+            "3b35df4b01ec1e55be75a695a24acac5",
+            "60417ddb7ecfe3e061531794c0221d67",
+            "8090fa5acf5b7b888050d019b73fa1e7"
+          ]
+        },
+        {
+          "file": "unknown.txt",
+          "sha256": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+          "case_id": "04cf41b7-79d9-455b-a4e3-7bad8e259eab",
+          "run_id": "03e9c756-c516-4288-a4d0-0363cef29cd8",
+          "case_number": "CFIN-2026-000046",
+          "published": true,
+          "category": "unclassified",
+          "workflow_seconds": 28.189,
+          "end_to_end_seconds": 34.545,
+          "queue_and_startup_seconds": 3.732,
+          "known_cost_usd": "0.019584",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 5976,
+            "output_tokens": 1975
+          },
+          "trace_ids": [
+            "2d4d41f68c893e85267b3107ea5dd16a",
+            "5fedaf3fca5c02e9f6f68341bed4ae04",
+            "c9fdcbe0bf65ef8ea3d55a15ae522b0f"
+          ]
+        },
+        {
+          "file": "ambiguous.txt",
+          "sha256": "4e1ec3cefdf62d8996de58bee8674126b8d936699655487b053e9c2fea3df43f",
+          "case_id": "f7bdc8a0-1e72-4ee1-a6fa-f2bd6929506d",
+          "run_id": "d8a0f453-0463-468f-a2e2-bc35f2e61ebf",
+          "case_number": "CFIN-2026-000047",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 24.725,
+          "end_to_end_seconds": 32.383,
+          "queue_and_startup_seconds": 2.513,
+          "known_cost_usd": "0.019099",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 6098,
+            "output_tokens": 1998
+          },
+          "trace_ids": [
+            "5f89aa8bde8435d4e85f2319200ea3ed",
+            "899234b79224c0cc0590f1ad156febe0",
+            "da8eba9ae4ab0d967ca1581b0c7c7adc"
+          ]
+        },
+        {
+          "file": "multiple-attempts.txt",
+          "sha256": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f",
+          "case_id": "578004d7-3b41-4a1e-adf4-6e4285998ee7",
+          "run_id": "024a6981-8820-4123-b538-7f53c8bc21a5",
+          "case_number": "CFIN-2026-000048",
+          "published": true,
+          "category": "master_data",
+          "workflow_seconds": 40.149,
+          "end_to_end_seconds": 47.15,
+          "queue_and_startup_seconds": 3.581,
+          "known_cost_usd": "0.030919",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 8706,
+            "output_tokens": 3602
+          },
+          "trace_ids": [
+            "6e4a5f4a3daab4ef44d50597dfe81fe3",
+            "829f9ceb5a3f4c9e2ecab2da82c69d23",
+            "daf42fc5315a401dad96fc9f939eb282"
+          ]
+        }
+      ]
+    },
+    "fast": {
+      "suite": "latency-fast-20261009",
+      "concurrency": 2,
+      "configuration": {
+        "agent1": "gpt-6-luna",
+        "agent2": "gpt-6.1-sol",
+        "agent3": "gpt-6.1-sol",
+        "reasoning_effort": "medium",
+        "agent1_reasoning_effort": "low",
+        "agent2_reasoning_effort": "medium",
+        "agent3_reasoning_effort": "low"
+      },
+      "prompt_versions": {
+        "agent1": "error-analysis-extraction-compact-v2",
+        "agent2": "error-analysis-v1",
+        "agent3": "error-analysis-summary-compact-v2"
+      },
+      "summary": {
+        "recorded_cases": 13,
+        "completed_observations": 13,
+        "published": 12,
+        "automated_quality_passes": 12,
+        "semantic_review": "Completed; per-file verdicts in latency-semantic-review.json",
+        "model_calls": 38,
+        "tokens": {
+          "input_tokens": 95870,
+          "output_tokens": 27231
+        },
+        "known_cost_usd": "0.294700",
+        "unresolved_reserved_usd": "0",
+        "workflow_latency": {
+          "mean_seconds": 25.944,
+          "median_seconds": 26.731,
+          "p95_seconds": 30.756,
+          "max_seconds": 30.756
+        },
+        "upload_to_result_latency": {
+          "mean_seconds": 31.217,
+          "median_seconds": 31.973,
+          "p95_seconds": 36.29,
+          "max_seconds": 36.29
+        },
+        "queue_and_startup_latency": {
+          "mean_seconds": 3.241,
+          "median_seconds": 3.192,
+          "p95_seconds": 4.858,
+          "max_seconds": 4.858
+        },
+        "stage_latency": {
+          "agent_1": {
+            "mean_seconds": 10.25,
+            "median_seconds": 10.287,
+            "p95_seconds": 13.023,
+            "max_seconds": 13.023
+          },
+          "agent_2": {
+            "mean_seconds": 6.871,
+            "median_seconds": 6.806,
+            "p95_seconds": 8.583,
+            "max_seconds": 8.583
+          },
+          "agent_3": {
+            "mean_seconds": 8.59,
+            "median_seconds": 8.232,
+            "p95_seconds": 11.698,
+            "max_seconds": 11.698
+          }
+        },
+        "observed_peak_case_execution_overlap": 2,
+        "trace_exports_acknowledged": 13,
+        "caveat": "Small synthetic experiment, not a production SLA or load test. Stage timestamps include reservation/reconciliation overhead. Upload-to-result includes queue, worker/export, and API readback. Resumed runs are marked separately."
+      },
+      "matched_baseline_comparison": {
+        "workflow_seconds": {
+          "baseline_mean": 51.9078,
+          "candidate_mean": 26.6375,
+          "reduction_percent": 48.68
+        },
+        "end_to_end_seconds": {
+          "baseline_mean": 82.855,
+          "candidate_mean": 31.8692,
+          "reduction_percent": 61.54
+        },
+        "queue_and_startup_seconds": {
+          "baseline_mean": 29.0142,
+          "candidate_mean": 3.197,
+          "reduction_percent": 88.98
+        },
+        "matched_files": 10,
+        "published": 9,
+        "recorded_model_cost_usd": {
+          "baseline": "0.446880",
+          "candidate": "0.230362",
+          "reduction_percent": 48.45
+        }
+      },
+      "arize": {
+        "project_name": "cfin-document-error-analysis",
+        "expected_traces": 38,
+        "found_traces": 38,
+        "readback_verified": true
+      },
+      "runs": [
+        {
+          "file": "batch-01-master_data.txt",
+          "sha256": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+          "case_id": "2461508f-87fc-49e1-a63c-c220bf207679",
+          "run_id": "6fb708c8-6a9f-47aa-a5cf-bab91624ed6d",
+          "case_number": "CFIN-2026-000023",
+          "published": true,
+          "category": "master_data",
+          "workflow_seconds": 25.715,
+          "end_to_end_seconds": 32.388,
+          "queue_and_startup_seconds": 4.475,
+          "known_cost_usd": "0.021179",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 6924,
+            "output_tokens": 1704
+          },
+          "trace_ids": [
+            "1956a0569f579e1cae4c72e68da19a70",
+            "6c91115423c043dae21d6091b30feead",
+            "d833ed469e9fcb9a9f566bbf6ced0c88"
+          ]
+        },
+        {
+          "file": "batch-01-mapping.txt",
+          "sha256": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+          "case_id": "936f5393-1ec6-4d2b-9f4a-d8a99f7a186c",
+          "run_id": "c2e0b544-ab5b-45b4-9462-2083ca03d7b7",
+          "case_number": "CFIN-2026-000024",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 24.448,
+          "end_to_end_seconds": 29.428,
+          "queue_and_startup_seconds": 2.845,
+          "known_cost_usd": "0.019883",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 6511,
+            "output_tokens": 1715
+          },
+          "trace_ids": [
+            "530146ca61b6628c1c12781f7e19cc31",
+            "710408dc8e478a70f17850cc34606919",
+            "fa956302af703fc4befa3bac08a5b2f3"
+          ]
+        },
+        {
+          "file": "batch-02-master_data.txt",
+          "sha256": "b873b5ecb082f0787db8907e7cfdc9f46db3c87b2bbdcd7b99df026e008f7c79",
+          "case_id": "56e1f216-1d3d-465d-b230-25bd7ce05a01",
+          "run_id": "65c54219-ca80-49b8-aa2e-24b111ebc04f",
+          "case_number": "CFIN-2026-000025",
+          "published": false,
+          "category": null,
+          "workflow_seconds": 22.895,
+          "end_to_end_seconds": 28.119,
+          "queue_and_startup_seconds": 3.462,
+          "known_cost_usd": "0.001660",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": false,
+          "model_calls": 2,
+          "tokens": {
+            "input_tokens": 2467,
+            "output_tokens": 2702
+          },
+          "trace_ids": [
+            "6201974ab636eec6d5b97284dc4aef17",
+            "c8007c2c46c39fa2bda7c5c62b50464d"
+          ]
+        },
+        {
+          "file": "batch-02-mapping.txt",
+          "sha256": "13239b6114ec0fef3d49814d3ed0c6fefe4dd43f42fe3f3df0e79c7e984d4bc6",
+          "case_id": "dfb832af-f0ce-4834-ba0d-72be1a37abd6",
+          "run_id": "a37351e4-5428-42d1-919e-f619e4120b6b",
+          "case_number": "CFIN-2026-000026",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 24.389,
+          "end_to_end_seconds": 28.516,
+          "queue_and_startup_seconds": 2.42,
+          "known_cost_usd": "0.022801",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 7361,
+            "output_tokens": 1885
+          },
+          "trace_ids": [
+            "5901fc513099aedf3121464b57421632",
+            "be1cdd1474d870717dccbd1e0e8dc599",
+            "edc0037486a3d3cc18f9042b2236eeb9"
+          ]
+        },
+        {
+          "file": "batch-03-master_data.txt",
+          "sha256": "6614240d8728b1b330994782f6b4dcbf034e0a429a1b28d9a7c4a66d9aac7dfb",
+          "case_id": "5f9d5a48-c105-40e1-9c57-5dc9937ea3ce",
+          "run_id": "8e238991-4088-4000-812d-46ace2d6c12b",
+          "case_number": "CFIN-2026-000027",
+          "published": true,
+          "category": "master_data",
+          "workflow_seconds": 27.856,
+          "end_to_end_seconds": 33.325,
+          "queue_and_startup_seconds": 3.192,
+          "known_cost_usd": "0.025798",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 7812,
+            "output_tokens": 2085
+          },
+          "trace_ids": [
+            "0ad47cf2af5207bf3b3b1126da25de08",
+            "24e6438c2fb733a2626988bc9018b6b8",
+            "8d0ce59b8ee3fadf8cfcceadcd115bef"
+          ]
+        },
+        {
+          "file": "batch-03-mapping.txt",
+          "sha256": "df68f88cd5162c6fff9af33835f142a0a2c4418b4480bcacaee250d153a5c208",
+          "case_id": "63210cc1-1812-4727-a8b1-3e512e9f0087",
+          "run_id": "2e482f05-4129-4f93-adcb-e1cbdaef3d39",
+          "case_number": "CFIN-2026-000028",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 26.731,
+          "end_to_end_seconds": 30.88,
+          "queue_and_startup_seconds": 2.187,
+          "known_cost_usd": "0.02562",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 7923,
+            "output_tokens": 2176
+          },
+          "trace_ids": [
+            "2c5d5bf51dc75f9d709aaa4bbcc2aaa2",
+            "d86c2f7670a7b979ea61a50cc8efd89f",
+            "eb0db756ff675d1cb60962ef8e71f6f3"
+          ]
+        },
+        {
+          "file": "batch-04-master_data.txt",
+          "sha256": "9196bd2aab3888f4994d3b78ceae3fb8938176901618195972cf7a532ac419c4",
+          "case_id": "285e2797-3112-4d39-b1b0-cdb6e8311b63",
+          "run_id": "d2cddfdb-b6ab-412f-8d2e-51676867ebab",
+          "case_number": "CFIN-2026-000029",
+          "published": true,
+          "category": "master_data",
+          "workflow_seconds": 27.564,
+          "end_to_end_seconds": 34.334,
+          "queue_and_startup_seconds": 4.506,
+          "known_cost_usd": "0.027741",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 9069,
+            "output_tokens": 2386
+          },
+          "trace_ids": [
+            "23eadbcbb5569d2c2007682bc51442e7",
+            "6495047c48c6e26be94d1e9668ea62e9",
+            "cf954ebbd7a7689de455ebbef7226227"
+          ]
+        },
+        {
+          "file": "batch-04-mapping.txt",
+          "sha256": "c984fdff26a6ec9d4d37e4347f8e42ad672515ee764634f3541f92072c7d2240",
+          "case_id": "3370130d-1ec0-4257-860f-1f01f51e79d1",
+          "run_id": "40a25db4-1c19-45ba-baa2-63146fb029ff",
+          "case_number": "CFIN-2026-000030",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 28.684,
+          "end_to_end_seconds": 33.439,
+          "queue_and_startup_seconds": 2.895,
+          "known_cost_usd": "0.028550",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 9159,
+            "output_tokens": 2719
+          },
+          "trace_ids": [
+            "6400c9e39203096f83a52236849ce2b8",
+            "6e19df47e0ae7dc59abf1c8763b86705",
+            "80e9b3d62ff30cb61a531bdbfe997eea"
+          ]
+        },
+        {
+          "file": "batch-05-master_data.txt",
+          "sha256": "cb1fd79d0bc1727727f0cca1793466fd7e449b6137d13b0d211d716861fa83af",
+          "case_id": "9ad3312e-d79b-43e5-981d-2286354c3a8e",
+          "run_id": "6dc68132-a80d-46e6-bd1b-429632a050a2",
+          "case_number": "CFIN-2026-000031",
+          "published": true,
+          "category": "master_data",
+          "workflow_seconds": 30.599,
+          "end_to_end_seconds": 36.29,
+          "queue_and_startup_seconds": 3.671,
+          "known_cost_usd": "0.028914",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 8773,
+            "output_tokens": 2418
+          },
+          "trace_ids": [
+            "2f93a3713325342616c600bba5e4807a",
+            "30eab3600f1b7ce4cf4063469f92c9d7",
+            "8345b24ebac09f8212f8a8501c229917"
+          ]
+        },
+        {
+          "file": "batch-05-mapping.txt",
+          "sha256": "63f21e757d4c737c4ae95fd8f061fa248dc3eb628eaf34c5257c32d217169af6",
+          "case_id": "704c79ed-cb2a-46c4-8c24-75ff0a13730f",
+          "run_id": "234bead2-2f73-4290-bc08-ec9b76daa225",
+          "case_number": "CFIN-2026-000032",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 27.494,
+          "end_to_end_seconds": 31.973,
+          "queue_and_startup_seconds": 2.317,
+          "known_cost_usd": "0.028216",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 9174,
+            "output_tokens": 2423
+          },
+          "trace_ids": [
+            "003708d724384827e53221d9c544a26c",
+            "5936df5f906280656ea52b5c5aa28d62",
+            "62a1b38cf70aecf72c356d054ae2ca6b"
+          ]
+        },
+        {
+          "file": "unknown.txt",
+          "sha256": "9213ee9d09d8e4aae418ac37c980ec00127e4b9c45287393257aaf1717c48c0c",
+          "case_id": "9ff64756-74c0-4a85-ab50-5ae7c0ae0995",
+          "run_id": "a2ba3405-fccc-4089-b416-66638c358622",
+          "case_number": "CFIN-2026-000033",
+          "published": true,
+          "category": "unclassified",
+          "workflow_seconds": 18.082,
+          "end_to_end_seconds": 25.354,
+          "queue_and_startup_seconds": 4.858,
+          "known_cost_usd": "0.017018",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 5865,
+            "output_tokens": 1236
+          },
+          "trace_ids": [
+            "4338734aac5389eed5d8e506ab537a3f",
+            "5a45675935660fd9d65111af3ca80ea6",
+            "abbd5c78085924a5c0b1483225cb8efe"
+          ]
+        },
+        {
+          "file": "ambiguous.txt",
+          "sha256": "4e1ec3cefdf62d8996de58bee8674126b8d936699655487b053e9c2fea3df43f",
+          "case_id": "9c7119e8-fb20-406b-8d26-7de5ed104d3a",
+          "run_id": "bb81842d-0efa-46bb-a9b5-e53be24399e0",
+          "case_number": "CFIN-2026-000034",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 22.06,
+          "end_to_end_seconds": 27.105,
+          "queue_and_startup_seconds": 3.287,
+          "known_cost_usd": "0.018723",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 6192,
+            "output_tokens": 1476
+          },
+          "trace_ids": [
+            "682a167d0049f0e344e2cbd43ac7c6ad",
+            "f9a002d3cf562c6c2ca05de56e6f35aa",
+            "fe0e50a4490411326893eb04cc117eec"
+          ]
+        },
+        {
+          "file": "multiple-attempts.txt",
+          "sha256": "eb075560e76c2bf4116e7a2598cb5c14e5ba0ca0a0c2061df9a576ea7d3cdf1f",
+          "case_id": "6bf6e875-3f3f-459a-9c3d-9231c4c01fd2",
+          "run_id": "737f71a6-b224-4834-a60f-3b05e2274e47",
+          "case_number": "CFIN-2026-000035",
+          "published": true,
+          "category": "master_data",
+          "workflow_seconds": 30.756,
+          "end_to_end_seconds": 34.666,
+          "queue_and_startup_seconds": 2.02,
+          "known_cost_usd": "0.028597",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 8640,
+            "output_tokens": 2306
+          },
+          "trace_ids": [
+            "4972fdf16cd334116efff8c917a7a308",
+            "993c7b9ede1d56f9fa68eb111425e090",
+            "f9bb5838e7a88baf1ef5e37eaa53f6d9"
+          ]
+        }
+      ]
+    },
+    "compact_smoke": {
+      "suite": "latency-compact-smoke-20261009",
+      "concurrency": 1,
+      "configuration": {
+        "agent1": "gpt-6-luna",
+        "agent2": "gpt-6.1-sol",
+        "agent3": "gpt-6.1-sol",
+        "reasoning_effort": "medium",
+        "agent1_reasoning_effort": "medium",
+        "agent2_reasoning_effort": "medium",
+        "agent3_reasoning_effort": "medium"
+      },
+      "prompt_versions": {
+        "agent1": "error-analysis-extraction-compact-v2",
+        "agent2": "error-analysis-v1",
+        "agent3": "error-analysis-summary-compact-v2"
+      },
+      "summary": {
+        "recorded_cases": 2,
+        "completed_observations": 2,
+        "published": 2,
+        "automated_quality_passes": 2,
+        "semantic_review": "Completed; per-file verdicts in latency-semantic-review.json",
+        "model_calls": 6,
+        "tokens": {
+          "input_tokens": 12978,
+          "output_tokens": 4292
+        },
+        "known_cost_usd": "0.041345",
+        "unresolved_reserved_usd": "0",
+        "workflow_latency": {
+          "mean_seconds": 26.242,
+          "median_seconds": 26.242,
+          "p95_seconds": 27.927,
+          "max_seconds": 27.927
+        },
+        "upload_to_result_latency": {
+          "mean_seconds": 48.288,
+          "median_seconds": 48.288,
+          "p95_seconds": 61.268,
+          "max_seconds": 61.268
+        },
+        "queue_and_startup_latency": {
+          "mean_seconds": 19.319,
+          "median_seconds": 19.319,
+          "p95_seconds": 33.897,
+          "max_seconds": 33.897
+        },
+        "stage_latency": {
+          "agent_1": {
+            "mean_seconds": 11.88,
+            "median_seconds": 11.88,
+            "p95_seconds": 12.103,
+            "max_seconds": 12.103
+          },
+          "agent_2": {
+            "mean_seconds": 6.222,
+            "median_seconds": 6.222,
+            "p95_seconds": 6.896,
+            "max_seconds": 6.896
+          },
+          "agent_3": {
+            "mean_seconds": 7.344,
+            "median_seconds": 7.344,
+            "p95_seconds": 8.109,
+            "max_seconds": 8.109
+          }
+        },
+        "observed_peak_case_execution_overlap": 1,
+        "trace_exports_acknowledged": 2,
+        "caveat": "Small synthetic experiment, not a production SLA or load test. Stage timestamps include reservation/reconciliation overhead. Upload-to-result includes queue, worker/export, and API readback. Resumed runs are marked separately."
+      },
+      "matched_baseline_comparison": {
+        "workflow_seconds": {
+          "baseline_mean": 47.5625,
+          "candidate_mean": 26.2425,
+          "reduction_percent": 44.83
+        },
+        "end_to_end_seconds": {
+          "baseline_mean": 76.916,
+          "candidate_mean": 48.288,
+          "reduction_percent": 37.22
+        },
+        "queue_and_startup_seconds": {
+          "baseline_mean": 27.4185,
+          "candidate_mean": 19.3195,
+          "reduction_percent": 29.54
+        },
+        "matched_files": 2,
+        "published": 2,
+        "recorded_model_cost_usd": {
+          "baseline": "0.077046",
+          "candidate": "0.041345",
+          "reduction_percent": 46.34
+        }
+      },
+      "arize": {
+        "project_name": "cfin-document-error-analysis",
+        "expected_traces": 6,
+        "found_traces": 6,
+        "readback_verified": true
+      },
+      "runs": [
+        {
+          "file": "batch-01-master_data.txt",
+          "sha256": "7590b50dcfa73d83e785aa7292053928d39b1fdb37b6f563fe02d7789c334c3d",
+          "case_id": "b1a30b6a-05be-48fc-97b7-0d27fcb66e75",
+          "run_id": "cb111297-f13c-446f-8f4c-ed587c5ef845",
+          "case_number": "CFIN-2026-000021",
+          "published": true,
+          "category": "master_data",
+          "workflow_seconds": 27.927,
+          "end_to_end_seconds": 35.308,
+          "queue_and_startup_seconds": 4.742,
+          "known_cost_usd": "0.021431",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 6594,
+            "output_tokens": 2147
+          },
+          "trace_ids": [
+            "34b865d7c387fdbeeebfd239479a05af",
+            "37fc4aed3186a852881e9d3d19f4c498",
+            "f22f9345463502ff9da12815079c09fc"
+          ]
+        },
+        {
+          "file": "batch-01-mapping.txt",
+          "sha256": "048745b86c8b2291913591367c9ea701e271d5c134b91eef241128a358944036",
+          "case_id": "4c744a23-2093-445d-bcdc-be19753944a5",
+          "run_id": "93072849-2cda-4721-8b6d-4b9b3ed8a138",
+          "case_number": "CFIN-2026-000022",
+          "published": true,
+          "category": "mapping",
+          "workflow_seconds": 24.558,
+          "end_to_end_seconds": 61.268,
+          "queue_and_startup_seconds": 33.897,
+          "known_cost_usd": "0.019914",
+          "unresolved_reserved_usd": "0",
+          "automated_quality_passed": true,
+          "model_calls": 3,
+          "tokens": {
+            "input_tokens": 6384,
+            "output_tokens": 2145
+          },
+          "trace_ids": [
+            "272460e41b7845f797269a19ed45a4a3",
+            "5be1330d262397822dedef735616099c",
+            "6855ff2fa588a023f6c7cef3bd66fff9"
+          ]
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "One run per file per full candidate suite; smoke separately recorded. Not a production SLA, load test or statistically stable quality estimate.",
+    "Ten matched synthetic logs cover explicit master-data/mapping failures. Three extra fixtures cover unknown cause, ambiguity and multiple attempts. No real SAP/customer data.",
+    "Stage timing includes durable reservation/reconciliation; upload-to-result includes queue, worker/export and API readback. Costs use the saved application catalogue, not a provider invoice.",
+    "Low reasoning failed one file twice on invented field labels; it remains experimental and is not selected. Medium reasoning passed this suite but broader testing remains required."
+  ]
+}
