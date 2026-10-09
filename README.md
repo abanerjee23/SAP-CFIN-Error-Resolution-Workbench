@@ -6,9 +6,21 @@ The workbench turns an uploaded SAP Application Interface Framework (AIF) log in
 
 ## The problem
 
-Analysts often piece together log messages, document details and past conversations before they can act. This takes time and makes handovers difficult.
+When a document fails on its way to Central Finance, a support analyst needs to answer three questions: **What happened? Who needs to act? What will confirm that the issue is resolved?**
 
-The goal is to bring the evidence, owner and next step into one case. AI helps interpret logs that vary in wording and structure. Software handles storage, access checks and workflow rules.
+The answers are often spread across technical log messages, document details, emails and previous investigations. A log can report an error, but someone still needs to interpret it, check the likely cause, find the right owner and coordinate approvals. Different log formats and incomplete information make this harder.
+
+As a case moves between finance, data owners and operations, context can get lost. Teams may repeat an investigation or struggle to explain which change was approved and whether the document posted successfully. The product aims to reduce that effort and make each handover clear.
+
+## Our solution
+
+We have built an AI analysis backend and an interactive case-management demo around three jobs:
+
+1. **Understand the failure.** The backend preserves the supplied log, extracts its facts, identifies an error category and prepares a readable brief. Important claims link back to the source, and a possible cause is clearly marked for human validation.
+2. **Coordinate the next action.** The workbench brings the brief, named owner, resolution steps and case discussion together. Master-data and mapping cases have defined approval and remediation paths; other errors go to human investigation.
+3. **Keep a useful record.** Comments, decisions, supporting evidence and outcomes stay with the case. Reviewed findings can help the Summary Agent explain similar cases in future.
+
+AI helps interpret logs that vary in wording and structure. Software controls access and workflow rules, while people approve changes and confirm the outcome. The intended result is less time reconstructing the problem and a clearer path to a document successfully posted and validated in CFIN.
 
 ## The experience
 

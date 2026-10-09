@@ -21,3 +21,11 @@
 **Changes:** Rewrote the README around the problem, experience, architecture, pilot scope, trust and success measures. Preserved the architecture diagram exactly. Removed dated status updates and moved detailed product rules and development instructions into `docs/`, with supporting links updated.
 
 **Validation:** Checked Markdown links, the unchanged Mermaid diagram and the documentation diff. No application code changed.
+
+## Problem and solution explanation
+
+**User need:** Give readers more context about the problem and the solution delivered, while keeping the README simple.
+
+**Changes:** Expanded the problem statement to explain investigation effort, scattered evidence and difficult handovers. Added a solution section covering the analysis backend, case coordination and decision record, with clear human responsibilities and the intended business outcome. Retained the demo limitations and architecture diagram.
+
+**Validation:** Reviewed the wording against the documented implementation, checked the unchanged diagram and ran the documentation whitespace check. No application code changed.
