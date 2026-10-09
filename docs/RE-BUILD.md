@@ -1,6 +1,6 @@
 # Rebuild plan: CFIN Error Analysis pilot
 
-**Status:** backend source implementation complete, 2 October 2026. The root [README](../README.md) is the authority for product behaviour, taxonomy, routes and case format, including subsequent frontend refinements. The additive cloud migration, provider-backed acceptance runs, integration of the current browser-local workbench with the authenticated backend, and deployment remain release work. Cloud cutover and paid-model execution default to disabled. Files under `archive/` are historical evidence, not design requirements.
+**Status:** backend source implementation complete, 2 October 2026. The root [README](../README.md) introduces the product. [Product design and operating rules](product-design.md) define the taxonomy, routes and case format; [frontend design](FRONTEND_DESIGN.md) covers the interface. The additive cloud migration, provider-backed acceptance runs, integration of the current browser-local workbench with the authenticated backend, and deployment remain release work. Cloud cutover and paid-model execution default to disabled. Files under `archive/` are historical evidence, not design requirements.
 
 ## Goal and starting point
 
@@ -90,4 +90,4 @@ Keep the README's starting model assignments: Extraction uses GPT-6 Luna (`gpt-6
 
 ## Scope and release boundary
 
-This rebuild does not add direct SAP reads or writes, model-selected mapping values, automatic approvals, automatic reprocessing, a live Joule connector, or full remediation routes for the eight non-pilot categories. The Case JSON API remains a read contract for saved records. Treat taxonomy definitions and pilot routes in the root README as authoritative when preparing the migration and examples.
+This rebuild does not add direct SAP reads or writes, model-selected mapping values, automatic approvals, automatic reprocessing, a live Joule connector, or full remediation routes for the eight non-pilot categories. The Case JSON API remains a read contract for saved records. Use the taxonomy definitions and pilot routes in [Product design and operating rules](product-design.md) when preparing migrations and examples.

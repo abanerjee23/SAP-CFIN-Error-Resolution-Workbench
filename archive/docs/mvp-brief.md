@@ -41,7 +41,7 @@ Case data must be available as JSON as well as on the case page. The rebuild inc
 
 A future SAP Joule tool can use this API to bring case context into the customer's SAP workflow. The exact connection is a later integration; the analysis agents and model baseline do not change. Later case-state commands and SAP-side actions require separate authority. Case writes retain meaningful comments, valid transitions, proof and audit; original logs remain immutable.
 
-Joule operating in a customer's SAP environment does not automatically authorise access to this app or make external calls risk-free. Apply scoped credentials, workspace/case/evidence permissions and access audit. Keep app status, reported SAP status, AI wording and human findings distinct in the API. See [README](../README.md#case-data-as-a-json-api) for the business flow and verified SAP references.
+Joule operating in a customer's SAP environment does not automatically authorise access to this app or make external calls risk-free. Apply scoped credentials, workspace/case/evidence permissions and access audit. Keep app status, reported SAP status, AI wording and human findings distinct in the API. See [the case API design](../../docs/product-design.md#case-data-as-a-json-api) for the business flow and verified SAP references.
 
 ## Meaningful human updates and learning
 

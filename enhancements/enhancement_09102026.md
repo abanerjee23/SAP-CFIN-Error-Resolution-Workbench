@@ -13,3 +13,11 @@
 **Validation:** Full checks passed: 786 backend tests including local database execution, 6 example tests, Python lint, frontend typecheck/build and Railway validation. Five deterministic Promptfoo gates passed. Both deployment images built and served their HTTP smoke endpoints. Browser checks verified board and case rendering. Detailed evidence and remaining limitations are in [repository-validation.md](../docs/repository-validation.md).
 
 **Limitations:** The current workbench remains a browser-local demo; cloud rollout and provider-backed semantic acceptance remain release work. npm reports 7 build-tool dependency advisories requiring a reviewed Tailwind major migration; production dependency audit reports none.
+
+## README simplification
+
+**User need:** Give a first-time reader a short, plain-language product overview.
+
+**Changes:** Rewrote the README around the problem, experience, architecture, pilot scope, trust and success measures. Preserved the architecture diagram exactly. Removed dated status updates and moved detailed product rules and development instructions into `docs/`, with supporting links updated.
+
+**Validation:** Checked Markdown links, the unchanged Mermaid diagram and the documentation diff. No application code changed.

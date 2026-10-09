@@ -57,7 +57,7 @@ The earlier scenario IDs are retained for continuity. **Their role is now log-co
 | **TEC-01** | Upstream interface-selection message. | Report only supplied content and its provenance; do not fabricate an AIF record if none was captured. |
 | **TEC-02** | Runtime interruption or resource message. | Preserve technical symptom and attempt context; do not turn a generic failure into a functional cause. |
 
-These subjects help diversify a sample set; they do not require twenty separate agents, policies or rules. The four AIF views and their evidence limits are described in the [README's AIF guide](../README.md#understanding-the-aif-log).
+These subjects help diversify a sample set; they do not require twenty separate agents, policies or rules. The four AIF views and their evidence limits are described in the [AIF log guide](../../docs/product-design.md#understanding-the-aif-log).
 
 ## Evidence and summary variations
 

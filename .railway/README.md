@@ -15,4 +15,4 @@ Before any separately authorised cloud plan, configure the shared variables refe
 
 The file describes the whole intended environment. Railway treats omitted managed resources as deletions: inspect an existing environment and migrate legacy configuration before using it there. Do not apply a plan that removes unrelated resources, secrets or tracing. Keep the old `deploy/railway-*.json` files only as historical recipes; they are not supported for new services.
 
-See the [current release status](../README.md#delivery-status-and-next-increment), [archived deployment instructions](../archive/docs/deployment.md) and the [official IaC guide](https://docs.railway.com/infrastructure-as-code), checked 2 October 2026. No cloud plan or deployment was run when preparing this configuration.
+See the [product scope](../README.md#pilot-scope), [archived deployment instructions](../archive/docs/deployment.md) and the [official IaC guide](https://docs.railway.com/infrastructure-as-code), checked 2 October 2026. No cloud plan or deployment was run when preparing this configuration.

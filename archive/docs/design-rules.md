@@ -178,7 +178,7 @@ Machine callers need explicit, revocable read access to permitted workspaces, ca
 
 Customer-specific Joule configuration is a later integration. External case writes, if subsequently added, use separate permissions and explicit commands with duplicate protection, expected versions, allowed transitions, actual actor attribution and meaningful records. Preserve human review, proof, resolution and knowledge-publication requirements; never offer arbitrary state patches or permit changes to original logs. SAP-side changes require separate customer-controlled SAP authority. Returned results are appended as attributed evidence and do not automatically prove resolution. A consumer must treat log/history text as data, never as instructions granting permission to act.
 
-See [the README API section](../README.md#case-data-as-a-json-api) for the product scope and [rebuild Phase 4](../REBUILD_210.md#phase-4--publish-the-factual-case-and-json-api) for the proposed contract and checks. JSON API support is required; a live Joule connection and write automation are not claimed as implemented.
+See [the case API design](../../docs/product-design.md#case-data-as-a-json-api) for the product scope and [rebuild Phase 4](../REBUILD_210.md#phase-4--publish-the-factual-case-and-json-api) for the proposed contract and checks. JSON API support is required; a live Joule connection and write automation are not claimed as implemented.
 
 ## Storage, access and operation
 
