@@ -2,7 +2,7 @@
 
 from typing import Any, Literal
 
-from pydantic import model_validator
+from pydantic import Field, model_validator
 
 from cfin.error_analysis_contracts import ErrorAnalysisBinding
 from cfin.gateway import ServiceGateway
@@ -46,6 +46,7 @@ class ErrorAnalysisInputSnapshot(LogContract):
     binding: ErrorAnalysisBinding
     source_manifest: LogSourceManifest
     sources: tuple[SavedErrorAnalysisEvidence, ...]
+    routing_context: dict[str, NonEmptyText] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def all_metadata_matches(self) -> "ErrorAnalysisInputSnapshot":

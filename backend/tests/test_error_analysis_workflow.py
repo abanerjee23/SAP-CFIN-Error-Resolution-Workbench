@@ -158,3 +158,34 @@ def test_every_maintained_category_has_a_governed_route(category, route_kind, ow
     assert route.route_kind == route_kind
     assert route.owner_role == owner
     assert route.steps[0].required_role
+
+
+def test_database_snapshot_accepts_saved_routing_context():
+    from cfin.error_analysis_snapshots import ErrorAnalysisInputSnapshot
+
+    value = inputs()
+    original = value.manifest.sources[0]
+    snapshot = ErrorAnalysisInputSnapshot.model_validate(
+        {
+            "snapshot_version": "error-analysis-snapshot-v1",
+            "binding": binding(value).model_dump(mode="json"),
+            "source_manifest": value.manifest.model_dump(mode="json"),
+            "routing_context": {"company_code": "1000"},
+            "sources": [
+                {
+                    "id": "saved-1",
+                    "workspace_id": "workspace-1",
+                    "case_id": "case-1",
+                    "attempt_id": "attempt-1",
+                    "source_id": original.source_id,
+                    "source_version": original.source_version,
+                    "filename": original.original_filename,
+                    "object_path": "workspace-1/saved-1/aif-log.txt",
+                    "sha256": original.content_sha256,
+                    "byte_size": original.byte_size,
+                    "provenance": "synthetic",
+                }
+            ],
+        }
+    )
+    assert snapshot.routing_context == {"company_code": "1000"}

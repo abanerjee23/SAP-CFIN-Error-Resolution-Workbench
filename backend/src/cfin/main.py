@@ -129,7 +129,12 @@ def create_app(
         token, actor_id, cloud = actor
         rows = await cloud.memberships(token, actor_id)
         return [
-            {"id": row["workspace_id"], "name": row["workspaces"]["name"], "roles": row["roles"]}
+            {
+                "id": row["workspace_id"],
+                "name": row["workspaces"]["name"],
+                "roles": row["roles"],
+                "synthetic": row["workspaces"].get("synthetic", False),
+            }
             for row in rows
             if isinstance(row.get("workspaces"), dict)
         ]

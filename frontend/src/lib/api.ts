@@ -13,7 +13,7 @@ export type CaseSummary = {
   status: string;
   diagnosis_status: string;
   workflow_version?: string;
-  result_kind?: "factual" | "legacy";
+  result_kind?: "factual" | "legacy" | "error_analysis";
   factual_review_status?: string;
   analysis_status?: string;
   created_at: string;
@@ -129,7 +129,7 @@ export type CaseDetail = {
   route_milestones?: JsonRecord[];
   validation_comparisons?: Record<string, { expected: string; observed: string }> | null;
 };
-export type CaseAction = "review_summary" | "start_investigation" | "record_investigation" | "approve_reference" | "analyse" | "review_diagnosis" | "start_work" | "record_correction" | "complete_work" | "record_reprocessing" | "record_validation" | "finish_resolution" | "assign" | "owner_rule" | "block" | "resume" | "priority" | "due_date" | "reopen" | "retry_notification" | "link_identity" | "confirm_order" | "record_route_step";
+export type CaseAction = "comment" | "review_summary" | "start_investigation" | "record_investigation" | "approve_reference" | "analyse" | "review_diagnosis" | "start_work" | "record_correction" | "complete_work" | "record_reprocessing" | "record_validation" | "finish_resolution" | "assign" | "owner_rule" | "block" | "resume" | "priority" | "due_date" | "reopen" | "retry_notification" | "link_identity" | "confirm_order" | "record_route_step";
 
 export async function getScenario(workspaceId: string, token: string, signal: AbortSignal, scenarioId: "MD-01" | "MAP-01" = "MD-01"): Promise<ScenarioInput> {
   const data = await request(`/api/scenarios/${scenarioId}?workspace_id=${encodeURIComponent(workspaceId)}`, token, signal);

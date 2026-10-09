@@ -1,0 +1,8 @@
+SYNTHETIC PILOT — fictional SAP AIF export, not a real SAP transaction.
+Source system: ERP-DEMO; target system: CFIN-DEMO.
+Source document: 1900000421; fiscal year: 2026; source company: 1000.
+Target company: 2000; currency: GBP; amount: 1250.00.
+Attempt 1 status: Error. Posting stopped; no target document reference returned.
+Error Z_DEMO_CFIN 001: G/L account 0000410000 is not maintained in company code 2000.
+Payload item 0001: source account 0000400000; attempted target account 0000410000.
+This export does not establish whether the mapping is correct or authorise a change.

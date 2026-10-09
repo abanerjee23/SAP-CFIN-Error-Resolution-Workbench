@@ -5,6 +5,7 @@ from uuid import UUID
 
 from fastapi import HTTPException
 
+from cfin.factual_operations import required_text, validate_proofs
 from cfin.gateway import UserGateway
 
 
@@ -38,7 +39,7 @@ async def error_analysis_detail(
         "milestones": data["milestones"],
         "route_milestones": sorted(route_milestones, key=lambda row: row["recorded_at"]),
         "validations": [],
-        "resolution_records": [],
+        "resolution_records": data["resolution_records"],
         "activity": sorted(data["activity"], key=lambda row: row["created_at"], reverse=True),
         "reviews": data["case_reviews"],
         "assignments": data["assignments"],
@@ -62,9 +63,9 @@ async def record_error_route_step(
         or len(data["note"]) > 10_000
     ):
         raise HTTPException(422, "Record a meaningful route-step note")
-    evidence_ids = data.get("evidence_ids", [])
-    if not isinstance(evidence_ids, list) or len(evidence_ids) > 20:
-        raise HTTPException(422, "Select a bounded list of saved evidence records")
+    evidence_ids = await validate_proofs(
+        user, token, workspace_id, case, data.get("evidence_ids", []), required=False
+    )
     return await user.rpc(
         "cfin_error_route_action",
         token,
@@ -73,7 +74,43 @@ async def record_error_route_step(
             "data": {
                 "note": data["note"],
                 "decision": data.get("decision"),
+                "posting_reference": data.get("posting_reference"),
                 "evidence_ids": evidence_ids,
             },
+        },
+    )
+
+
+async def error_workbench_action(
+    user: UserGateway,
+    token: str,
+    workspace_id: UUID,
+    case: dict[str, Any],
+    common: dict[str, Any],
+    action: str,
+    data: dict[str, Any],
+) -> dict[str, Any]:
+    if action == "analyse":
+        return await user.rpc("cfin_enqueue_run", token, common)
+    if action not in ("comment", "finish_resolution", "assign"):
+        raise HTTPException(422, "Use the governed Error Analysis route actions for this case")
+    required_text(data, "note")
+    if action == "finish_resolution":
+        required_text(data, "posting_reference")
+        if data.get("human_confirmed") is not True:
+            raise HTTPException(422, "Confirm that posting has been validated")
+        data = {
+            **data,
+            "evidence_ids": await validate_proofs(
+                user, token, workspace_id, case, data.get("evidence_ids"), required=True
+            ),
+        }
+    return await user.rpc(
+        "cfin_error_workbench_action",
+        token,
+        {
+            **common,
+            "action": action,
+            "data": data,
         },
     )

@@ -558,7 +558,9 @@ async def process_one(
         }
 
 
-async def run_worker(once: bool, *, target_run_id: str | None = None) -> None:
+async def run_worker(
+    once: bool, *, target_run_id: str | None = None, workspace_id: str | None = None
+) -> None:
     settings = Settings()
     if not settings.worker_configured:
         raise RuntimeError("Worker setup is incomplete; run python -m cfin.readiness")
@@ -570,13 +572,26 @@ async def run_worker(once: bool, *, target_run_id: str | None = None) -> None:
         while True:
             notification = (
                 await process_notification(cloud)
-                if target_run_id is None
+                if target_run_id is None and workspace_id is None
                 else {"processed": False, "reason": "targeted_model_run"}
             )
+            selected_run_id = target_run_id
+            if workspace_id:
+                queued = await cloud.rows(
+                    "analysis_runs",
+                    {
+                        "workspace_id": "eq." + str(UUID(workspace_id)),
+                        "workflow_version": "eq.error-analysis-v1",
+                        "state": "in.(queued,running)",
+                        "order": "created_at.asc",
+                        "limit": "1",
+                    },
+                )
+                selected_run_id = queued[0]["id"] if queued else None
             result = (
-                await process_one(cloud, settings, worker_id, target_run_id=target_run_id)
-                if settings.models_configured
-                else {"claimed": False, "paid_models_enabled": False}
+                await process_one(cloud, settings, worker_id, target_run_id=selected_run_id)
+                if settings.models_configured and (not workspace_id or selected_run_id)
+                else {"claimed": False, "paid_models_enabled": settings.models_configured}
             )
             result["notification"] = notification
             print(result)
@@ -589,11 +604,24 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Process the private case queue")
     parser.add_argument("--once", action="store_true")
     parser.add_argument("--run-id", type=UUID, help="With --once, claim only this queued model run")
+    parser.add_argument(
+        "--workspace-id",
+        type=UUID,
+        help="Process only Error Analysis cases in this pilot workspace",
+    )
     args = parser.parse_args()
     try:
         if args.run_id and not args.once:
             parser.error("--run-id requires --once")
-        asyncio.run(run_worker(args.once, target_run_id=str(args.run_id) if args.run_id else None))
+        if args.run_id and args.workspace_id:
+            parser.error("Choose --run-id or --workspace-id")
+        asyncio.run(
+            run_worker(
+                args.once,
+                target_run_id=str(args.run_id) if args.run_id else None,
+                workspace_id=str(args.workspace_id) if args.workspace_id else None,
+            )
+        )
     except (RuntimeError, HTTPException):
         parser.exit(
             2,

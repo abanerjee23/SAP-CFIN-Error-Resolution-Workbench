@@ -1,5 +1,5 @@
-import { WorkbenchApp } from "@/components/workbench-app";
+import { ConnectedWorkbench } from "@/components/connected-workbench";
 
 export default function Page() {
-  return <WorkbenchApp />;
+  return <ConnectedWorkbench />;
 }
