@@ -3,6 +3,10 @@
 The approved design and business logic are frozen at commit `6434d06`, restored by `b56beaa`.
 The tag `product-design-freeze-v1` records this baseline with its verification check.
 
+Abhinav subsequently authorised starting frontend-to-backend connection fixes. The manifest
+records the narrow connection changes under `integration_authorization`; original UI components,
+styles, prompts, routing and closure rules remain unchanged. See [the integration plan](frontend-integration-plan.md).
+
 Do not change the frontend design, navigation, personas, workflow, permissions, routing,
 approvals, closure rules, prompts or database business rules without Abhinav’s explicit approval.
 Testing and documentation may record failures; they must not silently change product behavior.

@@ -23,13 +23,14 @@
     "backend/src/cfin/arize_tracing.py": "49e9923e2a00949b7099664a66e90078b581ee5b7307fd9e3f9405fb6dc6c29c",
     "backend/src/cfin/case_read_api.py": "2dd4e705cdc54acce4aacb8997a65b6e0a217a7ac3b433850439c02e7b0ec147",
     "backend/src/cfin/cloud.py": "23638813848441b510233ab63cf425b71d17cb1953ac72265d5971e6784546b9",
-    "backend/src/cfin/config.py": "61eb6ce7096176021a042c75791c4582d061506f02b790cc831c7088e1b28cc2",
+    "backend/src/cfin/config.py": "f112f91f16718eb92448044cc861908c0ffb925d5fe4b537a24f760ed8042888",
     "backend/src/cfin/contracts.py": "39c7f7367ca21accfe974d85d3294a22e3bf315425c5ad37c34694a3527d5877",
+    "backend/src/cfin/demo.py": "186b75374ae091a34143d44f57707d2ca61a01acf2f886e5a5dca842744066cf",
     "backend/src/cfin/demo_seed.py": "96cb5c8067d6cb25844cb7922c1f7f8541b5ce01b4aea0c88643d510db168d0b",
     "backend/src/cfin/error_analysis_contracts.py": "1a80c66b15b3f41c2e46d4dcbffdbad45f380dbfc1ce46d2ca7f0b4c6004a741",
     "backend/src/cfin/error_analysis_operations.py": "faa3706e6eac1e1a0be50ac2b71c3c977c85494e354578249c3e416d8e4f26ba",
     "backend/src/cfin/error_analysis_prompts.py": "5eef5e4ff1faa9391bd22e902ace83dd43f81597b2b723f39a18473f1a4c3c33",
-    "backend/src/cfin/error_analysis_snapshots.py": "3e89b9febaa0e7f4cdf14ec052b8167b6f4ac9843c292632685538ce75cd1d82",
+    "backend/src/cfin/error_analysis_snapshots.py": "7a45278198e2fc91a553f588a07f5eaff40d1cd0212e61156072555fa11554e8",
     "backend/src/cfin/error_analysis_workflow.py": "497ac2db010586175058ba77e42b3124a5b36e6666ba28bd96e90d4f783fe1a1",
     "backend/src/cfin/error_route_registry.py": "a6d7fdbf49dc428322b4254219397ee099380ad19000e620951978c7b5f161b4",
     "backend/src/cfin/eval_runner.py": "fab74a22dc823a0618b1eae2c40f873e190f892fceeccc61446d49309513739e",
@@ -53,7 +54,7 @@
     "backend/src/cfin/log_only_snapshots.py": "3b9e2374c11d8731c3f7a598b23231dfe29f32c802608c3114635255dd2795a8",
     "backend/src/cfin/log_only_sources.py": "2f832a3358317d8baa1a2db348461c3c6136477a3fa0bbfc5289685c89164251",
     "backend/src/cfin/log_only_workflow.py": "f9b5217d4d74a8c47d4c90c5c15b781d7e62b2d2487bbe65f5eb36cc7e33e849",
-    "backend/src/cfin/main.py": "f3fea7c9c2447e492d312c5896ab736dbab36f8d9224614da85454ccce0d774d",
+    "backend/src/cfin/main.py": "7e8d3f923e5ebd4923de72edb28be3470fcfb6a3a4bbf5337d334cd5c357cff4",
     "backend/src/cfin/model_adapter.py": "651f12cc139269d794da0a0e1e54f37d88e17cafcb18de61c066d90bb723d710",
     "backend/src/cfin/notifications.py": "234cd998d92204dec08e7cb5ca46e850df3f5ed77fcf755d1139e29321e0c744",
     "backend/src/cfin/operations.py": "5532e75e15683f6289b21ebf6979bf04b4542d6eb5a67565f54f6f10c888f5d8",
@@ -138,6 +139,7 @@
     "frontend/src/lib/design-preview.ts": "656668e13ce08a75d2b46511bc1d9c66fe96e8fa639ddd9ff013736d04da67cb",
     "frontend/src/lib/supabase.ts": "1e1549756a18742fd9075541ebdfcac2460291bc7c75cf998db7bd7a95362b90",
     "frontend/src/lib/utils.ts": "d1f1e0d62cb8d8d1e04c26e14de842d8a151f75812d81b046c65b5d1fe8e4b27",
+    "frontend/src/lib/workbench-connection.ts": "85d52a694af656d111092503e92d15bfe3c15b3ce4c2cfd1a72b156dc69cb80f",
     "supabase/migrations/202609300001_foundation.sql": "05839ca60148f7391069e397bf78f5a91d47c0c2137cf89f7127435939d8d357",
     "supabase/migrations/202610010001_workflow.sql": "30eb7faa7a3f0ead3930d4b24cc7332c94fb41278309d5d4b2841b860254bb7f",
     "supabase/migrations/202610010002_intake.sql": "d1b93487429eedd3360ef898026d11546a7144ede9131719c4d981493105eac1",
@@ -148,5 +150,16 @@
     "supabase/migrations/202610010007_owner_rules.sql": "cb169023464f459082a0b46d02f7cb75a27154a59207d153a775b21a5cf4508b",
     "supabase/migrations/202610020001_log_only.sql": "708bfdcf604a372903665505003185dde0a5adb01bfb478ce21f0c8a9ab76c8b",
     "supabase/migrations/202610020002_error_analysis.sql": "c66b29b007b9d04527673dc86df14cd2e7cb17f1f59501f11a2b1a676b1f90fa"
+  },
+  "integration_authorization": {
+    "request": "let us plan fixes and get going on this",
+    "scope": "Connection foundation only; current UI, style, prompts, route policy and closure rules unchanged.",
+    "files": [
+      "backend/src/cfin/config.py",
+      "backend/src/cfin/main.py",
+      "backend/src/cfin/demo.py",
+      "backend/src/cfin/error_analysis_snapshots.py",
+      "frontend/src/lib/workbench-connection.ts"
+    ]
   }
 }

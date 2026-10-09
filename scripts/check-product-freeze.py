@@ -21,4 +21,4 @@ if changed:
     print("Product freeze violated; explicit user approval is required:")
     print("\n".join(changed))
     sys.exit(1)
-print(f"Product freeze verified: {len(expected)} files match {manifest['baseline_commit']}.")
+print(f"Product freeze verified: {len(expected)} files match the approved manifest (original design: {manifest['baseline_commit']}).")

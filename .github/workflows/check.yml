@@ -32,6 +32,7 @@ jobs:
             .railway/package-lock.json
       - run: npm ci --prefix .railway --ignore-scripts
       - run: npm run check --prefix .railway
+      - run: node --import ./.railway/node_modules/tsx/dist/loader.mjs --test frontend/tests/workbench-connection.test.ts
       - run: npm ci
         working-directory: frontend
       - run: npm run typecheck && npm run build
