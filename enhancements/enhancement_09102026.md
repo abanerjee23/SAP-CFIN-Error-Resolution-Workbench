@@ -39,3 +39,8 @@
 **Validation:** Live OpenAI analysis and a complete authenticated synthetic workflow succeeded; saved originals and closure were checked by fresh reads. A clean run took 39.6 seconds and recorded $0.033191 conservative model cost; Arize acknowledged 15 spans. Backend, database and frontend checks are recorded in the [pilot guide](../docs/pilot-demo.md) and artifacts.
 
 **Limits:** SAP outcomes and approvals in the automated test are fictional. Signed-in browser acceptance, representative model-quality review, Arize readback and hosted deployment remain explicit acceptance work. No claim of production readiness or analyst time savings is made.
+
+
+### Connected persona demo
+
+Restored the four named personas in the top-right selector, including inside an open case. The explicitly enabled local demo opens without a login, uses a server-held test-account session, and saves clearly simulated decisions to one synthetic workspace. The backend rejects remote callers, unapproved origins, other workspaces and operations outside the demo. Shared-pilot sign-in remains available when demo mode is disabled. The repository was restored from GitHub under `~/projects/S4CFINErrorResolutionWorkbench` after the Desktop copy was removed; private configuration remains outside version control.

@@ -32,7 +32,7 @@ AI helps interpret logs that vary in wording and structure. Software controls ac
 | **Original log** | Read or download the unchanged uploaded files. |
 | **Case history** | Record approvals, upload evidence, assign an owner and validate closure. |
 
-Sign-in and workspace roles control access. Approvals require an explicit decision and supporting evidence. Failed posting or rejected approval leaves a case blocked; successful posting still needs human validation before closure.
+The local demo uses the top-right persona selector to switch between Maya (MDG), Daniel (RTR), Liam (Data Operations) and Olivia (Exception Manager). It connects to one synthetic workspace and saves its decisions as simulated. Shared pilots use sign-in and assigned workspace roles. Approvals require an explicit decision and supporting evidence. Failed posting or rejected approval leaves a case blocked; successful posting still needs human validation before closure.
 
 The connected app is at `/`. The separate sample interface at `/preview` uses browser storage and simulated personas. Its dashboard, advanced board filters and attachment metadata are illustrative.
 
@@ -131,7 +131,7 @@ make worker  # terminal 2
 make web     # terminal 3
 ```
 
-Configure the environment and apply the database migrations first; see the [pilot demo guide](docs/pilot-demo.md). Then open [the local workbench](http://127.0.0.1:3000). Run `make check` for lint, tests, typechecking, the frontend build and Railway configuration checks.
+Configure the environment, enable the local persona demo and apply the database migrations first; see the [pilot demo guide](docs/pilot-demo.md). Then open [the local workbench](http://127.0.0.1:3000). Run `make check` for lint, tests, typechecking, the frontend build and Railway configuration checks.
 
 See [local development](docs/local-development.md) for environment setup and database checks.
 

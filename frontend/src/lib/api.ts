@@ -292,3 +292,14 @@ export async function createLogIntake(workspaceId: string, deliveryKey: string, 
   if (!isRecord(data) || typeof data.case_id !== "string") throw new Error("The intake response could not be read. Refresh cases before retrying the same delivery.");
   return data;
 }
+
+export type LocalDemoSession = { token: string; workspace: Workspace };
+export async function getLocalDemo(signal: AbortSignal): Promise<LocalDemoSession | null> {
+  const origin = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/$/, "");
+  const response = await fetch(`${origin}/api/demo/session`, { method: "POST", cache: "no-store", signal: AbortSignal.any([signal, AbortSignal.timeout(45_000)]) });
+  if (response.status === 404) return null;
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(isRecord(data) && typeof data.detail === "string" ? data.detail : "The demo service is unavailable. Start the configured backend and retry.");
+  if (!isRecord(data) || typeof data.token !== "string" || !isWorkspace(data.workspace) || data.workspace.synthetic !== true) throw new Error("The synthetic demo configuration could not be verified.");
+  return data as LocalDemoSession;
+}
