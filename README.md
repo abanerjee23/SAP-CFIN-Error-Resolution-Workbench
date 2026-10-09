@@ -31,9 +31,9 @@ AI helps interpret logs that vary in wording and structure. Software controls ac
 | **Case Board** | Find cases by owner, status or date, and export the filtered list to CSV. |
 | **Case workspace** | Read the summary, discuss the case, record decisions and inspect the original log. |
 
-Each case has one named owner and one of four statuses: **Open**, **In progress**, **Blocked** or **Closed**. Approvals and supporting files stay with the relevant message. Closing a case requires an outcome and evidence.
+Each case has one named owner and one of four statuses: **Open**, **In progress**, **Blocked** or **Closed**. Approvals and supporting files stay with the relevant message. Closing any case requires confirmation of successful reprocessing and data validation, plus a proof screenshot.
 
-The local demo uses sample cases and browser storage. Its persona controls are simulated, attachments retain metadata only, and it is not connected to the backend or live agents.
+The workbench supports a local sample demo and a connected demo using the same interface. Connected mode saves cases, comments and file bytes in Supabase and displays published agent analysis. Personas and SAP proof are simulated; no SAP system is connected. See the [connected demo guide](docs/connected-demo.md) for setup and verification limits.
 
 ## Architecture
 

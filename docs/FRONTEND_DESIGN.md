@@ -127,7 +127,7 @@ The other eight maintained categories and `unclassified` show manual investigati
 
 The interface supports status updates, assignment, reassignment, AI-brief review, approval requests and decisions, remediation evidence, reprocessing outcomes, closure and reopening. The operational statuses are only **Open**, **In progress**, **Blocked** and **Closed**. “Awaiting approval” is an auditable chat event, never a status.
 
-Every event records actor, actor role, time, event type, reason, previous/new values, case/work-cycle context and linked evidence. Comments remain distinct from structured decisions. Closing a case requires a closure record that states the resolution, scope, action and CFIN outcome, plus at least one supporting file. This creates a usable audit record months later.
+Every event records actor, actor role, time, event type, reason, previous/new values, case/work-cycle context and linked evidence. Comments remain distinct from structured decisions. Any case category can be closed by its named owner or the CFIN Exception Manager after successful document reprocessing and system data validation. The closure record states the resolution, action and target document reference, and includes a PNG or JPEG proof screenshot. In the disconnected SAP demo, a generated screenshot is explicitly labelled synthetic; the saved record never claims that the application verified a real SAP posting. Earlier route steps are guidance and are not fabricated by closure.
 
 ### Case chat attachments
 

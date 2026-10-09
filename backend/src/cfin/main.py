@@ -408,6 +408,10 @@ def create_app(
             note = body.payload.get("note")
             if not isinstance(note, str) or not note.strip():
                 raise HTTPException(422, "Record a meaningful case note")
+            if body.action == "assign":
+                body = body.model_copy(update={"payload": {
+                    **body.payload, "assigned_user_id": str(actor_id),
+                }})
             body = body.model_copy(update={"payload": {
                 **body.payload,
                 "note": f"[Simulated demo persona: {body.acting_role}] {note}",

@@ -16,6 +16,7 @@ export type SavedBrief = {
 export type SavedWorkbenchCase = {
   case: RecordValue; originals: SavedOriginal[]; brief: SavedBrief | null;
   activity: RecordValue[]; routeMilestones: RecordValue[];
+  evidence: RecordValue[]; assignments: RecordValue[]; resolutions: RecordValue[];
   analysisState: string; analysisFailure: string | null;
 };
 
@@ -156,6 +157,41 @@ export class WorkbenchConnection {
     return { caseId: value.case_id, version: value.version as number, paidDispatchEnabled: value.paid_dispatch_enabled === true };
   }
 
+  private uploadedFiles = new WeakMap<File, Map<string, RecordValue>>();
+
+  async saveEvidence(session: WorkbenchSession, caseId: string, role: string, file: File, signal: AbortSignal): Promise<RecordValue> {
+    const key = `${session.workspace.id}/${caseId}/${role}`;
+    const cached = this.uploadedFiles.get(file)?.get(key);
+    if (cached) return cached;
+    if (!file.size || file.size > 10 * 1024 * 1024) throw new Error("Evidence must be non-empty and at most 10 MB.");
+    const extensions: Record<string, string> = { eml: "message/rfc822", txt: "text/plain", log: "text/plain", json: "application/json", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", pdf: "application/pdf" };
+    const contentType = extensions[file.name.split('.').pop()?.toLowerCase() || ''] || file.type;
+    if (!Object.values(extensions).includes(contentType)) throw new Error("Use PNG, JPEG, PDF, email (.eml), JSON or text evidence.");
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    let binary = "";
+    for (let offset = 0; offset < bytes.length; offset += 8192) binary += String.fromCharCode(...bytes.subarray(offset, offset + 8192));
+    const value: unknown = await (await this.send(`/api/cases/${encodeURIComponent(caseId)}/evidence`, signal, session, {
+      workspace_id: session.workspace.id, acting_role: role, filename: file.name,
+      content_type: contentType, content_base64: btoa(binary), provenance: "synthetic",
+    })).json();
+    if (!record(value) || typeof value.id !== "string") throw new Error("The evidence receipt could not be read.");
+    const cache = this.uploadedFiles.get(file) || new Map<string, RecordValue>();
+    cache.set(key, value); this.uploadedFiles.set(file, cache);
+    return value;
+  }
+
+  async action(session: WorkbenchSession, caseId: string, version: number, role: string, action: string, payload: RecordValue, signal: AbortSignal): Promise<void> {
+    const body = { workspace_id: session.workspace.id, expected_version: version, acting_role: role, action, payload };
+    const hash = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(JSON.stringify({ caseId, ...body }))));
+    const requestKey = Array.from(hash, byte => byte.toString(16).padStart(2, "0")).join("");
+    await this.send(`/api/cases/${encodeURIComponent(caseId)}/actions`, signal, session, { ...body, request_key: requestKey });
+  }
+
+  async download(session: WorkbenchSession, evidenceId: string, signal: AbortSignal): Promise<Blob> {
+    const query = new URLSearchParams({ workspace_id: session.workspace.id });
+    return (await this.send(`/api/evidence/${encodeURIComponent(evidenceId)}?${query}`, signal, session)).blob();
+  }
+
   async readCase(session: WorkbenchSession, caseId: string, signal: AbortSignal): Promise<SavedWorkbenchCase> {
     const query = new URLSearchParams({ workspace_id: session.workspace.id });
     const value: unknown = await (await this.send(`/api/cases/${encodeURIComponent(caseId)}?${query}`, signal, session)).json();
@@ -182,6 +218,8 @@ export class WorkbenchConnection {
     return {
       case: value.case, originals, brief: currentResult ? projectSavedBrief(result, originals) : null,
       activity: records(value.activity, "Case activity"), routeMilestones: records(value.route_milestones, "Route milestones"),
+      evidence: records(value.evidence, "Evidence"), assignments: records(value.assignments ?? [], "Assignments"),
+      resolutions: records(value.resolution_records ?? [], "Closure records"),
       analysisState: text(value.case.analysis_status, "Analysis state"),
       analysisFailure: record(result) && typeof result.failure_reason === "string" ? result.failure_reason : null,
     };

@@ -96,3 +96,39 @@ test('does not present an older successful run as the current analysis', async (
   const saved = await api.readCase(session, 'c', signal());
   assert.equal(saved.brief, null); assert.equal(saved.analysisState, 'needs_refresh');
 });
+
+test('attachment retries reuse a confirmed receipt only for the same case and persona', async () => {
+  const sent: {url: string; body: Record<string, unknown>}[] = [];
+  const api = new WorkbenchConnection('http://localhost:8011', async (url, init) => {
+    sent.push({url:String(url),body:JSON.parse(String(init?.body))}); return json({id:`proof-${sent.length}`});
+  });
+  const file=new File(['Subject: Synthetic approval\r\n\r\nApproved'], 'approval.eml');
+  const first=await api.saveEvidence(session,'case-a','mdg_process_owner',file,signal());
+  assert.equal((await api.saveEvidence(session,'case-a','mdg_process_owner',file,signal())).id,first.id);
+  await api.saveEvidence(session,'case-b','mdg_process_owner',file,signal());
+  await api.saveEvidence(session,'case-a','process_owner',file,signal());
+  assert.equal(sent.length,3);
+  assert.equal(sent[0].body.content_type,'message/rfc822');
+  assert.equal(Buffer.from(String(sent[0].body.content_base64),'base64').toString(),await file.text());
+});
+test('a failed attachment upload is retried rather than cached as saved', async () => {
+  let calls=0;
+  const api=new WorkbenchConnection('http://localhost:8011',async()=>++calls===1?json({},503):json({id:'saved'}));
+  const file=new File(['proof'],'proof.txt');
+  await assert.rejects(api.saveEvidence(session,'c','process_owner',file,signal()),/No successful save/);
+  assert.equal((await api.saveEvidence(session,'c','process_owner',file,signal())).id,'saved');
+  assert.equal(calls,2);
+});
+test('an ambiguous action response can be retried with the same receipt while changed actions get different receipts', async () => {
+  const sent: Record<string,unknown>[]=[];
+  const api=new WorkbenchConnection('http://localhost:8011',async(_url,init)=>{
+    sent.push(JSON.parse(String(init?.body)));
+    return sent.length===1?json({},503):json({saved:true});
+  });
+  const data={note:'Reprocessed and validated',evidence_ids:['proof']};
+  await assert.rejects(api.action(session,'c',3,'process_owner','finish_resolution',data,signal()),/No successful save/);
+  await api.action(session,'c',3,'process_owner','finish_resolution',data,signal());
+  assert.deepEqual(sent[0],sent[1]);
+  await api.action(session,'c',4,'process_owner','finish_resolution',data,signal());
+  assert.notEqual(sent[1].request_key,sent[2].request_key);
+});

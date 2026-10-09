@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActionIcon,
   Alert,
@@ -58,12 +58,14 @@ import {
 } from "lucide-react";
 import "./workbench.css";
 import { serializeCaseBoardCsv } from "../lib/case-board-csv";
+import { WorkbenchConnection, type WorkbenchSession, type SavedWorkbenchCase } from "../lib/workbench-connection";
+import { mapSavedCase, roleCode, closureReference } from "../lib/workbench-mapping";
 
 type Page = "about" | "dashboard" | "data" | "cases";
-type CaseStatus = "Open" | "In progress" | "Blocked" | "Closed";
-type Role = "MDG Process Owner" | "RTR Process Owner" | "Data Operations" | "CFIN Exception Manager";
-type CaseAttachment = { id: string; name: string; size: number; mimeType: string; uploader: string; uploadedAt: string };
-type CaseRecord = {
+export type CaseStatus = "Open" | "In progress" | "Blocked" | "Closed";
+export type Role = "MDG Process Owner" | "RTR Process Owner" | "Data Operations" | "CFIN Exception Manager";
+export type CaseAttachment = { id: string; name: string; size: number; mimeType: string; uploader: string; uploadedAt: string };
+export type CaseRecord = {
   id: string;
   title: string;
   category: string;
@@ -83,8 +85,9 @@ type CaseRecord = {
   originalLog: string;
   originalFilename?: string;
   activity: Activity[];
+  remote?: SavedWorkbenchCase;
 };
-type Activity = { id: string; kind: "system" | "ai" | "comment" | "approval" | "evidence" | "assignment" | "outcome"; actor: string; role: string; time: string; title: string; detail: string; attachments?: CaseAttachment[]; externalApprover?: string };
+export type Activity = { id: string; kind: "system" | "ai" | "comment" | "approval" | "evidence" | "assignment" | "outcome"; actor: string; role: string; time: string; title: string; detail: string; attachments?: CaseAttachment[]; externalApprover?: string };
 
 const roles: { value: Role; person: string; initials: string; description: string }[] = [
   { value: "MDG Process Owner", person: "Maya Shah", initials: "MS", description: "Investigates, requests approval and records remediation evidence." },
@@ -187,12 +190,30 @@ function formatFileSize(bytes: number) { return bytes < 1024 * 1024 ? `${Math.ma
 export function WorkbenchApp() {
   const [page, setPage] = useState<Page>("dashboard");
   const [persona, setPersona] = useState<Role>("MDG Process Owner");
-  const [cases, setCases] = useState<CaseRecord[]>(seededCases);
+  const connected = process.env.NEXT_PUBLIC_WORKBENCH_CONNECTED === "true";
+  const connection = useMemo(() => new WorkbenchConnection(process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8011"), []);
+  const session = useRef<WorkbenchSession | null>(null);
+  const saving = useRef(false);
+  const [noticeError, setNoticeError] = useState(false);
+  const [cases, setCases] = useState<CaseRecord[]>(connected ? [] : seededCases);
   const [selectedId, setSelectedId] = useState(seededCases[0].id);
   const [notice, setNotice] = useState("");
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
+    if (connected) {
+      const controller = new AbortController();
+      void (async () => {
+        session.current = await connection.connect(controller.signal);
+        const listed = await connection.listCases(session.current, controller.signal);
+        const loaded: CaseRecord[] = [];
+        for (let offset = 0; offset < listed.length; offset += 4) {
+          loaded.push(...await Promise.all(listed.slice(offset, offset + 4).map(async row => mapSavedCase(await connection.readCase(session.current!, String(row.id), controller.signal)))));
+        }
+        if (!controller.signal.aborted) { setCases(loaded); setSelectedId(loaded[0]?.id || ""); setHydrated(true); }
+      })().catch(error => { if (!controller.signal.aborted) { setNoticeError(true); setNotice(error instanceof Error ? error.message : "The workspace could not be loaded."); } });
+      return () => controller.abort();
+    }
     const saved = window.localStorage.getItem("cfin-workbench-demo-v3");
     if (saved) {
       try {
@@ -204,28 +225,102 @@ export function WorkbenchApp() {
       } catch { /* Local demo data is optional. */ }
     }
     setHydrated(true);
-  }, []);
-  useEffect(() => { if (hydrated) window.localStorage.setItem("cfin-workbench-demo-v3", JSON.stringify(cases)); }, [cases, hydrated]);
+  }, [connected, connection]);
+  useEffect(() => { if (hydrated && !connected) window.localStorage.setItem("cfin-workbench-demo-v3", JSON.stringify(cases)); }, [cases, hydrated, connected]);
+  useEffect(() => {
+    if (!connected || !hydrated || !session.current || !selectedId) return;
+    const controller = new AbortController();
+    let reading = false;
+    const refresh = async () => {
+      if (reading || saving.current || document.visibilityState === "hidden") return;
+      reading = true;
+      try {
+        const loaded = mapSavedCase(await connection.readCase(session.current!, selectedId, controller.signal));
+        if (!controller.signal.aborted && !saving.current) setCases(previous => previous.map(item => item.id === loaded.id ? loaded : item));
+      } catch (error) { if (!controller.signal.aborted) { setNoticeError(true); setNotice(error instanceof Error ? error.message : "The case could not be refreshed."); } }
+      finally { reading = false; }
+    };
+    const interval = window.setInterval(() => void refresh(), 10000);
+    window.addEventListener("focus", refresh);
+    return () => { controller.abort(); window.clearInterval(interval); window.removeEventListener("focus", refresh); };
+  }, [connected, hydrated, connection, selectedId]);
 
   const currentUser = avatarFor(persona);
   const selected = cases.find((item) => item.id === selectedId) ?? cases[0];
-  function updateCase(next: CaseRecord) { setCases((previous) => previous.map((item) => item.id === next.id ? next : item)); setNotice("Saved in this local demo. The activity record is retained after refresh."); }
-  function addCase(item: CaseRecord) { setCases((previous) => [item, ...previous]); setSelectedId(item.id); setPage("cases"); setNotice("Original file staged as a local case. Live analysis is not enabled in this preview."); }
+  async function updateCase(next: CaseRecord, files: File[] = []) {
+    if (saving.current) throw new Error("Wait for the current save to finish.");
+    saving.current = true;
+    try {
+      const requestedEvent = next.activity.at(-1);
+      if (requestedEvent?.title === "Case closed") {
+        if (!files.some(file => /\.(png|jpe?g)$/i.test(file.name))) throw new Error("Attach a PNG or JPEG proof screenshot.");
+        closureReference(requestedEvent.detail);
+      }
+      if (connected) {
+        if (!session.current || !next.remote) throw new Error("The saved case is not ready.");
+        const signal = new AbortController().signal;
+        const event = next.activity.at(-1);
+        if (!event) throw new Error("A case event is required.");
+        const evidence = [];
+        for (const file of files) evidence.push(await connection.saveEvidence(session.current, next.id, roleCode(persona), file, signal));
+        let action = "comment";
+        const payload: Record<string, unknown> = { note: event.detail, evidence_ids: evidence.map(file => file.id) };
+        if (event.kind === "assignment") { action = "assign"; payload.owner_role = roleCode(next.assigneeRole); }
+        else if (event.kind === "approval") {
+          action = "record_approval";
+          const approver = roles.find(role => role.person === event.externalApprover);
+          if (!approver) throw new Error("Select the external approver.");
+          payload.external_approver_role = roleCode(approver.value);
+        } else if (event.title === "Case closed") {
+          if (!files.some(file => /\.(png|jpe?g)$/i.test(file.name))) throw new Error("Attach a PNG or JPEG proof screenshot.");
+          action = "finish_resolution";
+          Object.assign(payload, { human_confirmed: true, reprocessing_status: "successful", validation_status: "passed", posting_reference: closureReference(event.detail), provenance: "synthetic" });
+        } else if (event.kind === "outcome") {
+          action = "set_status"; payload.status = { Open: "created", "In progress": "in_progress", Blocked: "blocked", Closed: "complete" }[next.status];
+        }
+        await connection.action(session.current, next.id, Number(next.remote.case.version), roleCode(persona), action, payload, signal);
+        next = mapSavedCase(await connection.readCase(session.current, next.id, signal));
+      }
+      setCases(previous => previous.map(item => item.id === next.id ? next : item));
+      setNoticeError(false); setNotice(connected ? "Saved to the demo workspace with its evidence and activity record." : "Saved in this local demo. The activity record is retained after refresh.");
+    } catch (error) { setNoticeError(true); setNotice(error instanceof Error ? error.message : "The save could not be confirmed."); throw error; }
+    finally { saving.current = false; }
+  }
+  async function downloadAttachment(file: CaseAttachment) {
+    try {
+      if (!session.current) throw new Error("Connect to the saved workspace to download this attachment.");
+      const blob = await connection.download(session.current, file.id, new AbortController().signal);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url; link.download = file.name; link.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } catch (error) { setNoticeError(true); setNotice(error instanceof Error ? error.message : "The attachment could not be downloaded."); }
+  }
+  async function addCase(item: CaseRecord, file: File, deliveryKey: string) {
+    if (connected) {
+      if (!session.current) throw new Error("The workspace connection is not ready. Reload once the API is available.");
+      const signal = new AbortController().signal;
+      const receipt = await connection.upload(session.current, file, deliveryKey, signal);
+      item = mapSavedCase(await connection.readCase(session.current, receipt.caseId, signal));
+      setNotice(receipt.paidDispatchEnabled ? "Original saved. Analysis is queued; its published results will appear in this case." : "Original saved. Analysis is queued but model dispatch is disabled.");
+    } else setNotice("Original file staged as a local case. Live analysis is not enabled in this preview.");
+    setNoticeError(false); setCases(previous => [item, ...previous.filter(row => row.id !== item.id)]); setSelectedId(item.id); setPage("cases");
+  }
 
   return <div className="workbench-canvas">
     <div className="workbench-frame">
       <header className="workbench-header">
         <div className="workbench-brand"><span>AIF Resolution Workbench</span></div>
-        <div className="workbench-user"><span className="demo-label">Local demo</span><Avatar color="teal" radius="xl" size={30}>{currentUser.initials}</Avatar><Select aria-label="Select local demo persona" value={persona} onChange={(value) => setPersona((value as Role) || "MDG Process Owner")} data={roles.map((item) => ({ value: item.value, label: `${item.person} · ${item.value}` }))} className="persona-select" allowDeselect={false} /></div>
+        <div className="workbench-user"><span className="demo-label">{connected ? "Connected demo" : "Local demo"}</span><Avatar color="teal" radius="xl" size={30}>{currentUser.initials}</Avatar><Select aria-label="Select local demo persona" value={persona} onChange={(value) => setPersona((value as Role) || "MDG Process Owner")} data={roles.map((item) => ({ value: item.value, label: `${item.person} · ${item.value}` }))} className="persona-select" allowDeselect={false} /></div>
       </header>
       <Tabs value={page} onChange={(value) => setPage((value as Page) || "dashboard")} className="workbench-tabs" keepMounted={false}>
         <Tabs.List><Tabs.Tab value="about">About</Tabs.Tab><Tabs.Tab value="dashboard">Dashboard</Tabs.Tab><Tabs.Tab value="data">Data</Tabs.Tab><Tabs.Tab value="cases">Case Board</Tabs.Tab></Tabs.List>
         <Tabs.Panel value="about"><AboutPage onOpenCases={() => setPage("cases")} /></Tabs.Panel>
         <Tabs.Panel value="dashboard"><DashboardPage cases={cases} persona={persona} onOpenCases={() => setPage("cases")} onOpenCase={(id) => { setSelectedId(id); setPage("cases"); }} onUpload={() => setPage("data")} /></Tabs.Panel>
-        <Tabs.Panel value="data"><DataPage onAddCase={addCase} /></Tabs.Panel>
-        <Tabs.Panel value="cases"><CasesPage cases={cases} selected={selected} selectedId={selectedId} onSelect={setSelectedId} persona={persona} onUpdate={updateCase} /></Tabs.Panel>
+        <Tabs.Panel value="data"><DataPage onAddCase={addCase} connected={connected} /></Tabs.Panel>
+        <Tabs.Panel value="cases"><CasesPage cases={cases} selected={selected} selectedId={selectedId} onSelect={setSelectedId} persona={persona} onUpdate={updateCase} onDownload={downloadAttachment} /></Tabs.Panel>
       </Tabs>
-      {notice && <div className="save-notice" role="status"><CheckCircle2 size={16} />{notice}<button onClick={() => setNotice("")} aria-label="Dismiss saved notice">×</button></div>}
+      {notice && <div className="save-notice" role={noticeError ? "alert" : "status"}>{noticeError ? <AlertTriangle size={16} /> : <CheckCircle2 size={16} />}{notice}<button onClick={() => setNotice("")} aria-label="Dismiss saved notice">×</button></div>}
     </div>
   </div>;
 }
@@ -303,22 +398,28 @@ function MetricCard({ title, value, suffix, copy, icon, tone }: { title: string;
   return <Card className={`metric-card metric-${tone}`} radius="lg" padding="lg"><Group justify="space-between" align="start"><Text fw={600}>{title}</Text><ThemeIcon variant="light" color={tone} radius="md">{icon}</ThemeIcon></Group><Group gap={6} align="baseline" mt={26}><Text className="metric-value">{value}</Text>{suffix && <Text c="dimmed" size="sm">{suffix}</Text>}</Group><Text size="sm" c="dimmed" mt={8}>{copy}</Text><div className="metric-rule" /></Card>;
 }
 
-function DataPage({ onAddCase }: { onAddCase: (item: CaseRecord) => void }) {
+function DataPage({ onAddCase, connected }: { onAddCase: (item: CaseRecord, file: File, deliveryKey: string) => Promise<void>; connected: boolean }) {
   const [file, setFile] = useState<File | null>(null);
   const [raw, setRaw] = useState("");
   const [error, setError] = useState("");
-  async function choose(next: File | null) { setFile(next); setError(""); if (!next) { setRaw(""); return; } try { setRaw(await next.text()); } catch { setError("The selected file could not be read as text."); } }
-  function create() {
-    if (!file || !raw) return;
+  const [pending, setPending] = useState(false);
+  const receipt = useRef("");
+  async function choose(next: File | null) { receipt.current = crypto.randomUUID(); setFile(next); setError(""); if (!next) { setRaw(""); return; } try { setRaw(await next.text()); } catch { setError("The selected file could not be read as text."); } }
+  async function create() {
+    if (!file || !raw || pending) return;
+    setPending(true); setError("");
+    try {
     const document = raw.match(/\b\d{6,}\b/)?.[0] || "Not found";
-    onAddCase({ id: `CFIN-LOCAL-${String(Date.now()).slice(-5)}`, title: document === "Not found" ? "Uploaded document error log" : `Document ${document} — error log`, category: "Unclassified", source: "Flat file", company: "Not found", createdAt: new Date().toISOString(), document, amount: "Not supplied", priority: "P2", status: "In progress", assignee: "Olivia Grant", assigneeRole: "CFIN Exception Manager", updated: "Now", dueAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(), routeKind: "manual", currentStep: 0, originalLog: raw, originalFilename: file.name, activity: [{ id: "local-intake", kind: "system", actor: "Local demo", role: "Ingestion", time: "Now", title: "Original file preserved", detail: `${file.name} was added as an immutable local source. Analysis has not run in this preview.` }] }); setFile(null); setRaw(""); }
+    await onAddCase({ id: `CFIN-LOCAL-${String(Date.now()).slice(-5)}`, title: document === "Not found" ? "Uploaded document error log" : `Document ${document} — error log`, category: "Unclassified", source: "Flat file", company: "Not found", createdAt: new Date().toISOString(), document, amount: "Not supplied", priority: "P2", status: "In progress", assignee: "Olivia Grant", assigneeRole: "CFIN Exception Manager", updated: "Now", dueAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(), routeKind: "manual", currentStep: 0, originalLog: raw, originalFilename: file.name, activity: [{ id: "local-intake", kind: "system", actor: "Local demo", role: "Ingestion", time: "Now", title: "Original file preserved", detail: `${file.name} was added as an immutable local source. Analysis has not run in this preview.` }] }, file, receipt.current); setFile(null); setRaw("");
+    } catch (error) { setError(error instanceof Error ? error.message : "The upload could not be confirmed. Retry the same file."); } finally { setPending(false); }
+  }
   return <main className="page-content"><PageHeading title="Add case data" description="Upload and review document error logs." />
     <Paper className="upload-panel" radius="lg" p="xl">
       <div className="upload-panel-copy"><Title order={2}>Upload error logs</Title><Text c="dimmed">Upload data using the following supported file types: .txt, .log, .csv and .tsv.</Text></div>
       <div className="upload-panel-picker"><FileButton accept=".txt,.log,.csv,.tsv,text/plain,text/csv" onChange={choose}>{(props) => <Button {...props} color="teal" variant="filled" size="md" leftSection={<Upload size={17} />}>Browse your computer</Button>}</FileButton><Group gap="xs" mt="sm" wrap="nowrap"><Text size="sm" c={file ? "dark" : "dimmed"} className="selected-file-name">{file?.name || "No file selected"}</Text>{file && <Button variant="subtle" color="gray" size="compact-sm" onClick={() => void choose(null)}>Clear</Button>}</Group></div>
       {error && <Alert className="upload-panel-error" color="red">{error}</Alert>}
       {file && <div className="file-facts"><Fact label="File" value={file.name} /><Fact label="Size" value={`${file.size.toLocaleString()} bytes`} /><Fact label="Lines" value={String(raw.split(/\r?\n/).filter(Boolean).length)} /><Fact label="Detected document" value={raw.match(/\b\d{6,}\b/)?.[0] || "Not found"} /></div>}
-      <Group className="upload-panel-footer" justify="space-between"><Text size="sm" c="dimmed">The selected file is retained in this browser demo.</Text><Button color="teal" size="md" disabled={!raw} onClick={create}>Create local case <ChevronRight size={16} /></Button></Group>
+      <Group className="upload-panel-footer" justify="space-between"><Text size="sm" c="dimmed">{connected ? "Synthetic demo files are saved privately to this workspace." : "The selected file is retained in this browser demo."}</Text><Button color="teal" size="md" disabled={!raw || pending} loading={pending} onClick={() => void create()}>{connected ? "Create case" : "Create local case"} <ChevronRight size={16} /></Button></Group>
     </Paper></main>;
 }
 
@@ -357,7 +458,7 @@ function DateIntervalCalendar({ opened, onClose, value, onApply }: { opened: boo
   </Stack></Modal>;
 }
 
-function CasesPage({ cases, selected, selectedId, onSelect, persona, onUpdate }: { cases: CaseRecord[]; selected: CaseRecord; selectedId: string; onSelect: (id: string) => void; persona: Role; onUpdate: (item: CaseRecord) => void }) {
+function CasesPage({ cases, selected, selectedId, onSelect, persona, onUpdate, onDownload }: { cases: CaseRecord[]; selected: CaseRecord | undefined; selectedId: string; onSelect: (id: string) => void; persona: Role; onUpdate: (item: CaseRecord, files?: File[]) => Promise<void>; onDownload: (file: CaseAttachment) => Promise<void> }) {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<string | null>(null);
   const [quickView, setQuickView] = useState("All cases");
@@ -390,11 +491,11 @@ function CasesPage({ cases, selected, selectedId, onSelect, persona, onUpdate }:
     <div className="board-layout"><section className="case-table-panel"><Paper radius="lg" p={0} className="case-table-paper"><div className="case-table-tools"><div className="quick-views">{["All cases", "Assigned to me"].map((view) => <button key={view} className={quickView === view ? "active" : ""} onClick={() => setQuickView(view)}>{view}</button>)}<button className={dateRange.start ? "active date-filter-button" : "date-filter-button"} onClick={() => setCalendarOpen(true)}><CalendarDays size={15} />Date interval{dateRange.start && <span className="date-filter-dot" />}</button></div><Group gap="sm"><TextInput aria-label="Search cases" placeholder="Search case, document or owner" leftSection={<Search size={16} />} value={query} onChange={(event) => setQuery(event.currentTarget.value)} /><Select aria-label="Filter by status" placeholder="Status" clearable value={status} onChange={setStatus} data={["Open", "In progress", "Blocked", "Closed"]} w={170} /><Button variant="default" leftSection={<Download size={16} />} onClick={downloadCsv} disabled={!filtered.length}>Download as CSV</Button></Group></div>{dateRange.start && <div className="date-interval-summary"><Text size="sm">Created between {formatCaseDate(`${dateRange.start}T00:00:00`)} and {formatCaseDate(`${dateRange.end}T00:00:00`)}</Text><Button variant="subtle" size="compact-sm" color="gray" onClick={() => setDateRange({ start: "", end: "" })}>Clear interval</Button></div>}<ScrollArea><Table className="case-table" highlightOnHover><Table.Thead><Table.Tr><Table.Th>Case number</Table.Th><Table.Th>Title</Table.Th><Table.Th>Error type</Table.Th><Table.Th>Assigned to</Table.Th><Table.Th>Status</Table.Th><Table.Th>Value</Table.Th><Table.Th>Case Creation Date</Table.Th><Table.Th>Due Date</Table.Th></Table.Tr></Table.Thead><Table.Tbody>{filtered.map((item) => <Table.Tr key={item.id} className={item.id === selectedId ? "selected-row" : ""} onClick={() => { onSelect(item.id); setOpenDetail(true); }}><Table.Td><Text fw={700} size="sm">{item.id}</Text><Text size="xs" c="dimmed">Document {item.document}</Text></Table.Td><Table.Td><Text fw={700} size="sm">{item.title}</Text></Table.Td><Table.Td><CategoryBadge value={item.category} /></Table.Td><Table.Td><OwnerChip compact role={item.assigneeRole} name={item.assignee} /></Table.Td><Table.Td><StatusBadge status={item.status} /></Table.Td><Table.Td><Text size="sm" fw={600}>{item.amount}</Text></Table.Td><Table.Td><Text size="sm" className="table-date">{formatCaseDate(item.createdAt)}</Text></Table.Td><Table.Td><Text size="sm" className="table-date" c={isPastDue(item) ? "red" : undefined}>{formatCaseDate(item.dueAt)}</Text></Table.Td></Table.Tr>)}</Table.Tbody></Table></ScrollArea>{!filtered.length && <div className="empty-row"><Search size={22} /><Text>No cases match these filters.</Text></div>}</Paper></section>
     </div>
     <DateIntervalCalendar opened={calendarOpen} onClose={() => setCalendarOpen(false)} value={dateRange} onApply={(range) => { setDateRange(range); setCalendarOpen(false); }} />
-    <Modal opened={openDetail} onClose={() => setOpenDetail(false)} size="calc(100vw - 48px)" classNames={{ content: "case-modal", body: "case-modal-body" }} withCloseButton={false}><CaseWorkspace item={selected} persona={persona} onUpdate={onUpdate} onClose={() => setOpenDetail(false)} /></Modal>
+    <Modal opened={openDetail} onClose={() => setOpenDetail(false)} size="calc(100vw - 48px)" classNames={{ content: "case-modal", body: "case-modal-body" }} withCloseButton={false}>{selected && <CaseWorkspace key={selected.id} item={selected} persona={persona} onUpdate={onUpdate} onDownload={onDownload} onClose={() => setOpenDetail(false)} />}</Modal>
   </main>;
 }
 
-function CaseWorkspace({ item, persona, onUpdate, onClose }: { item: CaseRecord; persona: Role; onUpdate: (item: CaseRecord) => void; onClose: () => void }) {
+function CaseWorkspace({ item, persona, onUpdate, onClose, onDownload }: { item: CaseRecord; persona: Role; onUpdate: (item: CaseRecord, files?: File[]) => Promise<void>; onDownload: (file: CaseAttachment) => Promise<void>; onClose: () => void }) {
   const [tab, setTab] = useState("summary");
   const [statusOpen, setStatusOpen] = useState(false);
   const [assignOpen, setAssignOpen] = useState(false);
@@ -408,17 +509,21 @@ function CaseWorkspace({ item, persona, onUpdate, onClose }: { item: CaseRecord;
   const canManage = isSimulatedAction(persona, "manage");
   const canChangeStatus = canManage || actor.person === item.assignee;
   const canClose = canManage || actor.person === item.assignee;
-  function addEvent(kind: Activity["kind"], title: string, detail: string, patch: Partial<CaseRecord> = {}, eventDetails: Pick<Partial<Activity>, "attachments" | "externalApprover"> = {}) {
-    onUpdate({ ...item, ...patch, updated: "Now", activity: [...item.activity, { id: `${Date.now()}-${kind}`, kind, actor: actor.person, role: persona, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), title, detail, ...eventDetails }] });
+  const [pending, setPending] = useState(false);
+  async function addEvent(kind: Activity["kind"], title: string, detail: string, patch: Partial<CaseRecord> = {}, eventDetails: Pick<Partial<Activity>, "attachments" | "externalApprover"> = {}, files: File[] = []) {
+    if (pending) throw new Error("A save is in progress.");
+    setPending(true);
+    try { await onUpdate({ ...item, ...patch, updated: "Now", activity: [...item.activity, { id: `${Date.now()}-${kind}`, kind, actor: actor.person, role: persona, time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }), title, detail, ...eventDetails }] }, files); }
+    finally { setPending(false); }
   }
-  function saveStatus() { if (!reason.trim() || statusChoice === "Closed") return; addEvent("outcome", `Status changed to ${statusChoice}`, reason, { status: statusChoice }); setReason(""); setStatusOpen(false); }
-  function reassign() { const target = avatarFor(assigneeRole); if (!reason.trim()) return; addEvent("assignment", `Reassigned to ${target.person}`, reason, { assignee: target.person, assigneeRole: target.value }); setReason(""); setAssignOpen(false); }
+  async function saveStatus() { if (!reason.trim() || statusChoice === "Closed") return; await addEvent("outcome", `Status changed to ${statusChoice}`, reason, { status: statusChoice }); setReason(""); setStatusOpen(false); }
+  async function reassign() { const target = avatarFor(assigneeRole); if (!reason.trim()) return; await addEvent("assignment", `Reassigned to ${target.person}`, reason, { assignee: target.person, assigneeRole: target.value }); setReason(""); setAssignOpen(false); }
   function addClosureFiles(selected: File | File[] | null) { const files = Array.isArray(selected) ? selected : selected ? [selected] : []; setClosureFiles((current) => [...current, ...files]); }
-  function closeCase() {
+  async function closeCase() {
     if (!closureDetail.trim() || closureFiles.length === 0) return;
     const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     const attachments = closureFiles.map((file, index) => ({ id: `${Date.now()}-closure-${index}`, name: file.name, size: file.size, mimeType: file.type || "application/octet-stream", uploader: actor.person, uploadedAt: now }));
-    addEvent("outcome", "Case closed", closureDetail.trim(), { status: "Closed", currentStep: routeFor(item).length - 1 }, { attachments });
+    await addEvent("outcome", "Case closed", closureDetail.trim(), { status: "Closed", currentStep: routeFor(item).length - 1 }, { attachments }, closureFiles);
     setClosureDetail(""); setClosureFiles([]); setClosureOpen(false);
   }
   return <div className="case-workspace"><header className="case-workspace-header">
@@ -435,70 +540,76 @@ function CaseWorkspace({ item, persona, onUpdate, onClose }: { item: CaseRecord;
     <div className="case-header-footer"><Text size="sm" c="dimmed">Document {item.document} · {item.source} · Company {item.company}</Text><div className="header-actions"><Group mt="md" justify="end"><Tooltip label={canManage ? "Record an attributed case handover" : "Only the CFIN Exception Manager can reassign this case"}><Button variant="default" onClick={() => setAssignOpen(true)} leftSection={<UsersRound size={16} />} disabled={!canManage}>Reassign</Button></Tooltip><Tooltip label={canChangeStatus ? "Record a reason for the status change" : "Only the named owner or CFIN Exception Manager can update this status"}><Button color="teal" onClick={() => setStatusOpen(true)} leftSection={<PencilLine size={16} />} disabled={!canChangeStatus || item.status === "Closed"}>Update status</Button></Tooltip><Tooltip label={canClose ? "Record the closure outcome and attach evidence" : "Only the named owner or CFIN Exception Manager can close this case"}><Button color="green" variant="light" onClick={() => setClosureOpen(true)} leftSection={<CheckCircle2 size={16} />} disabled={!canClose || item.status === "Closed"}>Close case</Button></Tooltip></Group></div></div>
   </header>
     <Tabs value={tab} onChange={(value) => setTab(value || "summary")} className="case-content-tabs"><Tabs.List><Tabs.Tab value="summary" leftSection={<FileText size={15} />}>Summary</Tabs.Tab><Tabs.Tab value="journey" leftSection={<MessageSquare size={15} />}>Case chat</Tabs.Tab><Tabs.Tab value="original" leftSection={<FileSearch size={15} />}>Original log</Tabs.Tab></Tabs.List>
-      <Tabs.Panel value="summary"><div className="case-main-grid"><SummaryContent item={item} /></div></Tabs.Panel>
+      <Tabs.Panel value="summary"><div className="case-main-grid"><SummaryContent item={item} onDownload={onDownload} /></div></Tabs.Panel>
       <Tabs.Panel value="original"><OriginalLog item={item} /></Tabs.Panel>
-      <Tabs.Panel value="journey"><JourneyConversation item={item} persona={persona} onPost={(kind, title, detail, attachments, externalApprover) => { const step = routeStepFor(item); const advancesRoute = item.status !== "Closed" && kind === "approval" && step?.approval && externalApprover === personForRole(step.owner); addEvent(kind, title, detail, advancesRoute ? { currentStep: Math.min(item.currentStep + 1, routeFor(item).length - 1), status: "In progress" } : {}, { attachments, externalApprover }); }} /></Tabs.Panel>
+      <Tabs.Panel value="journey"><JourneyConversation item={item} persona={persona} onDownload={onDownload} onPost={async (kind, title, detail, attachments, externalApprover, files) => { const step = routeStepFor(item); const advancesRoute = item.status !== "Closed" && kind === "approval" && step?.approval && externalApprover === personForRole(step.owner); await addEvent(kind, title, detail, advancesRoute ? { currentStep: Math.min(item.currentStep + 1, routeFor(item).length - 1), status: "In progress" } : {}, { attachments, externalApprover }, files); }} /></Tabs.Panel>
     </Tabs>
-    <Modal opened={statusOpen} onClose={() => setStatusOpen(false)} title="Update case status" centered><Stack><Text size="sm" c="dimmed">Status changes are recorded in the case chat. Approval is an evidence-backed chat entry, not a status.</Text><Select value={statusChoice} onChange={(value) => setStatusChoice((value as CaseStatus) || item.status)} data={["Open", "In progress", "Blocked"]} label="New status" /><Textarea label="Reason and supporting context" value={reason} onChange={(event) => setReason(event.currentTarget.value)} required minRows={3} /><Button color="teal" onClick={saveStatus} disabled={!reason.trim()}>Save status change</Button></Stack></Modal>
-    <Modal opened={assignOpen} onClose={() => setAssignOpen(false)} title="Reassign case" centered><Stack><Text size="sm" c="dimmed">The governed route and RTR approval responsibility remain unchanged. This records a case handover.</Text><Select value={assigneeRole} onChange={(value) => setAssigneeRole((value as Role) || item.assigneeRole)} data={roles.map((role) => ({ value: role.value, label: `${role.person} · ${role.value}` }))} label="New assignee" /><Textarea label="Handover reason" value={reason} onChange={(event) => setReason(event.currentTarget.value)} required minRows={3} /><Button color="teal" onClick={reassign} disabled={!reason.trim()}>Record reassignment</Button></Stack></Modal>
-    <Modal opened={closureOpen} onClose={() => setClosureOpen(false)} title="Close case" centered><Stack><Text size="sm" c="dimmed">Create a complete closure record for future audit: what was resolved, the action taken, the CFIN outcome and the supporting proof.</Text><Textarea label="Closure record" description="Include resolution, scope, reprocessing outcome and target document reference where available." value={closureDetail} onChange={(event) => setClosureDetail(event.currentTarget.value)} required minRows={5} /><FileButton multiple onChange={addClosureFiles}>{(props) => <Button {...props} variant="default" leftSection={<Upload size={16} />}>Attach closure evidence</Button>}</FileButton>{closureFiles.length > 0 && <div className="composer-files">{closureFiles.map((file, index) => <div className="composer-file" key={`${file.name}-${index}`}><FileText size={15} /><Text size="sm">{file.name}</Text><Text size="xs" c="dimmed">{formatFileSize(file.size)}</Text><ActionIcon aria-label={`Remove ${file.name}`} variant="subtle" color="gray" size="sm" onClick={() => setClosureFiles((current) => current.filter((_, fileIndex) => fileIndex !== index))}><XCircle size={16} /></ActionIcon></div>)}</div>}<Text size="xs" c={closureFiles.length ? "dimmed" : "red"}>At least one supporting file is required to close a case.</Text><Button color="green" onClick={closeCase} disabled={!closureDetail.trim() || closureFiles.length === 0}>Record closure</Button></Stack></Modal>
+    <Modal opened={statusOpen} onClose={() => setStatusOpen(false)} title="Update case status" centered><Stack><Text size="sm" c="dimmed">Status changes are recorded in the case chat. Approval is an evidence-backed chat entry, not a status.</Text><Select value={statusChoice} onChange={(value) => setStatusChoice((value as CaseStatus) || item.status)} data={["Open", "In progress", "Blocked"]} label="New status" /><Textarea label="Reason and supporting context" value={reason} onChange={(event) => setReason(event.currentTarget.value)} required minRows={3} /><Button color="teal" onClick={() => void saveStatus().catch(() => {})} loading={pending} disabled={!reason.trim() || pending}>Save status change</Button></Stack></Modal>
+    <Modal opened={assignOpen} onClose={() => setAssignOpen(false)} title="Reassign case" centered><Stack><Text size="sm" c="dimmed">The governed route and RTR approval responsibility remain unchanged. This records a case handover.</Text><Select value={assigneeRole} onChange={(value) => setAssigneeRole((value as Role) || item.assigneeRole)} data={roles.map((role) => ({ value: role.value, label: `${role.person} · ${role.value}` }))} label="New assignee" /><Textarea label="Handover reason" value={reason} onChange={(event) => setReason(event.currentTarget.value)} required minRows={3} /><Button color="teal" onClick={() => void reassign().catch(() => {})} loading={pending} disabled={!reason.trim() || pending}>Record reassignment</Button></Stack></Modal>
+    <Modal opened={closureOpen} onClose={() => setClosureOpen(false)} title="Close case" centered><Stack><Text size="sm" c="dimmed">Create a complete closure record for future audit: what was resolved, the action taken, the CFIN outcome and the supporting proof.</Text><Textarea label="Closure record" description={'Submitting confirms successful reprocessing and data validation. Include "Target document: <reference>" and upload its proof screenshot.'} value={closureDetail} onChange={(event) => setClosureDetail(event.currentTarget.value)} required minRows={5} /><FileButton multiple onChange={addClosureFiles}>{(props) => <Button {...props} variant="default" leftSection={<Upload size={16} />}>Attach closure evidence</Button>}</FileButton>{closureFiles.length > 0 && <div className="composer-files">{closureFiles.map((file, index) => <div className="composer-file" key={`${file.name}-${index}`}><FileText size={15} /><Text size="sm">{file.name}</Text><Text size="xs" c="dimmed">{formatFileSize(file.size)}</Text><ActionIcon aria-label={`Remove ${file.name}`} variant="subtle" color="gray" size="sm" onClick={() => setClosureFiles((current) => current.filter((_, fileIndex) => fileIndex !== index))}><XCircle size={16} /></ActionIcon></div>)}</div>}<Text size="xs" c={closureFiles.length ? "dimmed" : "red"}>A PNG or JPEG proof screenshot is required to close a case.</Text><Button color="green" onClick={() => void closeCase().catch(() => {})} loading={pending} disabled={!closureDetail.trim() || closureFiles.length === 0 || pending}>Record closure</Button></Stack></Modal>
   </div>;
 }
 
-function SummaryContent({ item }: { item: CaseRecord }) {
+function SummaryContent({ item, onDownload }: { item: CaseRecord; onDownload: (file: CaseAttachment) => Promise<void> }) {
   const lines = item.originalLog.split("\n");
-  const evidence = lines.map((text, index) => ({ text, line: index + 1 })).filter(({ text }) => /error|stopped|mapping|could not|returned|reference|period|tax|does not match/i.test(text));
+  const evidence = item.remote
+    ? [...new Map((item.remote.brief?.evidence || []).flatMap(statement => statement.citations.map(citation => ({ text: lines.slice(citation.lineStart - 1, citation.lineEnd).join("\n"), line: citation.lineStart }))).map(entry => [entry.line, entry])).values()]
+    : lines.map((text, index) => ({ text, line: index + 1 })).filter(({ text }) => /error|stopped|mapping|could not|returned|reference|period|tax|does not match/i.test(text));
   const supplied = (pattern: RegExp) => item.originalLog.match(pattern)?.[1]?.trim() || "Not supplied";
-  const report = evidence[0]?.text.replace(/^\d{2}:\d{2}:\d{2}\s+/, "") || "The supplied log requires human review before a specific cause can be established.";
-  const hypothesis = item.routeKind === "master_data" ? "The reported target-account lookup failure may indicate missing target master data. A reviewer must check the target system to establish the cause." : item.routeKind === "mapping" ? "The unresolved mapping key may indicate an absent or incorrect source-to-target mapping. A reviewer must confirm the correct mapping with the RTR Process Owner." : "The supplied evidence has not established a confirmed root cause. Record the investigation findings in Case chat.";
+  const report = item.remote ? item.remote.brief?.facts.map(fact => fact.text).join(" ") || item.remote.analysisFailure || `Analysis is ${item.remote.analysisState.replaceAll("_", " ")}. The original remains available for review.` : evidence[0]?.text.replace(/^\d{2}:\d{2}:\d{2}\s+/, "") || "The supplied log requires human review before a specific cause can be established.";
+  const hypothesis = item.remote ? item.remote.brief?.hypothesis.text || "No current published cause hypothesis is available." : item.routeKind === "master_data" ? "The reported target-account lookup failure may indicate missing target master data. A reviewer must check the target system to establish the cause." : item.routeKind === "mapping" ? "The unresolved mapping key may indicate an absent or incorrect source-to-target mapping. A reviewer must confirm the correct mapping with the RTR Process Owner." : "The supplied evidence has not established a confirmed root cause. Record the investigation findings in Case chat.";
   const closure = item.activity.findLast((event) => event.title === "Case closed");
   return <Stack gap="md" className="summary-content">
-    <Section title="Case summary"><Text>Document <mark>{item.document}</mark> · {item.source}</Text><Text mt="sm">{report}</Text><FactMarker>Original log · {evidence[0] ? `line ${evidence[0].line}` : "human review required"}</FactMarker><Text size="sm" mt="md"><strong>Proposed cause — requires human validation:</strong> {hypothesis}</Text></Section>
+    <Section title="Case summary"><Text>Document <mark>{item.document}</mark> · {item.source}</Text><Text mt="sm">{report}</Text><FactMarker>{item.remote?.brief ? [...new Set(item.remote.brief.facts.flatMap(fact => fact.citations.map(citation => `${citation.filename} · lines ${citation.lineStart}–${citation.lineEnd}`)))].join("; ") : `Original log · ${evidence[0] ? `line ${evidence[0].line}` : "human review required"}`}</FactMarker><Text size="sm" mt="md"><strong>Proposed cause — requires human validation:</strong> {hypothesis}</Text></Section>
     <Section title="Document and processing context"><div className="context-grid"><Fact label="Source document" value={item.document} /><Fact label="Source system" value={item.source} /><Fact label="Company code" value={item.company} /><Fact label="Amount" value={item.amount} /><Fact label="Target system" value={supplied(/Target system:\s*([^\n]+)/i)} /><Fact label="Interface" value={supplied(/Interface:\s*([^\n]+)/i)} /></div></Section>
     <Section title="Evidence from the original log">{evidence.length ? evidence.map(({ text, line }) => <EvidenceQuote key={line} line={`Original log · line ${line}`} text={text} />) : <Text size="sm">No specific error statement has been isolated. Review the complete Original log.</Text>}</Section>
     <Section title={item.routeKind === "manual" ? "Investigation path" : "Defined resolution and escalation path"}>
       <Text size="sm" c="dimmed" mb="md">{item.routeKind === "manual" ? "This error type has no pilot remediation route. The CFIN Exception Manager coordinates human investigation." : `The maintained ${item.category.toLowerCase()} route defines responsibilities and approval requirements. Case ownership changes only through an explicit handover.`}</Text>
       <ol className="route-list">{routeFor(item).map((step, index) => <li key={step}><span>{index + 1}</span><div><strong>{step}</strong><Text size="sm" c="dimmed">{stepCopy(item.routeKind, index)}</Text></div></li>)}</ol>
     </Section>
-    <Section title="Similar earlier cases"><Text size="sm" c="dimmed">No reviewed historical match is available in this local preview.</Text></Section>
-    {closure && <Section title="Closure record"><Text size="sm" c="dimmed">Recorded by {closure.actor} · {closure.time}</Text><Text mt="sm">{closure.detail}</Text>{closure.attachments?.map((file) => <Text key={file.id} size="sm" mt="xs">{file.name} · {formatFileSize(file.size)}</Text>)}</Section>}
+    <Section title="Similar earlier cases"><Text size="sm" c="dimmed">{item.remote ? item.remote.brief?.relatedCases.length ? item.remote.brief.relatedCases.map(record => `Case ${record.case_id}: ${Array.isArray(record.matching_details) ? record.matching_details.join("; ") : "Reviewed match"}`).join(" ") : "No reviewed historical match is available for this case." : "No reviewed historical match is available in this local preview."}</Text></Section>
+    {closure && <Section title="Closure record"><Text size="sm" c="dimmed">Recorded by {closure.actor} · {closure.time}</Text><Text mt="sm">{closure.detail}</Text>{closure.attachments?.map((file) => <Text key={file.id} size="sm" mt="xs" role={item.remote ? "button" : undefined} tabIndex={item.remote ? 0 : undefined} onClick={() => item.remote && void onDownload(file)} onKeyDown={(event) => { if (item.remote && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); void onDownload(file); } }}>{file.name} · {formatFileSize(file.size)}</Text>)}</Section>}
   </Stack>;
 }
 
 function OriginalLog({ item }: { item: CaseRecord }) { return <div className="source-layout"><Paper radius="lg" p="lg" className="source-meta"><Badge color="teal" variant="light" leftSection={<FileText size={13} />}>Immutable original</Badge><Title order={2}>Original AIF log</Title><Text c="dimmed">This source is preserved unchanged. Cited lines are highlighted for cross-validation.</Text><Divider my="lg" /><Fact label="Source" value={item.originalFilename || "Supplied log"} /><Fact label="Version" value="1" /><Fact label="Case Creation Date" value={formatDueDate(item.createdAt)} /><Fact label="Lines" value={String(item.originalLog.split("\n").length)} /></Paper><Paper radius="lg" p={0} className="source-code"><ScrollArea h={460}>{item.originalLog.split("\n").map((line, index) => <div key={`${line}-${index}`} className={/error|stopped|mapping|could not|returned|reference|period|tax|does not match/i.test(line) ? "source-line cited" : "source-line"}><span>{String(index + 1).padStart(2, "0")}</span><code>{line || " "}</code></div>)}</ScrollArea></Paper></div>; }
 
-function JourneyConversation({ item, persona, onPost }: { item: CaseRecord; persona: Role; onPost: (kind: Activity["kind"], title: string, detail: string, attachments: CaseAttachment[], externalApprover?: string) => void }) {
+function JourneyConversation({ item, persona, onPost, onDownload }: { item: CaseRecord; persona: Role; onDownload: (file: CaseAttachment) => Promise<void>; onPost: (kind: Activity["kind"], title: string, detail: string, attachments: CaseAttachment[], externalApprover?: string, files?: File[]) => Promise<void> }) {
   const [message, setMessage] = useState("");
   const [mode, setMode] = useState<"update" | "approval">("update");
   const [approverRole, setApproverRole] = useState<Role>("RTR Process Owner");
   const [files, setFiles] = useState<File[]>([]);
   const actor = avatarFor(persona);
   const isApproval = mode === "approval";
+  const [pending, setPending] = useState(false);
   const addFiles = (selected: File | File[] | null) => {
     const incoming = Array.isArray(selected) ? selected : selected ? [selected] : [];
     setFiles((current) => [...current, ...incoming]);
   };
   const removeFile = (index: number) => setFiles((current) => current.filter((_, fileIndex) => fileIndex !== index));
-  const submit = () => {
-    if (!message.trim() || (isApproval && files.length === 0)) return;
+  const submit = async () => {
+    if (!message.trim() || pending || (isApproval && files.length === 0)) return;
+    setPending(true);
+    try {
     const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     const attachments = files.map((file, index) => ({ id: `${Date.now()}-${index}`, name: file.name, size: file.size, mimeType: file.type || "application/octet-stream", uploader: actor.person, uploadedAt: now }));
     const approver = isApproval ? avatarFor(approverRole).person : undefined;
-    onPost(isApproval ? "approval" : "comment", isApproval ? `Approval recorded from ${approver}` : "Case update", message.trim(), attachments, approver);
+    await onPost(isApproval ? "approval" : "comment", isApproval ? `Approval recorded from ${approver}` : "Case update", message.trim(), attachments, approver, files);
     setMessage("");
     setFiles([]);
     setMode("update");
+    } catch { /* Parent displays the error; retain the draft and files. */ } finally { setPending(false); }
   };
   return <div className="conversation-layout">
     <Paper radius="lg" p="lg" className="case-chat-panel">
       <div className="case-chat-heading"><div><Title order={2}>Discussion</Title><Text c="dimmed" size="sm" mt={4}>Updates, decisions and their supporting files.</Text></div><Badge variant="light" color="teal">{item.activity.length} messages</Badge></div>
-      <div className="chat-thread">{item.activity.map((event) => { const Icon = eventIcon[event.kind]; const messageActor = roles.find((role) => role.person === event.actor); return <article className={`case-message ${event.kind === "approval" ? "approval-message" : ""}`} key={event.id}><Avatar color={messageActor?.value === "RTR Process Owner" ? "violet" : messageActor?.value === "CFIN Exception Manager" ? "red" : "teal"} radius="xl" size={34}>{messageActor?.initials || <Icon size={16} />}</Avatar><div className="case-message-body"><div className="case-message-meta"><Text fw={700} size="sm">{event.actor}</Text><Text size="xs" c="dimmed">{event.role} · {event.time}</Text></div><Text fw={650} size="sm" mt={4}>{event.title}</Text><Text size="sm" c="dimmed" mt={3}>{event.detail}</Text>{event.externalApprover && <Badge className="external-approver" color="violet" variant="light" mt="sm">External approver: {event.externalApprover}</Badge>}{event.attachments && event.attachments.length > 0 && <div className="message-attachments">{event.attachments.map((attachment) => <div className="message-attachment" key={attachment.id}><FileText size={16} /><div><Text size="sm" fw={650}>{attachment.name}</Text><Text size="xs" c="dimmed">{formatFileSize(attachment.size)} · uploaded by {attachment.uploader} at {attachment.uploadedAt}</Text></div></div>)}</div>}</div></article>; })}</div>
+      <div className="chat-thread">{item.activity.map((event) => { const Icon = eventIcon[event.kind]; const messageActor = roles.find((role) => role.person === event.actor); return <article className={`case-message ${event.kind === "approval" ? "approval-message" : ""}`} key={event.id}><Avatar color={messageActor?.value === "RTR Process Owner" ? "violet" : messageActor?.value === "CFIN Exception Manager" ? "red" : "teal"} radius="xl" size={34}>{messageActor?.initials || <Icon size={16} />}</Avatar><div className="case-message-body"><div className="case-message-meta"><Text fw={700} size="sm">{event.actor}</Text><Text size="xs" c="dimmed">{event.role} · {event.time}</Text></div><Text fw={650} size="sm" mt={4}>{event.title}</Text><Text size="sm" c="dimmed" mt={3}>{event.detail}</Text>{event.externalApprover && <Badge className="external-approver" color="violet" variant="light" mt="sm">External approver: {event.externalApprover}</Badge>}{event.attachments && event.attachments.length > 0 && <div className="message-attachments">{event.attachments.map((attachment) => <div className="message-attachment" key={attachment.id}><FileText size={16} /><div><Text size="sm" fw={650} role={item.remote ? "button" : undefined} tabIndex={item.remote ? 0 : undefined} onClick={() => item.remote && void onDownload(attachment)} onKeyDown={(event) => { if (item.remote && (event.key === "Enter" || event.key === " ")) { event.preventDefault(); void onDownload(attachment); } }}>{attachment.name}</Text><Text size="xs" c="dimmed">{formatFileSize(attachment.size)} · uploaded by {attachment.uploader} at {attachment.uploadedAt}</Text></div></div>)}</div>}</div></article>; })}</div>
       <Divider my="lg" />
       <div className="message-composer"><Group justify="space-between" align="start" gap="md"><Group gap="sm" wrap="nowrap"><Avatar color="teal" radius="xl" size={34}>{actor.initials}</Avatar><div><Text fw={700} size="sm">Add a comment</Text><Text size="xs" c="dimmed">You are posting as {actor.person}.</Text></div></Group><Select aria-label="Message type" value={mode} onChange={(value) => setMode(value === "approval" ? "approval" : "update")} data={[{ value: "update", label: "Case update" }, { value: "approval", label: "Record approval" }]} w={180} allowDeselect={false} /></Group>
         {isApproval && <div className="approval-composer-fields"><Select aria-label="External approver" label="External approver" description="Attach the email or other approval evidence to this message." value={approverRole} onChange={(value) => setApproverRole((value as Role) || "RTR Process Owner")} data={roles.map((role) => ({ value: role.value, label: `${role.person} · ${role.value}` }))} /></div>}
         <Textarea aria-label="Case message" placeholder={isApproval ? "State what was approved and the scope of that approval…" : "Add an update, decision, blocker or handover…"} minRows={4} mt="md" value={message} onChange={(event) => setMessage(event.currentTarget.value)} />
         {files.length > 0 && <div className="composer-files">{files.map((file, index) => <div className="composer-file" key={`${file.name}-${index}`}><FileText size={15} /><Text size="sm">{file.name}</Text><Text size="xs" c="dimmed">{formatFileSize(file.size)}</Text><ActionIcon aria-label={`Remove ${file.name}`} variant="subtle" color="gray" size="sm" onClick={() => removeFile(index)}><XCircle size={16} /></ActionIcon></div>)}</div>}
-        <Group justify="space-between" mt="md" align="center"><FileButton multiple onChange={addFiles}>{(props) => <Button {...props} variant="default" leftSection={<Upload size={16} />}>Attach files</Button>}</FileButton><Group gap="sm"><Text size="xs" c={isApproval && files.length === 0 ? "red" : "dimmed"}>{isApproval ? files.length === 0 ? "Attach the approval email before recording." : "Approval evidence attached." : "Files are optional for a case update."}</Text><Button color="teal" leftSection={<Send size={16} />} onClick={submit} disabled={!message.trim() || (isApproval && files.length === 0)}>{isApproval ? "Record approval" : "Post update"}</Button></Group></Group>
+        <Group justify="space-between" mt="md" align="center"><FileButton multiple onChange={addFiles}>{(props) => <Button {...props} variant="default" leftSection={<Upload size={16} />}>Attach files</Button>}</FileButton><Group gap="sm"><Text size="xs" c={isApproval && files.length === 0 ? "red" : "dimmed"}>{isApproval ? files.length === 0 ? "Attach the approval email before recording." : "Approval evidence attached." : "Files are optional for a case update."}</Text><Button color="teal" leftSection={<Send size={16} />} onClick={() => void submit()} loading={pending} disabled={!message.trim() || pending || (isApproval && files.length === 0)}>{isApproval ? "Record approval" : "Post update"}</Button></Group></Group>
       </div>
     </Paper>
   </div>;

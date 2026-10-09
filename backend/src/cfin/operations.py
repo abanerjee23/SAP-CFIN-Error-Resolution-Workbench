@@ -19,8 +19,10 @@ from cfin.contracts import (
     ValidationCheck,
     validate_citations,
 )
+from cfin.demo_proof import validate_demo_proof
 from cfin.error_analysis_operations import (
     error_analysis_detail,
+    error_workbench_action,
     is_error_analysis,
     record_error_route_step,
 )
@@ -78,6 +80,9 @@ class ActionRequest(BaseModel):
         "retry_notification",
         "owner_rule",
         "record_route_step",
+        "comment",
+        "record_approval",
+        "set_status",
     ]
     acting_role: ROLE
     payload: dict[str, Any] = Field(default_factory=dict)
@@ -90,7 +95,8 @@ class EvidenceRequest(BaseModel):
     acting_role: ROLE
     filename: str = Field(min_length=1, max_length=150)
     content_type: Literal[
-        "text/plain", "application/json", "application/pdf", "image/png", "image/jpeg"
+        "text/plain", "application/json", "application/pdf", "image/png", "image/jpeg",
+        "message/rfc822"
     ]
     content_base64: str = Field(min_length=1, max_length=14_000_000)
     provenance: Literal["synthetic", "user_supplied"] | None = None
@@ -354,7 +360,7 @@ class Operations:
             content = base64.b64decode(body.content_base64, validate=True)
         except (ValueError, binascii.Error) as exc:
             raise HTTPException(422, "Evidence encoding is invalid") from exc
-        if body.content_type in ("text/plain", "application/json"):
+        if body.content_type in ("text/plain", "application/json", "message/rfc822"):
             try:
                 content.decode("utf-8", errors="strict")
             except UnicodeDecodeError as exc:
@@ -366,6 +372,8 @@ class Operations:
         }
         if body.content_type in magic and not content.startswith(magic[body.content_type]):
             raise HTTPException(422, "Evidence type differs from its content")
+        if body.content_type == "image/png":
+            validate_demo_proof(content, case_id)
         storage = await self.service.store(
             body.workspace_id, content, body.filename, body.content_type
         )
@@ -674,7 +682,13 @@ class Operations:
         case = await self.get_case(token, body.workspace_id, case_id)
         if case.get("linked_case_id"):
             raise HTTPException(409, "Use the linked canonical case")
-        if case["version"] != body.expected_version:
+        # These RPCs check the immutable receipt before checking the case version.
+        # Let an identical retry recover a committed save after a lost HTTP response.
+        receipt_action = is_error_analysis(case) and body.action in {
+            "record_route_step", "comment", "record_approval", "assign", "set_status",
+            "finish_resolution",
+        }
+        if case["version"] != body.expected_version and not receipt_action:
             raise HTTPException(409, "The case changed. Refresh and try again")
         payload = dict(body.payload)
         common = {
@@ -686,8 +700,8 @@ class Operations:
         }
         if is_error_analysis(case):
             if body.action != "record_route_step":
-                raise HTTPException(
-                    422, "Use the governed Error Analysis route actions for this case"
+                return await error_workbench_action(
+                    self.user, token, body.workspace_id, case, common, body.action, payload
                 )
             return await record_error_route_step(
                 self.user, token, body.workspace_id, case, common, payload

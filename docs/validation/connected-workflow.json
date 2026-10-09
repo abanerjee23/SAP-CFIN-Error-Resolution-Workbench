@@ -1,0 +1,111 @@
+{
+  "kind": "live_adapter_api_verification",
+  "synthetic": true,
+  "cases": [
+    {
+      "caseId": "4eb9dd45-88eb-4ee7-b217-dc6e0801496c",
+      "runId": "a21c0328-83c9-4938-83c0-58c1349c80e8",
+      "originalHashVerified": true,
+      "duplicateIntakeSafe": true,
+      "initialAssignmentSaved": true,
+      "browserUiTest": "not_run",
+      "citedAnalysisVerified": true,
+      "category": "master_data",
+      "assignmentPersisted": true,
+      "chatPersisted": true,
+      "externalApprovalAndUploaderDistinct": true,
+      "emailStored": true,
+      "proofByteReadback": true,
+      "closurePersistedAfterReconnect": true,
+      "closureRetrySafe": true,
+      "negativeChecks": [
+        "stale version",
+        "nonowner closure",
+        "missing screenshot",
+        "failed validation",
+        "closed status overwrite"
+      ],
+      "realSapConnection": false
+    },
+    {
+      "caseId": "a4f6ee4c-d7ef-47fe-aea4-f56fbbaa1d8e",
+      "runId": "9e316204-8ab0-4ce1-b663-eb272349e2ab",
+      "originalHashVerified": true,
+      "duplicateIntakeSafe": true,
+      "initialAssignmentSaved": true,
+      "browserUiTest": "not_run",
+      "citedAnalysisVerified": true,
+      "category": "mapping",
+      "assignmentPersisted": true,
+      "chatPersisted": true,
+      "externalApprovalAndUploaderDistinct": true,
+      "emailStored": true,
+      "proofByteReadback": true,
+      "closurePersistedAfterReconnect": true,
+      "closureRetrySafe": true,
+      "negativeChecks": [
+        "stale version",
+        "nonowner closure",
+        "missing screenshot",
+        "failed validation",
+        "closed status overwrite"
+      ],
+      "realSapConnection": false
+    }
+  ],
+  "modelUsage": [
+    {
+      "runId": "9e316204-8ab0-4ce1-b663-eb272349e2ab",
+      "modelCalls": 3,
+      "recordedCostUsd": "0.046298",
+      "usageStates": [
+        "succeeded"
+      ]
+    },
+    {
+      "runId": "a21c0328-83c9-4938-83c0-58c1349c80e8",
+      "modelCalls": 3,
+      "recordedCostUsd": "0.048435",
+      "usageStates": [
+        "succeeded"
+      ]
+    }
+  ],
+  "localChecks": {
+    "backendTests": 812,
+    "adapterAndMappingTests": 19,
+    "exampleTests": 6,
+    "databaseMigrations": 14,
+    "lint": "passed",
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "railwayConfiguration": "passed"
+  },
+  "designChecks": {
+    "css": "unchanged",
+    "rootPage": "unchanged",
+    "layoutClassAttributeOrder": "unchanged",
+    "agentPrompts": "unchanged",
+    "routeRegistry": "unchanged"
+  },
+  "browserVerification": {
+    "status": "blocked",
+    "reason": "Browser tool could not verify its admin-enforced security policy"
+  },
+  "realSapConnection": false,
+  "automaticWorkerCheck": {
+    "caseId": "19a4f67e-6ea5-496d-86a2-e09163098362",
+    "runId": "8ffd182b-e89b-4cfe-a718-39f7673120d4",
+    "automaticWorkerEnabled": true,
+    "publishedAnalysis": true,
+    "category": "unclassified",
+    "status": "Open",
+    "owner": "Olivia Grant",
+    "browserUiTest": "not_run",
+    "modelCalls": 3,
+    "recordedCostUsd": "0.023960",
+    "usageStates": [
+      "succeeded"
+    ]
+  }
+}
