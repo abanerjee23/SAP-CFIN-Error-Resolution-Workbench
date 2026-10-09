@@ -35,7 +35,6 @@ def main() -> None:
     inputs.extend([
         root / "supabase/checks/log_only_verification.sql",
         root / "supabase/checks/completion_verification.sql",
-        root / "supabase/checks/pilot_completion_verification.sql",
     ])
     for path in inputs:
         result = subprocess.run(

@@ -14,11 +14,11 @@ As a case moves between finance, data owners and operations, context can get los
 
 ## Our solution
 
-The connected pilot supports three jobs:
+We have built an AI analysis backend and an interactive case-management demo around three jobs:
 
 1. **Understand the failure.** The backend preserves the supplied log, extracts its facts, identifies an error category and prepares a readable brief. Important claims link back to the source, and a possible cause is clearly marked for human validation.
-2. **Coordinate the next action.** The workbench brings the brief, responsible role, resolution steps and case history together. Master-data and mapping cases have defined approval and remediation paths; other errors go to human investigation.
-3. **Keep a useful record.** Comments, decisions, supporting evidence and outcomes stay with the case. Reviewed past cases can help the Summary Agent provide context; new resolutions are not published as reusable knowledge automatically.
+2. **Coordinate the next action.** The workbench brings the brief, named owner, resolution steps and case discussion together. Master-data and mapping cases have defined approval and remediation paths; other errors go to human investigation.
+3. **Keep a useful record.** Comments, decisions, supporting evidence and outcomes stay with the case. Reviewed findings can help the Summary Agent explain similar cases in future.
 
 AI helps interpret logs that vary in wording and structure. Software controls access and workflow rules, while people approve changes and confirm the outcome. The intended result is less time reconstructing the problem and a clearer path to a document successfully posted and validated in CFIN.
 
@@ -26,15 +26,14 @@ AI helps interpret logs that vary in wording and structure. Software controls ac
 
 | Area | What users can do |
 | --- | --- |
-| **Data** | Upload text logs and start analysis. |
-| **Case Board** | Search saved cases and see status, priority and due dates. |
-| **Summary** | Read the AI brief and inspect its source citations. |
-| **Original log** | Read or download the unchanged uploaded files. |
-| **Case history** | Record approvals, upload evidence, assign an owner and validate closure. |
+| **Dashboard** | See key metrics and cases that need their attention. |
+| **Data** | Upload a log for investigation. |
+| **Case Board** | Find cases by owner, status or date, and export the filtered list to CSV. |
+| **Case workspace** | Read the summary, discuss the case, record decisions and inspect the original log. |
 
-The local demo uses the top-right persona selector to switch between Maya (MDG), Daniel (RTR), Liam (Data Operations) and Olivia (Exception Manager). It connects to one synthetic workspace and saves its decisions as simulated. Shared pilots use sign-in and assigned workspace roles. Approvals require an explicit decision and supporting evidence. Failed posting or rejected approval leaves a case blocked; successful posting still needs human validation before closure.
+Each case has one named owner and one of four statuses: **Open**, **In progress**, **Blocked** or **Closed**. Approvals and supporting files stay with the relevant message. Closing a case requires an outcome and evidence.
 
-The connected app is at `/`. The separate sample interface at `/preview` uses browser storage and simulated personas. Its dashboard, advanced board filters and attachment metadata are illustrative.
+The local demo uses sample cases and browser storage. Its persona controls are simulated, attachments retain metadata only, and it is not connected to the backend or live agents.
 
 ## Architecture
 
@@ -86,14 +85,14 @@ Past cases help the Summary Agent provide context. They do not establish the cau
 
 ## Pilot scope
 
-The pilot defines two resolution paths. The master-data journey has been exercised through the live API, model calls, private storage and saved closure using synthetic evidence:
+The pilot defines two resolution paths:
 
 - **Master data:** request approval, create the required data, attach evidence, reprocess the document and confirm the CFIN posting.
 - **Mapping:** confirm the correct mapping, record the change and evidence, obtain approval, reprocess and confirm the posting.
 
 The data owner coordinates the change, the finance process owner approves it, and Data Operations records reprocessing and posting results. Other error categories go to human investigation. Unsupported classifications remain **unclassified**.
 
-The demo records fictional SAP outcomes. In a customer pilot, people would supply evidence of their actual SAP work. Direct SAP access, automatic changes and the Joule connection are outside this scope.
+The workbench records SAP work performed by people. Direct SAP access, automatic changes and the Joule connection are outside the pilot.
 
 ## Trust and learning
 
@@ -126,12 +125,10 @@ Use Python 3.11+ with `uv` and Node 22. From the project folder:
 
 ```bash
 make setup
-make api     # terminal 1
-make worker  # terminal 2
-make web     # terminal 3
+make web
 ```
 
-Configure the environment, enable the local persona demo and apply the database migrations first; see the [pilot demo guide](docs/pilot-demo.md). Then open [the local workbench](http://127.0.0.1:3000). Run `make check` for lint, tests, typechecking, the frontend build and Railway configuration checks.
+Open [the local workbench](http://127.0.0.1:3000). Run `make check` for lint, tests, typechecking, the frontend build and Railway configuration checks.
 
 See [local development](docs/local-development.md) for environment setup and database checks.
 
@@ -140,5 +137,4 @@ See [local development](docs/local-development.md) for environment setup and dat
 - [Product design and operating rules](docs/product-design.md)
 - [Frontend design](docs/FRONTEND_DESIGN.md)
 - [Implementation plan](docs/RE-BUILD.md)
-- [Pilot demo and validation](docs/pilot-demo.md)
-- [Initial repository validation](docs/repository-validation.md)
+- [Validation notes](docs/repository-validation.md)

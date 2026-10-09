@@ -17,8 +17,7 @@ The design must always answer:
 - **Application:** Next.js and React.
 - **Interface system:** Mantine, with the existing Supabase and API foundations retained.
 - **Authentication for a shared pilot:** invite-only Supabase accounts. The server remains authoritative for workspace membership, roles, state transitions and audit attribution.
-- **Connected local demo:** the top-right persona selector opens without user sign-in and operates on a configured synthetic workspace through a loopback-only backend session. Supabase credentials stay on the server; saved decisions identify the simulated role. Shared-pilot permissions and workflow guards still apply.
-- **Local design preview (`/preview`):** simulated personas backed by browser-local data. This separate preview does not perform real analysis or save cloud cases.
+- **Local design/demo mode:** explicit simulated personas backed by browser-local data. A demo persona is not an authenticated identity and every generated event is labelled as simulated.
 
 The component library accelerates reliable interaction patterns; it does not replace product design. The implementation must keep facts, AI hypotheses and human findings visibly separate.
 

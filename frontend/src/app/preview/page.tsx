@@ -1,5 +1,3 @@
-import { WorkbenchApp } from "@/components/workbench-app";
+import { redirect } from "next/navigation";
 
-export default function Page() {
-  return <WorkbenchApp />;
-}
+export default function Page() { redirect("/"); }

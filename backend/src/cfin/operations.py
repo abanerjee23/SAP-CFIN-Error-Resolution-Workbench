@@ -21,7 +21,6 @@ from cfin.contracts import (
 )
 from cfin.error_analysis_operations import (
     error_analysis_detail,
-    error_workbench_action,
     is_error_analysis,
     record_error_route_step,
 )
@@ -79,7 +78,6 @@ class ActionRequest(BaseModel):
         "retry_notification",
         "owner_rule",
         "record_route_step",
-        "comment",
     ]
     acting_role: ROLE
     payload: dict[str, Any] = Field(default_factory=dict)
@@ -688,8 +686,8 @@ class Operations:
         }
         if is_error_analysis(case):
             if body.action != "record_route_step":
-                return await error_workbench_action(
-                    self.user, token, body.workspace_id, case, common, body.action, payload
+                raise HTTPException(
+                    422, "Use the governed Error Analysis route actions for this case"
                 )
             return await record_error_route_step(
                 self.user, token, body.workspace_id, case, common, payload

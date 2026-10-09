@@ -1,7 +1,6 @@
 from decimal import Decimal
 from typing import Literal
 from urllib.parse import urlsplit
-from uuid import UUID
 
 from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -22,9 +21,6 @@ class Settings(BaseSettings):
     arize_otlp_endpoint: str = "https://otlp.arize.com/v1/traces"
     paid_models_enabled: bool = False
     log_only_enabled: bool = False
-    local_demo_enabled: bool = False
-    demo_workspace_id: UUID | None = None
-    demo_actor_id: UUID | None = None
     cors_origins: list[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
     model_agent_1: str = "gpt-6-luna"
     model_agent_2: str = "gpt-6.1-sol"

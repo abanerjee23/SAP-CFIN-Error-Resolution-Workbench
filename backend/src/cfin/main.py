@@ -12,7 +12,6 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from cfin.case_read_api import install_case_read_api
 from cfin.config import Settings
-from cfin.demo import LocalDemo
 from cfin.factual_intake import (
     ErrorAnalysisIntakeRequest,
     LogIntakeRequest,
@@ -57,11 +56,7 @@ def create_app(
             app.state.operations = Operations(app.state.cloud, app.state.service)
             app.state.insights = InsightsService(app.state.cloud, app.state.service, settings)
             app.state.knowledge = KnowledgeService(app.state.cloud, app.state.service)
-            app.state.demo = LocalDemo(settings, client)
-            try:
-                yield
-            finally:
-                await app.state.demo.close()
+            yield
 
     app = FastAPI(title="CFIN Exception Management", version="0.1.0", lifespan=lifespan)
 
@@ -107,11 +102,8 @@ def create_app(
         if not credentials or credentials.scheme.lower() != "bearer":
             raise HTTPException(401, "Sign in required")
         cloud: UserGateway = request.app.state.cloud
-        token = credentials.credentials
-        if token.startswith("local-demo-"):
-            token = await request.app.state.demo.authorise(request, token, cloud)
-        actor_id = await cloud.actor(token)
-        return token, actor_id, cloud
+        actor_id = await cloud.actor(credentials.credentials)
+        return credentials.credentials, actor_id, cloud
 
     actor_dependency = Annotated[tuple[str, UUID, UserGateway], Depends(signed_in)]
 
@@ -132,23 +124,12 @@ def create_app(
             "log_only_enabled": settings.log_only_enabled,
         }
 
-    @app.post("/api/demo/session")
-    async def demo_session(request: Request) -> dict[str, Any]:
-        return await request.app.state.demo.bootstrap(request, request.app.state.cloud)
-
     @app.get("/api/workspaces")
-    async def workspaces(request: Request, actor: actor_dependency) -> list[dict[str, Any]]:
+    async def workspaces(actor: actor_dependency) -> list[dict[str, Any]]:
         token, actor_id, cloud = actor
-        if hasattr(request.state, "demo_workspace"):
-            return [request.state.demo_workspace]
         rows = await cloud.memberships(token, actor_id)
         return [
-            {
-                "id": row["workspace_id"],
-                "name": row["workspaces"]["name"],
-                "roles": row["roles"],
-                "synthetic": row["workspaces"].get("synthetic", False),
-            }
+            {"id": row["workspace_id"], "name": row["workspaces"]["name"], "roles": row["roles"]}
             for row in rows
             if isinstance(row.get("workspaces"), dict)
         ]
@@ -409,20 +390,6 @@ def create_app(
         case_id: UUID, body: ActionRequest, request: Request, actor: actor_dependency
     ) -> dict[str, Any]:
         token, actor_id, _ = actor
-        if hasattr(request.state, "demo_workspace") and body.action != "analyse":
-            if not isinstance(body.payload.get("note"), str) or not body.payload["note"].strip():
-                raise HTTPException(422, "Record a meaningful case note")
-            body = body.model_copy(
-                update={
-                    "payload": {
-                        **body.payload,
-                        "note": "[Simulated demo persona: "
-                        + body.acting_role
-                        + "] "
-                        + str(body.payload.get("note", "")),
-                    }
-                }
-            )
         return await request.app.state.operations.action(token, actor_id, case_id, body)
 
     @app.post("/api/cases/{case_id}/evidence")

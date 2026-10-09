@@ -13,7 +13,7 @@ export type CaseSummary = {
   status: string;
   diagnosis_status: string;
   workflow_version?: string;
-  result_kind?: "factual" | "legacy" | "error_analysis";
+  result_kind?: "factual" | "legacy";
   factual_review_status?: string;
   analysis_status?: string;
   created_at: string;
@@ -129,7 +129,7 @@ export type CaseDetail = {
   route_milestones?: JsonRecord[];
   validation_comparisons?: Record<string, { expected: string; observed: string }> | null;
 };
-export type CaseAction = "comment" | "review_summary" | "start_investigation" | "record_investigation" | "approve_reference" | "analyse" | "review_diagnosis" | "start_work" | "record_correction" | "complete_work" | "record_reprocessing" | "record_validation" | "finish_resolution" | "assign" | "owner_rule" | "block" | "resume" | "priority" | "due_date" | "reopen" | "retry_notification" | "link_identity" | "confirm_order" | "record_route_step";
+export type CaseAction = "review_summary" | "start_investigation" | "record_investigation" | "approve_reference" | "analyse" | "review_diagnosis" | "start_work" | "record_correction" | "complete_work" | "record_reprocessing" | "record_validation" | "finish_resolution" | "assign" | "owner_rule" | "block" | "resume" | "priority" | "due_date" | "reopen" | "retry_notification" | "link_identity" | "confirm_order" | "record_route_step";
 
 export async function getScenario(workspaceId: string, token: string, signal: AbortSignal, scenarioId: "MD-01" | "MAP-01" = "MD-01"): Promise<ScenarioInput> {
   const data = await request(`/api/scenarios/${scenarioId}?workspace_id=${encodeURIComponent(workspaceId)}`, token, signal);
@@ -291,15 +291,4 @@ export async function createLogIntake(workspaceId: string, deliveryKey: string, 
   const data = await request("/api/intakes/error-analysis", token, signal, { workspace_id: workspaceId, delivery_key: deliveryKey, provenance, sources, acting_role: "process_owner", ...(routingContext && Object.keys(routingContext).length ? { routing_context: routingContext } : {}) });
   if (!isRecord(data) || typeof data.case_id !== "string") throw new Error("The intake response could not be read. Refresh cases before retrying the same delivery.");
   return data;
-}
-
-export type LocalDemoSession = { token: string; workspace: Workspace };
-export async function getLocalDemo(signal: AbortSignal): Promise<LocalDemoSession | null> {
-  const origin = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000").replace(/\/$/, "");
-  const response = await fetch(`${origin}/api/demo/session`, { method: "POST", cache: "no-store", signal: AbortSignal.any([signal, AbortSignal.timeout(45_000)]) });
-  if (response.status === 404) return null;
-  const data = await response.json().catch(() => null);
-  if (!response.ok) throw new Error(isRecord(data) && typeof data.detail === "string" ? data.detail : "The demo service is unavailable. Start the configured backend and retry.");
-  if (!isRecord(data) || typeof data.token !== "string" || !isWorkspace(data.workspace) || data.workspace.synthetic !== true) throw new Error("The synthetic demo configuration could not be verified.");
-  return data as LocalDemoSession;
 }
