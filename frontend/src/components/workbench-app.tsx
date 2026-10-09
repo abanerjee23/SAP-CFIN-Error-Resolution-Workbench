@@ -58,7 +58,7 @@ import {
 } from "lucide-react";
 import "./workbench.css";
 import { serializeCaseBoardCsv } from "../lib/case-board-csv";
-import { WorkbenchConnection, type WorkbenchSession, type SavedWorkbenchCase } from "../lib/workbench-connection";
+import { WorkbenchConnection, WorkbenchRequestError, type WorkbenchSession, type SavedWorkbenchCase } from "../lib/workbench-connection";
 import { mapSavedCase, roleCode, closureReference } from "../lib/workbench-mapping";
 
 type Page = "about" | "dashboard" | "data" | "cases";
@@ -203,16 +203,36 @@ export function WorkbenchApp() {
   useEffect(() => {
     if (connected) {
       const controller = new AbortController();
-      void (async () => {
-        session.current = await connection.connect(controller.signal);
-        const listed = await connection.listCases(session.current, controller.signal);
-        const loaded: CaseRecord[] = [];
-        for (let offset = 0; offset < listed.length; offset += 4) {
-          loaded.push(...await Promise.all(listed.slice(offset, offset + 4).map(async row => mapSavedCase(await connection.readCase(session.current!, String(row.id), controller.signal)))));
-        }
-        if (!controller.signal.aborted) { setCases(loaded); setSelectedId(loaded[0]?.id || ""); setHydrated(true); }
-      })().catch(error => { if (!controller.signal.aborted) { setNoticeError(true); setNotice(error instanceof Error ? error.message : "The workspace could not be loaded."); } });
-      return () => controller.abort();
+      let loading = false, loaded = false, retries = 0;
+      let retryTimer: ReturnType<typeof setTimeout> | undefined;
+      const load = async () => {
+        if (loading || loaded || controller.signal.aborted) return;
+        loading = true;
+        try {
+          const activeSession = await connection.connect(controller.signal);
+          const listed = await connection.listCases(activeSession, controller.signal);
+          const records: CaseRecord[] = [];
+          for (let offset = 0; offset < listed.length; offset += 4) {
+            records.push(...await Promise.all(listed.slice(offset, offset + 4).map(async row => mapSavedCase(await connection.readCase(activeSession, String(row.id), controller.signal)))));
+          }
+          if (!controller.signal.aborted) {
+            session.current = activeSession; loaded = true;
+            setCases(records); setSelectedId(records[0]?.id || ""); setHydrated(true);
+            setNoticeError(false); setNotice("");
+          }
+        } catch (error) {
+          if (!controller.signal.aborted) {
+            setNoticeError(true); setNotice(error instanceof Error ? error.message : "The workspace could not be loaded.");
+            if (error instanceof WorkbenchRequestError && error.retryable && retries < 3) {
+              retryTimer = setTimeout(() => void load(), 2000 * ++retries);
+            }
+          }
+        } finally { loading = false; }
+      };
+      const onFocus = () => { if (!loaded) { retries = 0; void load(); } };
+      void load();
+      window.addEventListener("focus", onFocus);
+      return () => { controller.abort(); clearTimeout(retryTimer); window.removeEventListener("focus", onFocus); };
     }
     const saved = window.localStorage.getItem("cfin-workbench-demo-v3");
     if (saved) {
@@ -318,7 +338,7 @@ export function WorkbenchApp() {
         <Tabs.Panel value="about"><AboutPage onOpenCases={() => setPage("cases")} /></Tabs.Panel>
         <Tabs.Panel value="dashboard"><DashboardPage cases={cases} persona={persona} onOpenCases={() => setPage("cases")} onOpenCase={(id) => { setSelectedId(id); setPage("cases"); }} onUpload={() => setPage("data")} /></Tabs.Panel>
         <Tabs.Panel value="data"><DataPage onAddCase={addCase} connected={connected} /></Tabs.Panel>
-        <Tabs.Panel value="cases"><CasesPage cases={cases} selected={selected} selectedId={selectedId} onSelect={setSelectedId} persona={persona} onUpdate={updateCase} onDownload={downloadAttachment} /></Tabs.Panel>
+        <Tabs.Panel value="cases"><CasesPage cases={cases} selected={selected} selectedId={selectedId} onSelect={setSelectedId} persona={persona} onUpdate={updateCase} onDownload={downloadAttachment} loading={connected && !hydrated && !noticeError} loadError={connected && !hydrated && noticeError} /></Tabs.Panel>
       </Tabs>
       {notice && <div className="save-notice" role={noticeError ? "alert" : "status"}>{noticeError ? <AlertTriangle size={16} /> : <CheckCircle2 size={16} />}{notice}<button onClick={() => setNotice("")} aria-label="Dismiss saved notice">×</button></div>}
     </div>
@@ -458,7 +478,7 @@ function DateIntervalCalendar({ opened, onClose, value, onApply }: { opened: boo
   </Stack></Modal>;
 }
 
-function CasesPage({ cases, selected, selectedId, onSelect, persona, onUpdate, onDownload }: { cases: CaseRecord[]; selected: CaseRecord | undefined; selectedId: string; onSelect: (id: string) => void; persona: Role; onUpdate: (item: CaseRecord, files?: File[]) => Promise<void>; onDownload: (file: CaseAttachment) => Promise<void> }) {
+function CasesPage({ cases, selected, selectedId, onSelect, persona, onUpdate, onDownload, loading, loadError }: { cases: CaseRecord[]; selected: CaseRecord | undefined; selectedId: string; onSelect: (id: string) => void; persona: Role; onUpdate: (item: CaseRecord, files?: File[]) => Promise<void>; onDownload: (file: CaseAttachment) => Promise<void>; loading: boolean; loadError: boolean }) {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<string | null>(null);
   const [quickView, setQuickView] = useState("All cases");
@@ -488,7 +508,7 @@ function CasesPage({ cases, selected, selectedId, onSelect, persona, onUpdate, o
   }
   const [openDetail, setOpenDetail] = useState(false);
   return <main className="page-content"><PageHeading title="Case Board" description="Track ownership, open the case conversation and preserve every decision with its evidence." context={<div className="case-count-context"><strong>{cases.length}</strong><span>{cases.length === 1 ? "case" : "cases"}</span></div>} />
-    <div className="board-layout"><section className="case-table-panel"><Paper radius="lg" p={0} className="case-table-paper"><div className="case-table-tools"><div className="quick-views">{["All cases", "Assigned to me"].map((view) => <button key={view} className={quickView === view ? "active" : ""} onClick={() => setQuickView(view)}>{view}</button>)}<button className={dateRange.start ? "active date-filter-button" : "date-filter-button"} onClick={() => setCalendarOpen(true)}><CalendarDays size={15} />Date interval{dateRange.start && <span className="date-filter-dot" />}</button></div><Group gap="sm"><TextInput aria-label="Search cases" placeholder="Search case, document or owner" leftSection={<Search size={16} />} value={query} onChange={(event) => setQuery(event.currentTarget.value)} /><Select aria-label="Filter by status" placeholder="Status" clearable value={status} onChange={setStatus} data={["Open", "In progress", "Blocked", "Closed"]} w={170} /><Button variant="default" leftSection={<Download size={16} />} onClick={downloadCsv} disabled={!filtered.length}>Download as CSV</Button></Group></div>{dateRange.start && <div className="date-interval-summary"><Text size="sm">Created between {formatCaseDate(`${dateRange.start}T00:00:00`)} and {formatCaseDate(`${dateRange.end}T00:00:00`)}</Text><Button variant="subtle" size="compact-sm" color="gray" onClick={() => setDateRange({ start: "", end: "" })}>Clear interval</Button></div>}<ScrollArea><Table className="case-table" highlightOnHover><Table.Thead><Table.Tr><Table.Th>Case number</Table.Th><Table.Th>Title</Table.Th><Table.Th>Error type</Table.Th><Table.Th>Assigned to</Table.Th><Table.Th>Status</Table.Th><Table.Th>Value</Table.Th><Table.Th>Case Creation Date</Table.Th><Table.Th>Due Date</Table.Th></Table.Tr></Table.Thead><Table.Tbody>{filtered.map((item) => <Table.Tr key={item.id} className={item.id === selectedId ? "selected-row" : ""} onClick={() => { onSelect(item.id); setOpenDetail(true); }}><Table.Td><Text fw={700} size="sm">{item.id}</Text><Text size="xs" c="dimmed">Document {item.document}</Text></Table.Td><Table.Td><Text fw={700} size="sm">{item.title}</Text></Table.Td><Table.Td><CategoryBadge value={item.category} /></Table.Td><Table.Td><OwnerChip compact role={item.assigneeRole} name={item.assignee} /></Table.Td><Table.Td><StatusBadge status={item.status} /></Table.Td><Table.Td><Text size="sm" fw={600}>{item.amount}</Text></Table.Td><Table.Td><Text size="sm" className="table-date">{formatCaseDate(item.createdAt)}</Text></Table.Td><Table.Td><Text size="sm" className="table-date" c={isPastDue(item) ? "red" : undefined}>{formatCaseDate(item.dueAt)}</Text></Table.Td></Table.Tr>)}</Table.Tbody></Table></ScrollArea>{!filtered.length && <div className="empty-row"><Search size={22} /><Text>No cases match these filters.</Text></div>}</Paper></section>
+    <div className="board-layout"><section className="case-table-panel"><Paper radius="lg" p={0} className="case-table-paper"><div className="case-table-tools"><div className="quick-views">{["All cases", "Assigned to me"].map((view) => <button key={view} className={quickView === view ? "active" : ""} onClick={() => setQuickView(view)}>{view}</button>)}<button className={dateRange.start ? "active date-filter-button" : "date-filter-button"} onClick={() => setCalendarOpen(true)}><CalendarDays size={15} />Date interval{dateRange.start && <span className="date-filter-dot" />}</button></div><Group gap="sm"><TextInput aria-label="Search cases" placeholder="Search case, document or owner" leftSection={<Search size={16} />} value={query} onChange={(event) => setQuery(event.currentTarget.value)} /><Select aria-label="Filter by status" placeholder="Status" clearable value={status} onChange={setStatus} data={["Open", "In progress", "Blocked", "Closed"]} w={170} /><Button variant="default" leftSection={<Download size={16} />} onClick={downloadCsv} disabled={!filtered.length}>Download as CSV</Button></Group></div>{dateRange.start && <div className="date-interval-summary"><Text size="sm">Created between {formatCaseDate(`${dateRange.start}T00:00:00`)} and {formatCaseDate(`${dateRange.end}T00:00:00`)}</Text><Button variant="subtle" size="compact-sm" color="gray" onClick={() => setDateRange({ start: "", end: "" })}>Clear interval</Button></div>}<ScrollArea><Table className="case-table" highlightOnHover><Table.Thead><Table.Tr><Table.Th>Case number</Table.Th><Table.Th>Title</Table.Th><Table.Th>Error type</Table.Th><Table.Th>Assigned to</Table.Th><Table.Th>Status</Table.Th><Table.Th>Value</Table.Th><Table.Th>Case Creation Date</Table.Th><Table.Th>Due Date</Table.Th></Table.Tr></Table.Thead><Table.Tbody>{filtered.map((item) => <Table.Tr key={item.id} className={item.id === selectedId ? "selected-row" : ""} onClick={() => { onSelect(item.id); setOpenDetail(true); }}><Table.Td><Text fw={700} size="sm">{item.id}</Text><Text size="xs" c="dimmed">Document {item.document}</Text></Table.Td><Table.Td><Text fw={700} size="sm">{item.title}</Text></Table.Td><Table.Td><CategoryBadge value={item.category} /></Table.Td><Table.Td><OwnerChip compact role={item.assigneeRole} name={item.assignee} /></Table.Td><Table.Td><StatusBadge status={item.status} /></Table.Td><Table.Td><Text size="sm" fw={600}>{item.amount}</Text></Table.Td><Table.Td><Text size="sm" className="table-date">{formatCaseDate(item.createdAt)}</Text></Table.Td><Table.Td><Text size="sm" className="table-date" c={isPastDue(item) ? "red" : undefined}>{formatCaseDate(item.dueAt)}</Text></Table.Td></Table.Tr>)}</Table.Tbody></Table></ScrollArea>{!filtered.length && <div className="empty-row"><Search size={22} /><Text>{loadError ? "Cases could not be loaded. Reload the page to reconnect." : loading ? "Loading saved cases…" : "No cases match these filters."}</Text></div>}</Paper></section>
     </div>
     <DateIntervalCalendar opened={calendarOpen} onClose={() => setCalendarOpen(false)} value={dateRange} onApply={(range) => { setDateRange(range); setCalendarOpen(false); }} />
     <Modal opened={openDetail} onClose={() => setOpenDetail(false)} size="calc(100vw - 48px)" classNames={{ content: "case-modal", body: "case-modal-body" }} withCloseButton={false}>{selected && <CaseWorkspace key={selected.id} item={selected} persona={persona} onUpdate={onUpdate} onDownload={onDownload} onClose={() => setOpenDetail(false)} />}</Modal>

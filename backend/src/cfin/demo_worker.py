@@ -49,8 +49,21 @@ async def run(once: bool) -> None:
     worker_id = 'cfin-demo-' + str(uuid4())
     async with httpx.AsyncClient(timeout=20) as client:
         cloud = ServiceGateway(settings, client)
+        transient_failures = 0
         while True:
-            result = await process_demo_once(cloud, settings, worker_id)
+            try:
+                result = await process_demo_once(cloud, settings, worker_id)
+            except (HTTPException, httpx.RequestError) as exc:
+                status = exc.status_code if isinstance(exc, HTTPException) else None
+                if once or (status is not None and status not in (408, 429) and status < 500):
+                    raise
+                transient_failures += 1
+                delay = min(30, 2 ** min(transient_failures, 5))
+                print(json.dumps({'event': 'demo_worker_retry', 'status': status,
+                                  'retry_in_seconds': delay}), flush=True)
+                await asyncio.sleep(delay)
+                continue
+            transient_failures = 0
             if result.get('claimed') or once:
                 print(json.dumps({key: result.get(key) for key in
                                   ('claimed', 'run_id', 'succeeded', 'promoted')}), flush=True)

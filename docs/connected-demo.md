@@ -11,7 +11,7 @@ demo, with the existing persona selector and no new sign-in screen. It is not pu
 2. Set `LOCAL_DEMO_ENABLED=true`, `LOG_ONLY_ENABLED=true`, `DEMO_WORKSPACE_ID` and
    `DEMO_ACTOR_ID`. Use a synthetic workspace and an existing test account with all four roles:
    `process_owner`, `mdg_process_owner`, `data_operations`, `cfin_exception_manager`.
-3. Add `http://127.0.0.1:3011` to backend `CORS_ORIGINS`. In `frontend/.env.local`, set
+3. Add `http://127.0.0.1:3011` and `http://localhost:3011` to backend `CORS_ORIGINS`. In `frontend/.env.local`, set
    `NEXT_PUBLIC_WORKBENCH_CONNECTED=true` and `NEXT_PUBLIC_API_URL=http://127.0.0.1:8011`.
 4. From `backend`, run `uv run uvicorn cfin.main:app --host 127.0.0.1 --port 8011`.
    From the repository root, run `bash scripts/frontend-local.sh dev --port 3011`.
@@ -27,8 +27,8 @@ For the complete local demo, set `PAID_MODELS_ENABLED=true` in the private backe
 restart the API, and run `uv run python -m cfin.demo_worker` from `backend` in a third terminal.
 This worker verifies the configured workspace is synthetic and claims only its Error Analysis
 runs by ID. It does not dispatch other workspaces or notifications. Stop that terminal to stop
-automatic model dispatch. Transient worker failures stop the process with an explicit error;
-inspect the saved run before restarting.
+automatic model dispatch. Temporary service failures retry with bounded backoff, up to 30 seconds between polls.
+Configuration and access failures stop the worker; inspect the error and saved run before restarting.
 
 For a bounded verification, find the case's `requested_run_id`, then run from `backend`:
 

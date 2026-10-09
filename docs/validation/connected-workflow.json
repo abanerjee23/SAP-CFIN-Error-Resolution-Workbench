@@ -72,8 +72,8 @@
     }
   ],
   "localChecks": {
-    "backendTests": 812,
-    "adapterAndMappingTests": 19,
+    "backendTests": 814,
+    "adapterAndMappingTests": 20,
     "exampleTests": 6,
     "databaseMigrations": 14,
     "lint": "passed",
@@ -107,5 +107,11 @@
     "usageStates": [
       "succeeded"
     ]
+  },
+  "loadingRecovery": {
+    "parallelCaseReadback": 6,
+    "loopbackCorsAndBootstrap": "passed for both hostnames",
+    "browserConfirmation": "pending",
+    "initialFailureCause": "not captured"
   }
 }

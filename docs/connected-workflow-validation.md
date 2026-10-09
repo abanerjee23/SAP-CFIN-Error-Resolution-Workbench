@@ -28,8 +28,8 @@ check. New stale actions still fail. The fix is covered by regression tests and 
 
 ## Automated checks
 
-- 812 backend tests, including local database transactions against all 14 migrations.
-- 19 connection-adapter and case-mapping tests; six example tests.
+- 814 backend tests, including local database transactions against all 14 migrations.
+- 20 connection-adapter and case-mapping tests; six example tests.
 - Python lint, frontend TypeScript and production build.
 - Railway configuration/type checks and the updated product-freeze manifest.
 - Original CSS, root page, model prompts and route registry unchanged. Existing layout class
@@ -48,6 +48,19 @@ The sparse log remained `unclassified`, with published cited analysis and explic
 ownership. The case is deliberately left Open for the browser walkthrough. This check made
 3 model calls with recorded cost $0.023960. New uploads in this workspace can be picked
 up while the local demo worker remains running.
+
+## Empty-board report and recovery checks
+
+The user reported an empty Case Board. Live adapter reads still returned all six cases,
+including the same parallel loading pattern used by the frontend. Browser confirmation remains
+pending; the exact initial browser failure was not captured.
+
+The initial load previously kept an empty board after a failed request and never retried.
+It now retries temporary connection failures up to three times, reconnects on focus after an
+unsuccessful load, and distinguishes loading/error states from an empty filter result. Mutating
+requests are not blindly retried. Both loopback hostnames on port 3011 pass CORS preflight and
+session bootstrap checks. A stopped demo worker was also found; it now recovers from temporary
+cloud failures with bounded backoff while still rejecting access and configuration failures.
 
 ## Remaining check
 

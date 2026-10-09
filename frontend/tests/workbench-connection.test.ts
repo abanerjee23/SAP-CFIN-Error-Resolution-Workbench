@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { test } from 'node:test';
-import { projectSavedBrief, WorkbenchConnection, type WorkbenchSession } from '../src/lib/workbench-connection';
+import { projectSavedBrief, WorkbenchConnection, WorkbenchRequestError, type WorkbenchSession } from '../src/lib/workbench-connection';
 
 const signal = () => new AbortController().signal;
 const session: WorkbenchSession = { token: 'local-demo-test', workspace: { id: 'w', name: 'Synthetic', synthetic: true, roles: ['process_owner'] } };
@@ -131,4 +131,16 @@ test('an ambiguous action response can be retried with the same receipt while ch
   assert.deepEqual(sent[0],sent[1]);
   await api.action(session,'c',4,'process_owner','finish_resolution',data,signal());
   assert.notEqual(sent[1].request_key,sent[2].request_key);
+});
+
+
+test('initial-load failures distinguish retryable outages from denied access', async () => {
+  for (const status of [403, 409, 422, 429, 503]) {
+    const api = new WorkbenchConnection('http://localhost:8011', async () => json({}, status));
+    await assert.rejects(api.connect(signal()), error => error instanceof WorkbenchRequestError
+      && error.retryable === (status === 429 || status === 503));
+  }
+  const offline = new WorkbenchConnection('http://localhost:8011', async () => { throw new TypeError('Failed to fetch'); });
+  await assert.rejects(offline.connect(signal()), error => error instanceof WorkbenchRequestError
+    && error.retryable && /Cannot reach/.test(error.message));
 });

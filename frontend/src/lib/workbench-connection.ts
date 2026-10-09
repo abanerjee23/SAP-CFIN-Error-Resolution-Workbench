@@ -81,6 +81,10 @@ export function projectSavedBrief(result: unknown, originals: SavedOriginal[]): 
   };
 }
 
+export class WorkbenchRequestError extends Error {
+  constructor(message: string, readonly retryable: boolean) { super(message); }
+}
+
 export class WorkbenchConnection {
   constructor(readonly origin: string, private readonly fetcher: typeof fetch = fetch) {
     const url = new URL(origin);
@@ -94,12 +98,16 @@ export class WorkbenchConnection {
   }
 
   private async send(path: string, signal: AbortSignal, session?: WorkbenchSession, body?: unknown): Promise<Response> {
-    const response = await this.fetcher(`${this.origin}${path}`, {
+    let response: Response;
+    try { response = await this.fetcher(`${this.origin}${path}`, {
       method: body === undefined ? "GET" : "POST", cache: "no-store", redirect: "error",
       headers: { Accept: "application/json", ...(session ? { Authorization: `Bearer ${session.token}` } : {}), ...(body === undefined ? {} : { "Content-Type": "application/json" }) },
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),
       signal: AbortSignal.any([signal, AbortSignal.timeout(body === undefined ? 15_000 : 45_000)]),
-    });
+    }); } catch (error) {
+      if (signal.aborted) throw error;
+      throw new WorkbenchRequestError("Cannot reach the case service. Check that the local API is running, then reload.", true);
+    }
     if (!response.ok) {
       // No raw API response or uploaded text is echoed into the UI.
       const message = response.status === 401 ? "The demo session expired. Reconnect before saving."
@@ -107,7 +115,7 @@ export class WorkbenchConnection {
         : response.status === 409 ? "The saved record changed. Reload it before retrying."
         : response.status === 422 ? "The supplied data could not be accepted. Check the file or action."
         : "The case service is unavailable. No successful save has been confirmed.";
-      throw new Error(message);
+      throw new WorkbenchRequestError(message, response.status >= 500 || response.status === 408 || response.status === 429);
     }
     return response;
   }

@@ -3,9 +3,10 @@ from unittest.mock import AsyncMock
 from uuid import uuid4
 
 import pytest
+from fastapi import HTTPException
 
 from cfin.config import Settings
-from cfin.demo_worker import process_demo_once
+from cfin.demo_worker import process_demo_once, run
 
 
 @pytest.mark.parametrize('synthetic', [False, True])
@@ -44,3 +45,25 @@ def test_demo_worker_rejects_a_queue_response_outside_its_workspace(monkeypatch)
     with pytest.raises(RuntimeError, match='outside'):
         asyncio.run(process_demo_once(cloud, settings, 'test-worker'))
     dispatch.assert_not_awaited()
+
+
+def test_continuous_worker_recovers_from_transient_service_failure(monkeypatch):
+    dispatch = AsyncMock(side_effect=[HTTPException(503, 'Temporary failure'),
+                                     {'claimed': False}, asyncio.CancelledError()])
+    pause = AsyncMock()
+    monkeypatch.setattr('cfin.demo_worker.process_demo_once', dispatch)
+    monkeypatch.setattr('cfin.demo_worker.asyncio.sleep', pause)
+    with pytest.raises(asyncio.CancelledError):
+        asyncio.run(run(False))
+    assert [call.args[0] for call in pause.call_args_list] == [2, 3]
+    assert dispatch.await_count == 3
+
+
+def test_worker_does_not_retry_denied_access(monkeypatch):
+    dispatch = AsyncMock(side_effect=HTTPException(403, 'Denied'))
+    pause = AsyncMock()
+    monkeypatch.setattr('cfin.demo_worker.process_demo_once', dispatch)
+    monkeypatch.setattr('cfin.demo_worker.asyncio.sleep', pause)
+    with pytest.raises(HTTPException):
+        asyncio.run(run(False))
+    pause.assert_not_awaited()
